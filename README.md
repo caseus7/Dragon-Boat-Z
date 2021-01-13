@@ -16,12 +16,12 @@ Of course, the answer is yes and we have just the game for you.
 DragonBoat Z!
 
 Our Team consists of:
-*   Ben Jenner
-*   James Wilkinson
-*   Joe Lonsdale
-*   Richard Upton
-*   Will Dalgleish
-*   Xinyi Zhang
+* Dan Atkinson
+* Divyansh Pandey
+* Eliot Sheehan
+* Hannah Pope
+* Matthew Turner
+* Mayan Lamont
 
 # Game Description
 
