@@ -23,7 +23,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  * Lanes, randomises Obstacle spawns, initialises blank Player and Opponents,
  * initialises a Progress Bar and Leaderboard, and instantiates a Menu Screen.
  * </p>
- * 
+ *
  * @see MenuScreen
  */
 public class DragonBoatGame extends Game {

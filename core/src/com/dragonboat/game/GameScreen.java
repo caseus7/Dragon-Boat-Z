@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
     /**
      * Sets up everything needed for a race to take place.
-     * 
+     *
      * @param game Represents the initial state of DragonBoatGame.
      */
     public GameScreen(DragonBoatGame game) {
@@ -171,7 +171,7 @@ public class GameScreen implements Screen {
          * Check whether obstacles need to be spawned, and spawns them if so. Breaks
          * instantly if the game hasn't started, if the player has finished, or if there
          * are no more obstacles to be spawned.
-         * 
+         *
          * - IMPORTANT -
          * It should be noted that the obstacles currently use a
          * coordinate system relative to the screen, as they are always spawned at
@@ -324,18 +324,15 @@ public class GameScreen implements Screen {
                 HEIGHT - progressBar.getTexture().getHeight() / 2 - 10);
         batch.end();
 
-        /*
-         * Check if player and each opponent has finished, and update their finished
-         * booleans respectively.
-         */
-        if (progress[0] == 1 && !player.finished()) {
-            player.setFinished(true);
-            player.UpdateFastestTime(progressBar.getPlayerTime());
-        }
-        for (int i = 0; i < opponents.length; i++) {
-            if (progress[i + 1] == 1 && !opponents[i].finished()) {
-                opponents[i].setFinished(true);
-                opponents[i].UpdateFastestTime(progressBar.getTime());
+        updateFinishedBoats(progress);
+        // End the race if the player has finished
+        if (player.finished()) {
+            float[] predictedFinishTimes = predictBoatFinishTimes(progress);
+            for (int i=0; i<predictedFinishTimes.length-1; i++) {
+                if (!opponents[i].finished()) {
+                    opponents[i].setFinished(true);
+                    opponents[i].UpdateFastestTime(predictedFinishTimes[i+1]);
+                }
             }
         }
 
@@ -390,10 +387,10 @@ public class GameScreen implements Screen {
 
 
         /*
-         * Check if all boats have passed the finish line, if so, generate the
+         * Check if the player has passed the finish line, if so, generate the
          * leaderboard.
          */
-        if (progressBar.allFinished(course.getTexture().getHeight()) || (game.difficulty == 4 && player.finished())) {
+        if (player.finished()) {
             // Display leaderboard, if on the third leg, display top 3 boats.
             if (game.difficulty < 3) {
                 batch.begin();
@@ -463,9 +460,71 @@ public class GameScreen implements Screen {
         }
     }
 
+    /*
+    * Check if player and each opponent has finished, and update their finished
+    * booleans and fastestLegTime variables respectively.
+    *
+    * @param progress Array of floats from 0 to 1 indicating how far each boat is along the rance
+    */
+    private void updateFinishedBoats(float[] progress) {
+        if (progress[0] == 1 && !player.finished()) {
+            player.setFinished(true);
+            player.UpdateFastestTime(progressBar.getPlayerTime());
+        }
+        for (int i = 0; i < opponents.length; i++) {
+            if (progress[i + 1] == 1 && !opponents[i].finished()) {
+                opponents[i].setFinished(true);
+                opponents[i].UpdateFastestTime(progressBar.getTime());
+            }
+        }
+    }
+
+    /*
+    * Returns the predicted time each boat will finish the race.
+    *
+    * @param progress The distance along the race each boat is, as a float from 0 to 1
+    */
+    private float[] predictBoatFinishTimes(float[] progress) {
+        float[] finishTimes = new float[opponents.length + 1];
+        if (player.finished()) {
+            finishTimes[0] = player.getFastestTime();
+        }
+        else {
+            finishTimes[0] = predictBoatFinishTime(
+                progress[0],
+                progressBar.getTime() );
+        }
+        for (int i=0; i<opponents.length; i++) {
+            if (opponents[i].finished()) {
+                finishTimes[i + 1] = opponents[i].getFastestTime();
+            }
+            else {
+                finishTimes[i + 1] = predictBoatFinishTime(
+                    progress[i + 1],
+                    progressBar.getTime() );
+            }
+        }
+        return finishTimes;
+    }
+
+    /*
+    * Returns the predicted time the boat will finish the race.
+    * The prediction is based on the time it took for the boat to reach its
+    * current distance along the race
+    *
+    * @param progress The distance along the race as a float from 0 to 1
+    * @param time The time it took for the boat to reach its current distance
+    */
+    private float predictBoatFinishTime(float progress, float time) {
+        if (progress >= 1.0) {
+            return time;
+        }
+        return time / progress;
+    }
+
     /**
      * Resizes the game screen.
-     * 
+     *
      * @param width  Width of the screen.
      * @param height Height of the screen.
      */
