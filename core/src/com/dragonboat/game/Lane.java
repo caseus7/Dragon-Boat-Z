@@ -1,9 +1,11 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import org.w3c.dom.Text;
 
 /**
  * Represents a lane on the course.
@@ -12,6 +14,7 @@ public class Lane {
     private final int LEFTBOUNDARY, RIGHTBOUNDARY;
     protected ArrayList<Obstacle> obstacles;
     private int obstacleLimit;
+
 
     /**
      * Creates a lane instance.
@@ -67,6 +70,12 @@ public class Lane {
                 Log log = new Log(x, y, new Texture(Gdx.files.internal("logBig sprite.png")));
                 this.obstacles.add(log);
 
+            } else if (obstacleType.equals("Boost")){
+                String[] boostTypes = { "acceleration","health","immune","maneuverability","speed" };
+                String boostType = boostTypes[ThreadLocalRandom.current().nextInt(3, 5)];
+                System.out.println(boostType);
+                Boost boost = new Boost(x, y, new Texture(Gdx.files.internal(boostType + "Boost.png")),this, boostType);
+                this.obstacles.add(boost);
             }
         } else
             System.out.println("Obstacle limit reached.");

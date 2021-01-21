@@ -31,6 +31,7 @@ public class Boat {
     private String name;
     private boolean finished;
     private int threshold = 5;
+    private boolean immune;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -55,6 +56,7 @@ public class Boat {
         this.textureFrames = new Texture[4];
         frameCounter = 0;
         this.name = name;
+        this.immune = false;
     }
 
     /**
@@ -129,7 +131,13 @@ public class Boat {
             if (o.getX() > this.xPosition + threshold && o.getX() < this.xPosition + this.width - threshold) {
                 if (o.getY() + backgroundOffset > this.yPosition + threshold
                         && o.getY() + backgroundOffset < this.yPosition + this.height - threshold) {
-                    this.ApplyDamage(o.getDamage());
+                    if (o instanceof Boost){
+                        Boost(((Boost) o).getType());
+                    } else {
+                        if(immune == false) {
+                            this.ApplyDamage(o.getDamage());
+                        }
+                    }
                     obstaclesToRemove.add(obstacles.indexOf(o));
                 }
             }
@@ -139,6 +147,26 @@ public class Boat {
             return true;
         }
         return false;
+    }
+
+    public void Boost(String type){
+        System.out.println(type);
+        if (type == "health"){
+            this.durability += 1;
+        } else if (type == "acceleration"){
+            this.ACCELERATION += 0.5f;
+        } else if (type == "immune"){
+            this.immune = true;
+        } else if (type == "maneuverability"){
+            this.MANEUVERABILITY += 0.5f;
+        } else if (type == "speed"){
+            this.currentSpeed += 5;
+        }
+        System.out.println("MAN" + this.MANEUVERABILITY);
+        System.out.println("HEL" + this.durability);
+        System.out.println("ACC" + this.ACCELERATION);
+        System.out.println("SPD" + this.currentSpeed);
+        System.out.println("IMM" + this.immune);
     }
 
     /**
