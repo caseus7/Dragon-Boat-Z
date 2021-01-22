@@ -139,6 +139,9 @@ public class GameScreen implements Screen {
      * - Display Background and Obstacles
      * </p>
      * <p>
+     * - End the game if the durability reaches 0.
+     * </p>
+     * <p>
      * - Update Obstacle positions.
      * </p>
      * <p>
@@ -264,6 +267,13 @@ public class GameScreen implements Screen {
                 batch.draw(o.getTexture(), o.getX(), o.getY());
                 batch.end();
             }
+        }
+
+        /*
+         * If the durability of the boat has reached 0, end the game.
+         */
+        if (player.getDurability() <= 0) {
+            game.endGame();
         }
 
         /*
