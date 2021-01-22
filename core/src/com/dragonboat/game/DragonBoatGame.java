@@ -23,7 +23,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  * Lanes, randomises Obstacle spawns, initialises blank Player and Opponents,
  * initialises a Progress Bar and Leaderboard, and instantiates a Menu Screen.
  * </p>
- * 
+ *
  * @see MenuScreen
  */
 public class DragonBoatGame extends Game {
@@ -209,7 +209,7 @@ public class DragonBoatGame extends Game {
 				 * If the player is in the top 3 boats, display the player's boat and
 				 * appropriate medal.
 				 */
-				if (podium[i].getName().startsWith("Player")) {
+				if (podium[i].getName().startsWith("Player") && player.getDurability() > 0) {
 					playerWon = true;
 					batch.begin();
 					batch.draw(player.texture, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 3);
