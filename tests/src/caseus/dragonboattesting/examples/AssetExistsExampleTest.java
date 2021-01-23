@@ -20,20 +20,21 @@
 
 package caseus.dragonboattesting.examples;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
 
 import com.badlogic.gdx.Gdx;
 
 import caseus.dragonboattesting.GdxTestRunner;
 
-// @RunWith(GdxTestRunner.class)
-// public class AssetExistsExampleTest {
-// 	@Test
-// 	public void badlogicLogoFileExists() {
-// 		assertTrue("This test will only pass when the badlogic.jpg file coming with a new project setup has not been deleted.", Gdx.files
-// 				.internal("../android/assets/badlogic.jpg").exists());
-// 	}
-// }
+@RunWith(GdxTestRunner.class)
+public class AssetExistsExampleTest {
+	@Test
+	public void backgroundSpriteExists() {
+		Assertions.assertTrue(
+			Gdx.files.internal("../core/assets/background sprite.png").exists(),
+			"This test will only pass when the specified file exists."
+		);
+	}
+}
