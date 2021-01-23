@@ -20,6 +20,8 @@
 
 package caseus.dragonboattesting.examples;
 
+// Must import org.junit.Test, NOT org.junit.jupiter.api.Test when using
+// @RunWith(GdxTestRunner.class), otherwise won't work
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.jupiter.api.Assertions;
