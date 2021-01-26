@@ -2,6 +2,7 @@ package com.dragonboat.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -46,7 +47,7 @@ public class DragonBoatGame extends Game {
 	public int noOfObstacles;
 	public int playerChoice;
 	public int difficulty = 1;
-	public Music music;
+//	public Music music;
 	public boolean ended = false;
 	public FreeTypeFontGenerator generator;
 	public FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -64,10 +65,10 @@ public class DragonBoatGame extends Game {
 		if(debug_norandom) rnd = new Random(1);
 		else rnd = new Random();
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.4f);
-		music.play();
+//		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
+//		music.setLooping(true);
+//		music.setVolume(0.4f);
+//		music.play();
 
 		courseTexture = new Texture(Gdx.files.internal("background sprite.png"));
 		lanes = new Lane[7];
@@ -187,6 +188,32 @@ public class DragonBoatGame extends Game {
 
 	@Override
 	public void render() {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+			System.out.println("DURA BEFORE: " + player.getDurability());
+			player.Boost("health");
+			System.out.println("DURA AFTER: " + player.getDurability());
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.O)){
+			System.out.println("ACC BEFORE: " + player.getAcceleration());
+			player.Boost("acceleration");
+			System.out.println("ACC AFTER: " + player.getAcceleration());
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+			System.out.println("IM BEFORE: " + player.getImmune());
+			player.Boost("immune");
+			System.out.println("IM AFTER: " + player.getImmune());
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.U)){
+			System.out.println("MAN BEFORE: " + player.getManeuverability());
+			player.Boost("maneuverability");
+			System.out.println("MAN AFTER: " + player.getManeuverability());
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Y)){
+			System.out.println("SPEED BEFORE: " + player.getCurrentSpeed());
+			player.Boost("speed");
+			System.out.println("SPEED AFTER: " + player.getCurrentSpeed());
+		}
+
 		final DragonBoatGame game = this;
 		/*
 		 * If the game hasn't ended, just call the current screen render function.

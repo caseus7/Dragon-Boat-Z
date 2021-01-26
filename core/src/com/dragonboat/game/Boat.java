@@ -150,7 +150,6 @@ public class Boat {
     }
 
     public void Boost(String type){
-        System.out.println(type);
         if (type == "health"){
             this.durability += 1;
         } else if (type == "acceleration"){
@@ -162,11 +161,11 @@ public class Boat {
         } else if (type == "speed"){
             this.currentSpeed += 5;
         }
-        System.out.println("MAN" + this.MANEUVERABILITY);
-        System.out.println("HEL" + this.durability);
-        System.out.println("ACC" + this.ACCELERATION);
-        System.out.println("SPD" + this.currentSpeed);
-        System.out.println("IMM" + this.immune);
+//        System.out.println("MAN" + this.MANEUVERABILITY);
+//        System.out.println("HEL" + this.durability);
+//        System.out.println("ACC" + this.ACCELERATION);
+//        System.out.println("SPD" + this.currentSpeed);
+//        System.out.println("IMM" + this.immune);
     }
 
     /**
@@ -432,6 +431,7 @@ public class Boat {
         return this.tiredness;
     }
 
+    public boolean getImmune() { return this.immune;}
     /**
      * 
      * @return Float representing the time penalty incurred for the current race.
