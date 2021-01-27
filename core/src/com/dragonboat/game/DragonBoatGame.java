@@ -45,7 +45,8 @@ public class DragonBoatGame extends Game {
 	public ArrayList<Integer>[] obstacleTimes;
 	public int noOfObstacles;
 	public int playerChoice;
-	public int difficulty = 1;
+	public int difficulty;
+	public int startDifficulty;
 	public Music music;
 	public boolean ended = false;
 	public FreeTypeFontGenerator generator;
@@ -161,7 +162,7 @@ public class DragonBoatGame extends Game {
 		/*
 		 * Set up final leg.
 		 */
-		if (difficulty == 4) {
+		if (difficulty == startDifficulty + 3) {
 			Boat[] finalists = leaderboard.getPodium();
 			opponents = new Opponent[2];
 			for (Boat b : finalists) {

@@ -29,7 +29,7 @@ public class MenuScreen implements Screen {
     public MenuScreen(DragonBoatGame Game) {
         game = Game;
         batch = new SpriteBatch();
-        startScreen = new Texture(Gdx.files.internal("start screen w fade w controls.png"));
+        startScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty.png"));
         final MenuScreen menuScreen = this;
 
         /*
@@ -51,6 +51,30 @@ public class MenuScreen implements Screen {
              */
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                /*
+                 * First check whether the cursor is in the correct y-bounds, as all of the
+                 * difficulties are have the same y-coordinates.
+                 */
+                if (screenY >= 309 && screenY <= 335) {
+                    /*
+                     * Then check if the cursor is in each set of x-bounds and set the
+                     * difficulty based on the corresponding word.
+                     */
+                    if (screenX >= 419 && screenX <= 472) {
+                        game.difficulty = 1;
+                        game.startDifficulty = 1;
+                    }
+                    if (screenX >= 502 && screenX <= 579) {
+                        game.difficulty = 2;
+                        game.startDifficulty = 2;
+                    }
+                    if (screenX >= 609 && screenX <= 655) {
+                        game.difficulty = 3;
+                        game.startDifficulty = 3;
+                    }
+                } else {
+                    game.difficulty = 1;
+                }
                 /*
                  * First check whether the cursor is in right y-bounds, as these are all the
                  * same for all boats.
