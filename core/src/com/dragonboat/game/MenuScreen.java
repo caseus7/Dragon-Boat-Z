@@ -82,9 +82,6 @@ public class MenuScreen implements Screen {
                         game.setStartDifficulty(3);
                         startScreen = hardScreen;
                     }
-                } else {
-                    game.setDifficulty(1);
-                    startScreen = easyScreen;
                 }
                 /*
                  * First check whether the cursor is in right y-bounds, as these are all the
