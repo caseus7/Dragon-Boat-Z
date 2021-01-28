@@ -11,25 +11,32 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Screen class for the Menu Screen. Allows the user to select a Boat, and shows
  * the controls of the game. Once the user clicks within set boundaries, the
  * game starts within GameScreen.
- * 
+ *
  * @see GameScreen
  * @see Screen
  */
 public class MenuScreen implements Screen {
     Texture startScreen;
+    Texture easyScreen;
+    Texture mediumScreen;
+    Texture hardScreen;
     final DragonBoatGame game;
     private final SpriteBatch batch;
 
     /**
      * Creates an Input Processor to listen for a mouse click within set boundaries.
-     * 
+     *
      * @param Game represents the initial state of DragonBoatGame.
      * @see com.badlogic.gdx.InputProcessor
      */
     public MenuScreen(DragonBoatGame Game) {
         game = Game;
         batch = new SpriteBatch();
-        startScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty.png"));
+        easyScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty easy.png"));
+        mediumScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty normal.png"));
+        hardScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty hard.png"));
+        // startScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty.png"));
+        startScreen = easyScreen;
         final MenuScreen menuScreen = this;
 
         /*
@@ -39,7 +46,7 @@ public class MenuScreen implements Screen {
 
             /**
              * Used to receive input events from the mouse.
-             * 
+             *
              * @param screenX X-position of the cursor.
              * @param screenY Y-position of the cursor (top left is 0,0).
              * @param pointer Pointer object.
@@ -63,17 +70,21 @@ public class MenuScreen implements Screen {
                     if (screenX >= 419 && screenX <= 472) {
                         game.difficulty = 1;
                         game.startDifficulty = 1;
+                        startScreen = easyScreen;
                     }
                     if (screenX >= 502 && screenX <= 579) {
                         game.difficulty = 2;
                         game.startDifficulty = 2;
+                        startScreen = mediumScreen;
                     }
                     if (screenX >= 609 && screenX <= 655) {
                         game.difficulty = 3;
                         game.startDifficulty = 3;
+                        startScreen = hardScreen;
                     }
                 } else {
                     game.difficulty = 1;
+                    startScreen = easyScreen;
                 }
                 /*
                  * First check whether the cursor is in right y-bounds, as these are all the
@@ -83,7 +94,7 @@ public class MenuScreen implements Screen {
                     /*
                      * Then check if the mouse is in each set of x-bounds, if so, set the player
                      * boat to the corresponding boat, and initialise the game.
-                     * 
+                     *
                      * - NOTE - These values don't work if the window is made to be resizable, and
                      * is then resized by the user.
                      */
