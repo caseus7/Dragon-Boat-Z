@@ -258,8 +258,7 @@ public class GameScreen implements Screen {
                 o.Move(0.4f + (backgroundOffset > 0
                         && player.getY() + HEIGHT / 2 + player.getHeight() / 2 < course.getTexture().getHeight()
                                 ? player.getCurrentSpeed()
-                                : 0),
-                        backgroundOffset);
+                                : 0));
                 if (o.getY() < -o.getHeight()) {
                     lane.RemoveObstacle(o);
                 }
