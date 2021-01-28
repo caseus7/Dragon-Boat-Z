@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * Represents an obstacle on the course.
- * 
+ *
  * @see Log
  * @see Goose
  */
@@ -16,7 +16,7 @@ public class Obstacle {
 
 	/**
 	 * Creates an obstacle instance.
-	 * 
+	 *
 	 * @param damage    Damage the obstacle can inflict on a boat.
 	 * @param xPosition X-position.
 	 * @param yPosition Y-position.
@@ -35,18 +35,18 @@ public class Obstacle {
 
 	/**
 	 * Moves the obstacle.
-	 * 
+	 *
 	 * @param moveVal          Distance to move the object by.
 	 * @param backgroundOffset Offset from screen to course coordinates.
 	 */
-	public void Move(float moveVal, int backgroundOffset) {
+	public void Move(float moveVal) {
 		this.setY(this.getY() - moveVal);
 	}
 
 	// getters and setters
 
 	/**
-	 * 
+	 *
 	 * @return Int representing damage the obstacle inflicts upon collision.
 	 */
 	public int getDamage() {
@@ -54,7 +54,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Float representing the x-position.
 	 */
 	public float getX() {
@@ -62,7 +62,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Float representing the y-position.
 	 */
 	public float getY() {
@@ -70,7 +70,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param yPosition Y-position.
 	 */
 	public void setY(float yPosition) {
@@ -78,7 +78,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xPosition X-position.
 	 */
 	public void setX(float xPosition) {
@@ -86,7 +86,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Texture asset for obstacle.
 	 */
 	public Texture getTexture() {
@@ -94,7 +94,7 @@ public class Obstacle {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Int representing the height of the obstacle.
 	 */
 	public int getHeight() {
