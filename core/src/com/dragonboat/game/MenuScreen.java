@@ -68,22 +68,22 @@ public class MenuScreen implements Screen {
                      * difficulty based on the corresponding word.
                      */
                     if (screenX >= 419 && screenX <= 472) {
-                        game.difficulty = 1;
-                        game.startDifficulty = 1;
+                        game.setDifficulty(1);
+                        game.setStartDifficulty(1);
                         startScreen = easyScreen;
                     }
                     if (screenX >= 502 && screenX <= 579) {
-                        game.difficulty = 2;
-                        game.startDifficulty = 2;
+                        game.setDifficulty(2);
+                        game.setStartDifficulty(2);
                         startScreen = mediumScreen;
                     }
                     if (screenX >= 609 && screenX <= 655) {
-                        game.difficulty = 3;
-                        game.startDifficulty = 3;
+                        game.setDifficulty(3);
+                        game.setStartDifficulty(3);
                         startScreen = hardScreen;
                     }
                 } else {
-                    game.difficulty = 1;
+                    game.setDifficulty(1);
                     startScreen = easyScreen;
                 }
                 /*
