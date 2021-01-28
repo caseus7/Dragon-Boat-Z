@@ -15,7 +15,7 @@ public class Lane {
 
     /**
      * Creates a lane instance.
-     * 
+     *
      * @param leftBoundary  X-position for the left boundary of the lane.
      * @param rightBoundary X-position for the right boundary of the lane.
      */
@@ -29,7 +29,7 @@ public class Lane {
 
     /**
      * Creates a lane instance.
-     * 
+     *
      * @param leftBoundary  X-position for the left boundary of the lane.
      * @param rightBoundary X-position for the right boundary of the lane.
      * @param obstacleLimit Limit for the number of obstacles in the lane.
@@ -52,7 +52,7 @@ public class Lane {
      * instantiates it as the corresponding obstacle, with the correct texture. Then
      * adds it to the Lane's obstacle list.
      * </p>
-     * 
+     *
      * @param x            X-position for the obstacle spawn location.
      * @param y            Y-position for the obstacle spawn location.
      * @param obstacleType Obstacle type.
@@ -80,7 +80,7 @@ public class Lane {
      * Obstacle should be removed upon collision with boat or leaving the course.
      * area.
      * </p>
-     * 
+     *
      * @param obstacle Obstacle to be removed.
      */
     public void RemoveObstacle(Obstacle obstacle) {
@@ -90,7 +90,7 @@ public class Lane {
     // getters and setters
 
     /**
-     * 
+     *
      * @return Int representing the x-position of the lane's left boundary.
      */
     public int getLeftBoundary() {
@@ -98,10 +98,31 @@ public class Lane {
     }
 
     /**
-     * 
+     *
      * @return Int representing the x-position of the lane's right boundary.
      */
     public int getRightBoundary() {
         return this.RIGHTBOUNDARY;
+    }
+
+    /**
+    * @return All the obstacles in the lane
+    */
+    public ArrayList<Obstacle> getObstacles() {
+        return this.obstacles;
+    }
+
+    /**
+    * @return The number of obstacles in the lane
+    */
+    public int getObstacleCount() {
+        return this.obstacles.size();
+    }
+
+    /**
+    * @return The maximum number of obstacles that can be in the lane
+    */
+    public int getObstacleLimit() {
+        return this.obstacleLimit;
     }
 }
