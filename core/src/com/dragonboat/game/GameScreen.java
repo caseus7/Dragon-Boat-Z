@@ -402,7 +402,7 @@ public class GameScreen implements Screen {
          */
         if (player.finished()) {
             // Display leaderboard, if on the third leg, display top 3 boats.
-            if (game.difficulty < 3) {
+            if (game.getDifficulty() < game.getStartDifficulty() + 2) {
                 batch.begin();
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);
@@ -428,7 +428,7 @@ public class GameScreen implements Screen {
                         return super.touchUp(screenX, screenY, pointer, button);
                     }
                 });
-            } else if (game.difficulty == 3) {
+            } else if (game.getDifficulty() == game.getStartDifficulty() + 2) {
                 batch.begin();
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);

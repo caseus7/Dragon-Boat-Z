@@ -45,11 +45,12 @@ public class DragonBoatGame extends Game {
 	public ArrayList<Integer>[] obstacleTimes;
 	public int noOfObstacles;
 	public int playerChoice;
-	public int difficulty = 1;
 	public Music music;
 	public boolean ended = false;
 	public FreeTypeFontGenerator generator;
 	public FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+	private int startDifficulty = 1;
+	private int difficulty = 1;
 	private SpriteBatch batch;
 	private BitmapFont font28;
 	private Texture courseTexture;
@@ -161,7 +162,7 @@ public class DragonBoatGame extends Game {
 		/*
 		 * Set up final leg.
 		 */
-		if (difficulty == 4) {
+		if (difficulty == startDifficulty + 3) {
 			Boat[] finalists = leaderboard.getPodium();
 			opponents = new Opponent[2];
 			for (Boat b : finalists) {
@@ -183,6 +184,46 @@ public class DragonBoatGame extends Game {
 		}
 		progressBar = new ProgressBar(player, opponents);
 		setScreen(new GameScreen(this));
+	}
+
+	/*
+	* Gets the start difficulty
+	*/
+	public int getStartDifficulty() {
+		return this.startDifficulty;
+	}
+
+	/*
+	* Sets the start difficulty
+	* @param newStartDifficulty Integer greater than 0
+	* @return If the difficulty was changed successfully
+	*/
+	public boolean setStartDifficulty(int newStartDifficulty) {
+		if (newStartDifficulty > 0) {
+			this.startDifficulty = newStartDifficulty;
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	* Gets the difficulty
+	*/
+	public int getDifficulty() {
+		return this.difficulty;
+	}
+
+	/*
+	* Sets the difficulty
+	* @param newDifficulty Integer greater than 0
+	* @return If the difficulty was changed successfully
+	*/
+	public boolean setDifficulty(int newDifficulty) {
+		if (newDifficulty > 0) {
+			this.difficulty = newDifficulty;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
