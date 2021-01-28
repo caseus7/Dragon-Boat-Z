@@ -45,9 +45,8 @@ public class ObstacleTest {
 	@Test
 	void testMove() {
 		float moveAmount = 20;
-		int backgroundOffset = 0;
 		float[] expectedPosition = {xPosition, yPosition - moveAmount};
-		obstacle.Move(moveAmount, backgroundOffset);
+		obstacle.Move(moveAmount);
 		float[] finalPosition = {obstacle.getX(), obstacle.getY()};
 
 		Assertions.assertArrayEquals(expectedPosition, finalPosition);
