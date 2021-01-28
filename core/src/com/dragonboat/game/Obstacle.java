@@ -37,7 +37,6 @@ public class Obstacle {
 	 * Moves the obstacle.
 	 *
 	 * @param moveVal          Distance to move the object by.
-	 * @param backgroundOffset Offset from screen to course coordinates.
 	 */
 	public void Move(float moveVal) {
 		this.setY(this.getY() - moveVal);
