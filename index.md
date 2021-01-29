@@ -69,3 +69,5 @@ Upon completing the final race, the player will be awarded a medal, bronze, silv
 ## 28th January
 - Discussed risk monitoring
 - Analysed current code bugs
+## 2nd February 
+## 4th February
