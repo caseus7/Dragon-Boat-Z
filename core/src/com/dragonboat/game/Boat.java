@@ -53,7 +53,6 @@ public class Boat {
         this.height = height;
         this.currentSpeed = 0f;
         this.penalties = 0;
-        this.durability = 50;
         this.tiredness = 0f;
         this.lane = lane;
         this.fastestLegTime = 0;
@@ -276,7 +275,7 @@ public class Boat {
         this.yPosition = 0;
         this.currentSpeed = 0f;
         this.penalties = 0;
-        this.durability = 50;
+        this.durability = MAX_DURABILITY;
         this.tiredness = 0f;
         this.finished = false;
 
@@ -403,10 +402,11 @@ public class Boat {
             float acceleration,
             float maneuverability) {
         this.MAXSPEED = maxspeed / 2;
+        this.MAX_DURABILITY = maxDurability;
         this.ROBUSTNESS = robustness;
         this.ACCELERATION = acceleration / 64;
         this.MANEUVERABILITY = maneuverability / 8;
-        this.MAX_DURABILITY = maxDurability;
+        this.durability = maxDurability;
     }
 
     /**
