@@ -9,8 +9,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.dragonboat.game.Lane;
-import com.dragonboat.game.Obstacle;
+import com.dragonboat.game.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -18,7 +17,7 @@ public class LaneTest {
 	private Lane lane;
 
 	@Mock
-	Obstacle obst;
+	private Obstacle obst;
 
 	@BeforeEach
 	public void setup() {

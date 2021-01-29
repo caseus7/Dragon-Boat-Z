@@ -9,8 +9,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.dragonboat.game.Boat;
-import com.dragonboat.game.Lane;
+import com.dragonboat.game.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -19,6 +18,8 @@ public class BoatTest {
 
 	@Mock
 	private Lane lane;
+	@Mock
+	private DragonBoatGame game;
 
 	@BeforeEach
 	public void setup() {
@@ -29,8 +30,8 @@ public class BoatTest {
 	void testApplyDamageReducesDurability() {
 		when(lane.getLeftBoundary()).thenReturn(0);
 		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(10, 10, 10, lane, "testBoat");
-		boat.setStats(0, 1, 0, 0);
+		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat.setStats(0, 1, 1, 0, 0);
 
 		int obstacleDamage = 20;
 		int initialDurability = boat.getDurability();
@@ -44,7 +45,7 @@ public class BoatTest {
 	void testApplyDamageNoDivisionByZeroError() {
 		when(lane.getLeftBoundary()).thenReturn(0);
 		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
 		// boat.setStats() not used so all those values will be 0, possibly causing
 		// division by 0
 		int obstacleDamage = 20;

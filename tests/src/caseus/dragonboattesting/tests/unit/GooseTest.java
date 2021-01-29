@@ -13,8 +13,7 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import com.dragonboat.game.Goose;
-import com.dragonboat.game.Lane;
+import com.dragonboat.game.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -22,13 +21,12 @@ public class GooseTest {
 	private Goose goose;
 
 	@Mock
-	Texture tex;
-
+	private Texture tex;
 	@Mock
-	Lane lane;
+	private Lane lane;
 
-	int xPosition = 10;
-	int yPosition = 10;
+	private int xPosition = 10;
+	private int yPosition = 10;
 
 	@BeforeEach
 	public void setup() {

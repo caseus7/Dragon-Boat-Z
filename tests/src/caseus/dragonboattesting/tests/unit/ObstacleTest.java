@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import com.dragonboat.game.Obstacle;
+import com.dragonboat.game.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -19,17 +19,19 @@ public class ObstacleTest {
 	private Obstacle obstacle;
 
 	@Mock
-	Texture tex;
+	private Texture tex;
+	@Mock
+	private Lane lane;
 
-	int damage = 10;
-	int xPosition = 10;
-	int yPosition = 10;
-	int width = 10;
-	int height = 10;
+	private int damage = 10;
+	private int xPosition = 10;
+	private int yPosition = 10;
+	private int width = 10;
+	private int height = 10;
 
 	@BeforeEach
 	public void setup() {
-		obstacle = new Obstacle(damage, xPosition, yPosition, width, height, tex);
+		obstacle = new Obstacle(damage, xPosition, yPosition, width, height, tex, lane);
 	}
 
 	@Test

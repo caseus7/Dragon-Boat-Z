@@ -13,10 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import caseus.dragonboattesting.GdxTestRunner;
 
-import com.dragonboat.game.Lane;
-import com.dragonboat.game.Obstacle;
-import com.dragonboat.game.Log;
-import com.dragonboat.game.Goose;
+import com.dragonboat.game.*;
 
 
 @ExtendWith(MockitoExtension.class)
