@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameScreen implements Screen {
     // ENVIRONMENT VARIABLES:
     private final Random rnd;
-    private final int MAX_DURABILITY = 40, MAX_TIREDNESS = 100;
+    private final int MAX_TIREDNESS = 100;
     private DragonBoatGame game = null;
 
     // debug booleans
@@ -161,6 +161,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
+
         String debug = "";
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -185,7 +186,7 @@ public class GameScreen implements Screen {
             if (!started || player.finished() || this.game.obstacleTimes[i].size() == 0)
                 break;
             if (this.game.obstacleTimes[i].get(0) - player.getY() + player.getHeight() < 1) {
-                String[] obstacleTypes = { "Goose", "Log" };
+                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
                 // spawn an obstacle in lane i.
                 int xCoord = lanes[i].getLeftBoundary()
                         + rnd.nextInt(lanes[i].getRightBoundary() - lanes[i].getLeftBoundary() - 15);
@@ -285,9 +286,14 @@ public class GameScreen implements Screen {
         batch.draw(staminaBarFull, player.lane.getLeftBoundary(), player.getY() - 20 - backgroundOffset, 0, 0,
                 Math.round(staminaBarFull.getWidth() * player.getTiredness() / MAX_TIREDNESS),
                 staminaBarFull.getHeight());
-        batch.draw(healthBarFull, player.lane.getLeftBoundary(), player.getY() - 40 - backgroundOffset, 0, 0,
-                Math.round(healthBarFull.getWidth() * player.getDurability() / MAX_DURABILITY),
-                healthBarFull.getHeight());
+        batch.draw(
+            healthBarFull,
+            player.lane.getLeftBoundary(),
+            player.getY() - 40 - backgroundOffset,
+            0,
+            0,
+            Math.round(healthBarFull.getWidth() * player.getDurability() / player.getMaxDurability()),
+            healthBarFull.getHeight() );
         batch.end();
 
         if(debug_positions) debug += player.getName() + " pos: (" + player.getX() + "," + player.getY() +")\n";

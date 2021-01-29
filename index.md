@@ -58,3 +58,16 @@ Whilst navigating the obstacles, the player must make sure to stay in their lane
 If the player manages to achieve one of the 3 fastest times across the 3 legs, they will qualify for the final race where they will compete against the other 2 fastest boats.
 Upon completing the final race, the player will be awarded a medal, bronze, silver, or gold respective to their finishing position.
 
+# Meeting Summaries 
+## 21st January 
+- Discussed changes to be made, and priority of changes
+- Organised Documentation plans
+- Began Risk Assessment
+- Forked previous teams github page and code
+## 26th January
+- Discussed reaching out to module leaders to alert them of absent team member
+## 28th January
+- Discussed risk monitoring
+- Analysed current code bugs
+## 2nd February 
+## 4th February
