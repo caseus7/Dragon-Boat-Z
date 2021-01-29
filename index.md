@@ -60,10 +60,12 @@ Upon completing the final race, the player will be awarded a medal, bronze, silv
 
 # Meeting Summaries 
 ## 21st January 
-Discussed changes to be made, and priority of changes
-Begun Risk Assessment
-Begun 
+-Discussed changes to be made, and priority of changes
+-Organised Documentation plans
+-Began Risk Assessment
+-Forked previous teams github page and code
 ## 26th January
-Discussed reaching out to module leaders to alert them of absent team member
+-Discussed reaching out to module leaders to alert them of absent team member
 ## 28th January
-
+-Discussed risk monitoring
+-Analysed current code bugs
