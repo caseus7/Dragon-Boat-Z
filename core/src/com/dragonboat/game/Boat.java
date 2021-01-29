@@ -20,20 +20,21 @@ public class Boat {
     private int ROBUSTNESS, MAXSPEED, MAX_DURABILITY;
     private float ACCELERATION, MANEUVERABILITY;
 
+    public int boostTimer;
+    public Texture texture;
     private int durability;
     protected float yPosition, xPosition, penalties;
     protected int width, height;
-    private float currentSpeed, fastestLegTime, tiredness;
     protected Lane lane;
+    private DragonBoatGame game;
+    private float currentSpeed, fastestLegTime, tiredness;
     private Texture[] textureFrames;
     private int frameCounter;
-    public Texture texture;
     private String name;
     private boolean finished;
     private int threshold = 5;
     private boolean immune;
     private String boosted;
-    public int boostTimer;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -44,7 +45,8 @@ public class Boat {
      * @param lane      Lane object.
      * @param name      String identifier.
      */
-    public Boat(float yPosition, int width, int height, Lane lane, String name) {
+    public Boat(DragonBoatGame game, float yPosition, int width, int height, Lane lane, String name) {
+        this.game = game;
         this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
         this.yPosition = yPosition;
         this.width = width;
@@ -129,7 +131,8 @@ public class Boat {
      */
     public boolean CheckCollisions(int backgroundOffset) {
         // Iterate through obstacles.
-        ArrayList<Obstacle> obstacles = this.lane.obstacles;
+        // ArrayList<Obstacle> obstacles = this.lane.obstacles;
+        ArrayList<Obstacle> obstacles = game.getObstacles();
         ArrayList<Integer> obstaclesToRemove = new ArrayList<>();
         for (Obstacle o : obstacles) {
             if (o.getX() > this.xPosition + threshold && o.getX() < this.xPosition + this.width - threshold) {
@@ -147,7 +150,8 @@ public class Boat {
             }
         }
         for (int i : obstaclesToRemove) {
-            this.lane.RemoveObstacle(obstacles.get(i));
+            // this.lane.RemoveObstacle(obstacles.get(i));
+            obstacles.get(i).remove();
             return true;
         }
         return false;

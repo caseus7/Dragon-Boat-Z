@@ -9,10 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
  * @see Goose
  */
 public class Obstacle {
-	protected float yPosition, xPosition;
-	private int damage;
 	public int width, height;
 	public Texture texture;
+	protected float yPosition, xPosition;
+	protected Lane lane;
+	private int damage;
 
 	/**
 	 * Creates an obstacle instance.
@@ -24,13 +25,14 @@ public class Obstacle {
 	 * @param height    Height of the obstacle.
 	 * @param texture   Texture asset for the obstacle.
 	 */
-	public Obstacle(int damage, int xPosition, int yPosition, int width, int height, Texture texture) {
+	public Obstacle(int damage, int xPosition, int yPosition, int width, int height, Texture texture, Lane lane) {
 		this.damage = damage;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 		this.width = width;
 		this.height = height;
 		this.texture = texture;
+		this.lane = lane;
 	}
 
 	/**
@@ -98,5 +100,12 @@ public class Obstacle {
 	 */
 	public int getHeight() {
 		return this.height;
+	}
+
+	/**
+	* Removes the object from its lane and game
+	*/
+	public void remove() {
+		lane.RemoveObstacle(this);
 	}
 }

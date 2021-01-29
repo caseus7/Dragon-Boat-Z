@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class Boost extends Obstacle {
 
-    public Lane givenLane;
     public String type;
 
     /**
@@ -26,12 +25,11 @@ public class Boost extends Obstacle {
      * @param lane      Lane the boost will spawn in.
      */
     public Boost(int xPosition, int yPosition, Texture texture, Lane lane, String type) {
-        super(0, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture);
-        this.givenLane = lane;
+        super(0, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
         this.type = type;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 
