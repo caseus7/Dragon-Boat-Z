@@ -32,6 +32,8 @@ public class Boat {
     private boolean finished;
     private int threshold = 5;
     private boolean immune;
+    private String boosted;
+    public int boostTimer;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -57,6 +59,8 @@ public class Boat {
         frameCounter = 0;
         this.name = name;
         this.immune = false;
+        this.boosted = "";
+        boostTimer = 0;
     }
 
     /**
@@ -154,18 +158,39 @@ public class Boat {
             this.durability += 1;
         } else if (type == "acceleration"){
             this.ACCELERATION += 0.5f;
+            boosted = "acceleration";
         } else if (type == "immune"){
             this.immune = true;
+            boosted = "immune";
         } else if (type == "maneuverability"){
             this.MANEUVERABILITY += 0.5f;
+            boosted = "maneuverability";
         } else if (type == "speed"){
             this.currentSpeed += 5;
+            this.MAXSPEED += 5;
+            boosted = "speed";
+            System.out.println(currentSpeed);
         }
 //        System.out.println("MAN" + this.MANEUVERABILITY);
 //        System.out.println("HEL" + this.durability);
 //        System.out.println("ACC" + this.ACCELERATION);
 //        System.out.println("SPD" + this.currentSpeed);
 //        System.out.println("IMM" + this.immune);
+    }
+
+    public void removeBoost(){
+        System.out.println("Boost Removed");
+        if (this.boosted == "acceleration") {
+            this.ACCELERATION -= 0.5f;
+        } else if (this.boosted == "immune"){
+            this.immune = false;
+        } else if (this.boosted == "speed"){
+            this.currentSpeed -= 5;
+            this.MAXSPEED -= 5;
+        } else if (this.boosted == "maneuverability"){
+            this.MANEUVERABILITY -= 0.5f;
+        }
+        this.boosted = "";
     }
 
     /**
@@ -332,6 +357,14 @@ public class Boat {
      */
     public void setFinished(boolean f) {
         this.finished = f;
+    }
+
+    public boolean isBoosted(){
+        if (this.boosted == ""){
+            return false;
+        } else{
+            return true;
+        }
     }
 
     /**

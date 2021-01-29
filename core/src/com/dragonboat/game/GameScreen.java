@@ -158,6 +158,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
+
         String debug = "";
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -182,7 +183,7 @@ public class GameScreen implements Screen {
             if (!started || player.finished() || this.game.obstacleTimes[i].size() == 0)
                 break;
             if (this.game.obstacleTimes[i].get(0) - player.getY() + player.getHeight() < 1) {
-                String[] obstacleTypes = { "Goose", "Log","Boost" };
+                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
                 // spawn an obstacle in lane i.
                 int xCoord = lanes[i].getLeftBoundary()
                         + rnd.nextInt(lanes[i].getRightBoundary() - lanes[i].getLeftBoundary() - 15);

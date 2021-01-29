@@ -214,6 +214,22 @@ public class DragonBoatGame extends Game {
 			System.out.println("SPEED AFTER: " + player.getCurrentSpeed());
 		}
 
+		if (player.isBoosted()){
+			player.boostTimer += 1;
+			System.out.println(player.boostTimer);
+			if (player.boostTimer >= 500){
+				System.out.println("HHHHHHHH");
+				player.removeBoost();
+			}
+		}
+
+		for (Opponent o : opponents){
+			o.boostTimer += 1;
+			if (o.boostTimer >= 500){
+				o.removeBoost();
+			}
+		}
+
 		final DragonBoatGame game = this;
 		/*
 		 * If the game hasn't ended, just call the current screen render function.
