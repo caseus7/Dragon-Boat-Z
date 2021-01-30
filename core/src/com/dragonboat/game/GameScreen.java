@@ -197,7 +197,7 @@ public class GameScreen implements Screen {
         }
 
         /*
-         * Move player. Advance animation frame.
+         * Move player. Advance animation.
          */
         player.GetInput();
         player.MoveForward();
@@ -206,11 +206,10 @@ public class GameScreen implements Screen {
             started = true;
             progressBar.StartTimer();
         }
-        if (player.getY() % 5 == 2)
-            player.AdvanceTextureFrame();
+        player.ProgressAnimation();
 
         /*
-         * Move opponents. Advance animation frame.
+         * Move opponents. Advance animation.
          */
         for (Opponent o : opponents) {
             if (!started)
@@ -220,8 +219,7 @@ public class GameScreen implements Screen {
             if (Math.round(totalDeltaTime) % 2 == 0) {
                 o.ai(backgroundOffset);
             }
-            if (o.getY() % 5 == 2)
-                o.AdvanceTextureFrame();
+            o.ProgressAnimation();
         }
 
         /*
