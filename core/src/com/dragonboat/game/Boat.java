@@ -36,6 +36,15 @@ public class Boat {
     private boolean immune;
     private String boosted;
 
+    private int nextTextureFrameCounterInit;
+    // This is used to control how fast the animation progresses. When it gets
+    // to 0 the next animation frame will be played
+    private int nextTextureFrameCounter;
+    // This caps the max speed the animation can progress. Each render frame
+    // `nextTextureFrameCounter` can be reduced by at most this amount
+    private int nextTextureFrameCounterReductionCap;
+    private int nextTextureFrameCounterReductionCapBoosted;
+
     /**
      * Creates a Boat instance in a specified Lane.
      *
@@ -53,7 +62,6 @@ public class Boat {
         this.height = height;
         this.currentSpeed = 0f;
         this.penalties = 0;
-        this.durability = 50;
         this.tiredness = 0f;
         this.lane = lane;
         this.fastestLegTime = 0;
@@ -63,6 +71,10 @@ public class Boat {
         this.immune = false;
         this.boosted = "";
         boostTimer = 0;
+        this.nextTextureFrameCounterInit = 10;
+        this.nextTextureFrameCounter = this.nextTextureFrameCounterInit;
+        this.nextTextureFrameCounterReductionCap = 3;
+        this.nextTextureFrameCounterReductionCapBoosted = 5;
     }
 
     /**
@@ -131,7 +143,6 @@ public class Boat {
      */
     public boolean CheckCollisions(int backgroundOffset) {
         // Iterate through obstacles.
-        // ArrayList<Obstacle> obstacles = this.lane.obstacles;
         ArrayList<Obstacle> obstacles = game.getObstacles();
         ArrayList<Integer> obstaclesToRemove = new ArrayList<>();
         for (Obstacle o : obstacles) {
@@ -247,12 +258,24 @@ public class Boat {
     }
 
     /**
-     * Keeps track of which frame of the animation the boat's texture is on, and
-     * sets the texture accordingly.
+     * Progresses the animation depending on the boat's speed
      */
-    public void AdvanceTextureFrame() {
-        this.frameCounter = this.frameCounter == this.textureFrames.length - 1 ? 0 : this.frameCounter + 1;
-        this.setTexture(this.textureFrames[this.frameCounter]);
+    public void ProgressAnimation() {
+        if (this.currentSpeed > 0) {
+            int counterReductionCap = this.nextTextureFrameCounterReductionCap;
+            // Increase the max speed of the animation while boosted
+            if (this.boosted == "speed") {
+                counterReductionCap = this.nextTextureFrameCounterReductionCapBoosted;
+            }
+
+            float speedRatio = this.currentSpeed / this.MAXSPEED;
+            this.nextTextureFrameCounter = (int) (this.nextTextureFrameCounter
+                - (speedRatio * counterReductionCap) );
+            if (this.nextTextureFrameCounter <= 0) {
+                AdvanceTextureFrame();
+                this.nextTextureFrameCounter = this.nextTextureFrameCounterInit;
+            }
+        }
     }
 
     /**
@@ -276,7 +299,7 @@ public class Boat {
         this.yPosition = 0;
         this.currentSpeed = 0f;
         this.penalties = 0;
-        this.durability = 50;
+        this.durability = MAX_DURABILITY;
         this.tiredness = 0f;
         this.finished = false;
 
@@ -403,10 +426,11 @@ public class Boat {
             float acceleration,
             float maneuverability) {
         this.MAXSPEED = maxspeed / 2;
+        this.MAX_DURABILITY = maxDurability;
         this.ROBUSTNESS = robustness;
         this.ACCELERATION = acceleration / 64;
         this.MANEUVERABILITY = maneuverability / 8;
-        this.MAX_DURABILITY = maxDurability;
+        this.durability = maxDurability;
     }
 
     /**
@@ -509,4 +533,11 @@ public class Boat {
         this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
     }
 
+    /**
+     * Advances to the next frame of the animation
+     */
+    private void AdvanceTextureFrame() {
+        this.frameCounter = this.frameCounter == this.textureFrames.length - 1 ? 0 : this.frameCounter + 1;
+        this.setTexture(this.textureFrames[this.frameCounter]);
+    }
 }
