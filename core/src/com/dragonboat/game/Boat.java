@@ -210,13 +210,22 @@ public class Boat {
 
     /**
      * Decreases the durability of the boat by the obstacle damage divided by the
-     * boat's robustness.
+     * boat's robustness. If the boat's robustness is 0 then just decrease by
+     * the obstacle damage.
      *
      * @param obstacleDamage Amount of damage an Obstacle inflicts on the boat.
      * @return Boolean representing whether the durability of the boat is below 0.
      */
     public boolean ApplyDamage(int obstacleDamage) {
-        this.durability -= obstacleDamage / this.ROBUSTNESS;
+        int durabilityReduction;
+        if (this.ROBUSTNESS == 0) {
+            durabilityReduction = obstacleDamage;
+        }
+        else {
+            durabilityReduction = obstacleDamage / this.ROBUSTNESS;
+        }
+
+        this.durability -= durabilityReduction;
         this.currentSpeed *= 0.9;
         return this.durability <= 0;
     }

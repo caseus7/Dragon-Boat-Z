@@ -43,11 +43,12 @@ public class BoatTest {
 
 	@Test
 	void testApplyDamageNoDivisionByZeroError() {
+		// On initialisation, boat's robustness is 0 and one way damage to the
+		// boat is calculated is by dividing obstacle damage by the boat's
+		// robustness, causing division by 0 if no checks are in place
 		when(lane.getLeftBoundary()).thenReturn(0);
 		when(lane.getRightBoundary()).thenReturn(10);
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
-		// boat.setStats() not used so all those values will be 0, possibly causing
-		// division by 0
 		int obstacleDamage = 20;
 		boat.ApplyDamage(obstacleDamage);
 	}
