@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright 2015 See AUTHORS file.
+ * Copyright 2015 Thomas Pronold "TomGrill", mail@tomgrill.de, 
+ * https://github.com/TomGrill/gdx-testing
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
