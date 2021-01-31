@@ -70,7 +70,7 @@ public class Lane {
      * @param obstacleType Obstacle type.
      */
     public void SpawnObstacle(int x, int y, String obstacleType) {
-        if (this.obstacles.size() <= this.obstacleLimit) {
+        if (this.obstacles.size() < this.obstacleLimit) {
             if (obstacleType.equals("Goose")) {
                 Goose goose = new Goose(x, y, new Texture(Gdx.files.internal(gooseSpritePath)), this);
                 this.obstacles.add(goose);
@@ -88,8 +88,7 @@ public class Lane {
                     boostType );
                 this.obstacles.add(boost);
             }
-        } else
-            System.out.println("Obstacle limit reached.");
+        }
     }
 
     /**
