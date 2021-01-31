@@ -14,6 +14,15 @@ public class Lane {
     private final int LEFTBOUNDARY, RIGHTBOUNDARY;
     protected ArrayList<Obstacle> obstacles;
     private int obstacleLimit;
+    private String gooseSpritePath = "gooseSouthsprite.png";
+    private String logSpritePath = "logBig sprite.png";
+    private String[] boostSpritePathPrefixes = {
+        "acceleration",
+        "health",
+        "immune",
+        "maneuverability",
+        "speed" };
+    private String boostSpritePathPostfix = "Boost.png";
 
 
     /**
@@ -63,18 +72,20 @@ public class Lane {
     public void SpawnObstacle(int x, int y, String obstacleType) {
         if (this.obstacles.size() <= this.obstacleLimit) {
             if (obstacleType.equals("Goose")) {
-                Goose goose = new Goose(x, y, new Texture(Gdx.files.internal("gooseSouthsprite.png")), this);
+                Goose goose = new Goose(x, y, new Texture(Gdx.files.internal(gooseSpritePath)), this);
                 this.obstacles.add(goose);
 
             } else if (obstacleType.equals("Log")) {
-                Log log = new Log(x, y, new Texture(Gdx.files.internal("logBig sprite.png")), this);
+                Log log = new Log(x, y, new Texture(Gdx.files.internal(logSpritePath)), this);
                 this.obstacles.add(log);
 
             } else if (obstacleType.equals("Boost")){
-                String[] boostTypes = { "acceleration","health","immune","maneuverability","speed" };
-                String boostType = boostTypes[ThreadLocalRandom.current().nextInt(3, 5)];
-                // System.out.println(boostType);
-                Boost boost = new Boost(x, y, new Texture(Gdx.files.internal(boostType + "Boost.png")),this, boostType);
+                String boostType = boostSpritePathPrefixes[ThreadLocalRandom.current().nextInt(3, 5)];
+                Boost boost = new Boost(
+                    x, y,
+                    new Texture(Gdx.files.internal(boostType + boostSpritePathPostfix)),
+                    this,
+                    boostType );
                 this.obstacles.add(boost);
             }
         } else
