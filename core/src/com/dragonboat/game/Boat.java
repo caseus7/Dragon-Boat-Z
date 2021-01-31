@@ -35,7 +35,6 @@ public class Boat {
     private int threshold = 5;
     private boolean immune;
     private String boosted;
-
     private int nextTextureFrameCounterInit;
     // This is used to control how fast the animation progresses. When it gets
     // to 0 the next animation frame will be played
@@ -44,6 +43,8 @@ public class Boat {
     // `nextTextureFrameCounter` can be reduced by at most this amount
     private int nextTextureFrameCounterReductionCap;
     private int nextTextureFrameCounterReductionCapBoosted;
+    private int leftBound;
+    private int rightBound;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -75,6 +76,8 @@ public class Boat {
         this.nextTextureFrameCounter = this.nextTextureFrameCounterInit;
         this.nextTextureFrameCounterReductionCap = 3;
         this.nextTextureFrameCounterReductionCapBoosted = 5;
+        this.leftBound = 0;
+        this.rightBound = Gdx.graphics.getWidth() - this.width;
     }
 
     /**
@@ -82,11 +85,13 @@ public class Boat {
      * and speed, and decreases the speed by 3%.
      */
     public void SteerLeft() {
-        if (this.xPosition >= 0) {
-            this.xPosition -= this.MANEUVERABILITY * this.currentSpeed;
+        float newXPosition = Math.max(
+            this.xPosition - this.MANEUVERABILITY * this.currentSpeed,
+            this.xPosition - (this.xPosition - this.leftBound) );
+        if (this.xPosition != newXPosition) {
+            this.xPosition = newXPosition;
             this.currentSpeed *= 0.985;
         }
-
     }
 
     /**
@@ -94,11 +99,13 @@ public class Boat {
      * and speed, and decreases the speed by 3%.
      */
     public void SteerRight() {
-        if (this.xPosition + this.width <= Gdx.graphics.getHeight()) {
-            this.xPosition += this.MANEUVERABILITY * this.currentSpeed;
+        float newXPosition = Math.min(
+            this.xPosition + this.MANEUVERABILITY * this.currentSpeed,
+            this.xPosition + (this.rightBound - this.xPosition) );
+        if (this.xPosition != newXPosition) {
+            this.xPosition = newXPosition;
             this.currentSpeed *= 0.985;
         }
-
     }
 
     /**
@@ -364,11 +371,37 @@ public class Boat {
     }
 
     /**
+     * @return x-position of the boat without it being rounded to the closest integer.
+     *
+     * Used for testing.
+     */
+    public float getXPosition() {
+        return this.xPosition;
+    }
+
+    /**
+     * @return y-position of the boat without it being rounded to the closest integer.
+     *
+     * Used for testing.
+     */
+    public float getYPosition() {
+        return this.yPosition;
+    }
+
+    /**
      *
      * @return Int representing the y coordinate range of the boat (length).
      */
     public int getHeight() {
         return this.height;
+    }
+
+    /**
+     *
+     * @return width of the boat
+     */
+    public int getWidth() {
+        return this.width;
     }
 
     /**
@@ -434,7 +467,7 @@ public class Boat {
             int robustness,
             float acceleration,
             float maneuverability) {
-        this.MAXSPEED = maxspeed / 2;
+        this.MAXSPEED = maxspeed;
         this.MAX_DURABILITY = maxDurability;
         this.ROBUSTNESS = robustness;
         this.ACCELERATION = acceleration / 64;
@@ -540,6 +573,20 @@ public class Boat {
     public void setLane(Lane lane) {
         this.lane = lane;
         this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
+    }
+
+    /**
+     * Sets the minimum x position of the boat.
+     */
+    public void setLeftBound(int leftBound) {
+        this.leftBound = leftBound;
+    }
+
+    /**
+     * Sets the maximum x position of the boat.
+     */
+    public void setRightBound(int rightBound) {
+        this.rightBound = rightBound;
     }
 
     /**
