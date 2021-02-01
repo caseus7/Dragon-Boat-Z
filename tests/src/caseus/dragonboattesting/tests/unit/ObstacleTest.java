@@ -35,22 +35,11 @@ public class ObstacleTest {
 	}
 
 	@Test
-	void testGetX() {
-		Assertions.assertEquals(xPosition, obstacle.getX());
-	}
-
-	@Test
-	void testGetY() {
-		Assertions.assertEquals(yPosition, obstacle.getY());
-	}
-
-	@Test
 	void testMove() {
 		float moveAmount = 20;
 		float[] expectedPosition = {xPosition, yPosition - moveAmount};
 		obstacle.Move(moveAmount);
 		float[] finalPosition = {obstacle.getX(), obstacle.getY()};
-
 		Assertions.assertArrayEquals(expectedPosition, finalPosition);
 	}
 }
