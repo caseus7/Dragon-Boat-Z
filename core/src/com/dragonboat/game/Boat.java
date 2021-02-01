@@ -24,7 +24,7 @@ public class Boat {
     public Texture texture;
     private int durability;
     protected float yPosition, xPosition, penalties;
-    protected int width, height;
+    protected int width = 56, height = 182;
     protected Lane lane;
     private DragonBoatGame game;
     private float currentSpeed, fastestLegTime, tiredness;
@@ -50,17 +50,13 @@ public class Boat {
      * Creates a Boat instance in a specified Lane.
      *
      * @param yPosition Y-position of the boat.
-     * @param width     Width of the boat.
-     * @param height    Height of the boat.
      * @param lane      Lane object.
      * @param name      String identifier.
      */
-    public Boat(DragonBoatGame game, float yPosition, int width, int height, Lane lane, String name) {
+    public Boat(DragonBoatGame game, float yPosition, Lane lane, String name) {
         this.game = game;
-        this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
+        this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - this.width / 2;
         this.yPosition = yPosition;
-        this.width = width;
-        this.height = height;
         this.currentSpeed = 0f;
         this.penalties = 0;
         this.tiredness = 0f;

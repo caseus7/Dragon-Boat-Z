@@ -100,13 +100,13 @@ public class DragonBoatGame extends Game {
 
 		// Instantiate the course and player and opponent boats.
 		course = new Course(courseTexture, lanes);
-		player = new Player(this, 0, 56, 182, lanes[3], "Player");
+		player = new Player(this, 0, lanes[3], "Player");
 
 		opponents = new Opponent[6];
 		for (int i = 0; i < opponents.length; i++) {
 			// Ensure player is in the middle lane by skipping over lane 4.
 			int lane = i >= 3 ? i + 1 : i;
-			opponents[i] = new Opponent(this, 0, 56, 182, lanes[lane], "Opponent" + (i + 1));
+			opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
 		}
 
 		// Instantiate the progress bar and leaderboard.

@@ -18,13 +18,11 @@ public class Opponent extends Boat {
      * Creates a opponent instance.
      *
      * @param yPosition Y-position.
-     * @param width     Width of the boat.
-     * @param height    Height of the boat.
      * @param lane      Lane for the boat.
      * @param name      Name of the opponent.
      */
-    public Opponent(DragonBoatGame game, int yPosition, int width, int height, Lane lane, String name) {
-        super(game, yPosition, width, height, lane, name);
+    public Opponent(DragonBoatGame game, int yPosition, Lane lane, String name) {
+        super(game, yPosition, lane, name);
         sortedIncomingObstacles = new ArrayList<Obstacle>();
     }
 
