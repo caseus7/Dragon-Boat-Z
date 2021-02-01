@@ -1,12 +1,10 @@
 package com.dragonboat.game;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.files.FileHandle;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 
 /**
@@ -43,6 +41,16 @@ public class IO {
 	 */
 	public static String toJSON(Object data) {
 		return json.toJson(data);
+	}
+
+	/**
+	 * Makes the object represented by the JSON
+	 * @param dataType Class of the object being created from the JSON
+	 * @param jsonData JSON representing the object
+	 * @return Object made from the JSON
+	 */
+	public static HashMap<String, Object> hashMapFromJSON(String jsonData) {
+		return json.fromJson(HashMap.class, jsonData);
 	}
 
 	/**

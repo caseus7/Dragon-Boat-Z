@@ -1,6 +1,7 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
@@ -143,5 +144,22 @@ public class Lane {
     */
     public int getObstacleLimit() {
         return this.obstacleLimit;
+    }
+
+    public String toJSON() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("class", "Lane");
+        data.put("LEFTBOUNDARY", this.LEFTBOUNDARY);
+        data.put("RIGHTBOUNDARY", this.RIGHTBOUNDARY);
+        data.put("obstacleLimit", this.obstacleLimit);
+        return IO.toJSON(data);
+    }
+
+    public static Lane makeLane(HashMap<String, Object> data) {
+        int _leftBoundary = (int) data.get("LEFTBOUNDARY");
+        int _rightBoundary = (int) data.get("RIGHTBOUNDARY");
+        int _obstacleLimit = (int) data.get("obstacleLimit");
+        Lane lane = new Lane(_leftBoundary, _rightBoundary, _obstacleLimit);
+        return lane;
     }
 }
