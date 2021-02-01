@@ -450,6 +450,23 @@ public class Boat {
     }
 
     /**
+     * <p>
+     * Assigns the selected boat template to the boat.
+     * </p>
+     * <p>
+     * This includes stats and texture.
+     * </p>
+     *
+     * @param boatNo Number of the boat template selected.
+     */
+    public void ChooseBoat(int boatNo) {
+        char boatLabel = (char) (65 + boatNo);
+        this.setTexture(new Texture(Gdx.files.internal("boat" + boatLabel + " sprite1.png")));
+        this.GenerateTextureFrames(boatLabel);
+        this.setStats(boatLabel);
+    }
+
+    /**
      * Implicitly sets the stats of the boat, given each attribute.
      *
      * @param maxspeed        Top speed the boat can reach.

@@ -243,10 +243,7 @@ public class Opponent extends Boat {
     public int SetRandomBoat(ArrayList<Integer> possibleBoats) {
         Random rnd = new Random();
         int randIndex = rnd.nextInt(possibleBoats.size());
-        char boatLabel = (char) (65 + possibleBoats.get(randIndex));
-        this.setTexture(new Texture(Gdx.files.internal("boat" + boatLabel + " sprite1.png")));
-        this.GenerateTextureFrames(boatLabel);
-        this.setStats(boatLabel);
+        this.ChooseBoat(possibleBoats.get(randIndex));
         return randIndex;
     }
 }
