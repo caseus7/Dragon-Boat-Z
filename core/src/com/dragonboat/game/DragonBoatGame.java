@@ -257,10 +257,9 @@ public class DragonBoatGame extends Game {
 
 		if (player.isBoosted()){
 			player.boostTimer += 1;
-			System.out.println(player.boostTimer);
 			if (player.boostTimer >= 500){
-				System.out.println("HHHHHHHH");
 				player.removeBoost();
+				player.boostTimer = 0;
 			}
 		}
 
@@ -268,6 +267,7 @@ public class DragonBoatGame extends Game {
 			o.boostTimer += 1;
 			if (o.boostTimer >= 500){
 				o.removeBoost();
+				o.boostTimer = 0;
 			}
 		}
 

@@ -73,7 +73,6 @@ public class Lane {
             } else if (obstacleType.equals("Boost")){
                 String[] boostTypes = { "acceleration","health","immune","maneuverability","speed" };
                 String boostType = boostTypes[ThreadLocalRandom.current().nextInt(3, 5)];
-                System.out.println(boostType);
                 Boost boost = new Boost(x, y, new Texture(Gdx.files.internal(boostType + "Boost.png")),this, boostType);
                 this.obstacles.add(boost);
             }

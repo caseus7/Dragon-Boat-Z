@@ -169,7 +169,6 @@ public class Boat {
             this.currentSpeed += 5;
             this.MAXSPEED += 5;
             boosted = "speed";
-            System.out.println(currentSpeed);
         }
 //        System.out.println("MAN" + this.MANEUVERABILITY);
 //        System.out.println("HEL" + this.durability);
@@ -179,14 +178,17 @@ public class Boat {
     }
 
     public void removeBoost(){
+        this.boosted = "";
         System.out.println("Boost Removed");
         if (this.boosted == "acceleration") {
             this.ACCELERATION -= 0.5f;
         } else if (this.boosted == "immune"){
             this.immune = false;
         } else if (this.boosted == "speed"){
+            System.out.println(this.currentSpeed);
             this.currentSpeed -= 5;
             this.MAXSPEED -= 5;
+            System.out.println(this.currentSpeed);
         } else if (this.boosted == "maneuverability"){
             this.MANEUVERABILITY -= 0.5f;
         }
