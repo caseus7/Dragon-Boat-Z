@@ -28,7 +28,7 @@ public class Goose extends Obstacle {
 	 * @param texture   Texture asset for the goose.
 	 * @param lane      Lane the goose will spawn in.
 	 */
-	public Goose(int xPosition, int yPosition, Texture texture, Lane lane) {
+	public Goose(float xPosition, float yPosition, Texture texture, Lane lane) {
 		super(10, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
 	}
 
@@ -112,8 +112,8 @@ public class Goose extends Obstacle {
 	public static Goose makeGoose(
 			HashMap<String, Object> data, Texture tex, Lane l) {
 		String _direction = (String) data.get("direction");
-		int _xPosition = (int) data.get("xPosition");
-		int _yPosition = (int) data.get("yPosition");
+		float _xPosition = (float) data.get("xPosition");
+		float _yPosition = (float) data.get("yPosition");
 		Goose goose = new Goose(_xPosition, _yPosition, tex, l);
 		goose.direction = _direction;
 		return goose;
