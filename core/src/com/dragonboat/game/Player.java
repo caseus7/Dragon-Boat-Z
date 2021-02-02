@@ -11,15 +11,15 @@ public class Player extends Boat {
 
     /**
      * Creates an instance of the player boat.
-     * 
+     *
      * @param yPosition Y-position of the boat.
      * @param width     Width of the boat.
      * @param height    Height of the boat.
      * @param lane      Lane for the boat.
      * @param name      Name of the boat.
      */
-    public Player(int yPosition, int width, int height, Lane lane, String name) {
-        super(yPosition, width, height, lane, name);
+    public Player(DragonBoatGame game, int yPosition, int width, int height, Lane lane, String name) {
+        super(game, yPosition, width, height, lane, name);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Player extends Boat {
      * <p>
      * This includes stats and texture.
      * </p>
-     * 
+     *
      * @param boatNo Number of the boat template selected.
      */
     public void ChooseBoat(int boatNo) {

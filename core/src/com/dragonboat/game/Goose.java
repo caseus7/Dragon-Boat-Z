@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 public class Goose extends Obstacle {
 
 	public String direction = "South"; // Facing south by default.
-	public Lane givenLane;
 
 	/**
 	 * <p>
@@ -23,15 +22,14 @@ public class Goose extends Obstacle {
 	 * Geese can face North, East, South or West. Width and height switch when
 	 * changing between North or South and East or West.
 	 * </p>
-	 * 
+	 *
 	 * @param xPosition X-position.
 	 * @param yPosition Y-position.
 	 * @param texture   Texture asset for the goose.
 	 * @param lane      Lane the goose will spawn in.
 	 */
 	public Goose(int xPosition, int yPosition, Texture texture, Lane lane) {
-		super(10, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture);
-		this.givenLane = lane;
+		super(10, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
 	}
 
 	/**
@@ -50,7 +48,7 @@ public class Goose extends Obstacle {
 
 	/**
 	 * Moves the goose.
-	 * 
+	 *
 	 * @param moveVal          Distance to move Goose by.
 	 * @param backgroundOffset Offset from screen to course coordinates.
 	 */
@@ -58,11 +56,11 @@ public class Goose extends Obstacle {
 
 		boolean canGoEast, canGoWest;
 
-		if (this.getX() > givenLane.getLeftBoundary() && this.getX() + this.width < givenLane.getRightBoundary()) {
+		if (this.getX() > this.lane.getLeftBoundary() && this.getX() + this.width < this.lane.getRightBoundary()) {
 			// Goose is within the lane boundaries.
 			canGoEast = true;
 			canGoWest = true;
-		} else if (this.getX() <= givenLane.getLeftBoundary()) {
+		} else if (this.getX() <= this.lane.getLeftBoundary()) {
 			// Goose is on left boundary.
 			canGoEast = true;
 			canGoWest = false;

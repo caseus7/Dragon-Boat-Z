@@ -14,11 +14,20 @@ public class Lane {
     private final int LEFTBOUNDARY, RIGHTBOUNDARY;
     protected ArrayList<Obstacle> obstacles;
     private int obstacleLimit;
+    private String gooseSpritePath = "gooseSouthsprite.png";
+    private String logSpritePath = "logBig sprite.png";
+    private String[] boostSpritePathPrefixes = {
+        "acceleration",
+        "health",
+        "immune",
+        "maneuverability",
+        "speed" };
+    private String boostSpritePathPostfix = "Boost.png";
 
 
     /**
      * Creates a lane instance.
-     * 
+     *
      * @param leftBoundary  X-position for the left boundary of the lane.
      * @param rightBoundary X-position for the right boundary of the lane.
      */
@@ -32,7 +41,7 @@ public class Lane {
 
     /**
      * Creates a lane instance.
-     * 
+     *
      * @param leftBoundary  X-position for the left boundary of the lane.
      * @param rightBoundary X-position for the right boundary of the lane.
      * @param obstacleLimit Limit for the number of obstacles in the lane.
@@ -55,29 +64,31 @@ public class Lane {
      * instantiates it as the corresponding obstacle, with the correct texture. Then
      * adds it to the Lane's obstacle list.
      * </p>
-     * 
+     *
      * @param x            X-position for the obstacle spawn location.
      * @param y            Y-position for the obstacle spawn location.
      * @param obstacleType Obstacle type.
      */
     public void SpawnObstacle(int x, int y, String obstacleType) {
-        if (this.obstacles.size() <= this.obstacleLimit) {
+        if (this.obstacles.size() < this.obstacleLimit) {
             if (obstacleType.equals("Goose")) {
-                Goose goose = new Goose(x, y, new Texture(Gdx.files.internal("gooseSouthsprite.png")), this);
+                Goose goose = new Goose(x, y, new Texture(Gdx.files.internal(gooseSpritePath)), this);
                 this.obstacles.add(goose);
 
             } else if (obstacleType.equals("Log")) {
-                Log log = new Log(x, y, new Texture(Gdx.files.internal("logBig sprite.png")));
+                Log log = new Log(x, y, new Texture(Gdx.files.internal(logSpritePath)), this);
                 this.obstacles.add(log);
 
             } else if (obstacleType.equals("Boost")){
-                String[] boostTypes = { "acceleration","health","immune","maneuverability","speed" };
-                String boostType = boostTypes[ThreadLocalRandom.current().nextInt(3, 5)];
-                Boost boost = new Boost(x, y, new Texture(Gdx.files.internal(boostType + "Boost.png")),this, boostType);
+                String boostType = boostSpritePathPrefixes[ThreadLocalRandom.current().nextInt(3, 5)];
+                Boost boost = new Boost(
+                    x, y,
+                    new Texture(Gdx.files.internal(boostType + boostSpritePathPostfix)),
+                    this,
+                    boostType );
                 this.obstacles.add(boost);
             }
-        } else
-            System.out.println("Obstacle limit reached.");
+        }
     }
 
     /**
@@ -88,7 +99,7 @@ public class Lane {
      * Obstacle should be removed upon collision with boat or leaving the course.
      * area.
      * </p>
-     * 
+     *
      * @param obstacle Obstacle to be removed.
      */
     public void RemoveObstacle(Obstacle obstacle) {
@@ -98,7 +109,7 @@ public class Lane {
     // getters and setters
 
     /**
-     * 
+     *
      * @return Int representing the x-position of the lane's left boundary.
      */
     public int getLeftBoundary() {
@@ -106,10 +117,31 @@ public class Lane {
     }
 
     /**
-     * 
+     *
      * @return Int representing the x-position of the lane's right boundary.
      */
     public int getRightBoundary() {
         return this.RIGHTBOUNDARY;
+    }
+
+    /**
+    * @return All the obstacles in the lane
+    */
+    public ArrayList<Obstacle> getObstacles() {
+        return this.obstacles;
+    }
+
+    /**
+    * @return The number of obstacles in the lane
+    */
+    public int getObstacleCount() {
+        return this.obstacles.size();
+    }
+
+    /**
+    * @return The maximum number of obstacles that can be in the lane
+    */
+    public int getObstacleLimit() {
+        return this.obstacleLimit;
     }
 }

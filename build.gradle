@@ -1,6 +1,25 @@
-buildscript {
-    
+/*******************************************************************************
+ * Copyright 2015 Thomas Pronold "TomGrill", mail@tomgrill.de,
+ * https://github.com/TomGrill/gdx-testing
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
+/*******************************************************************************
+ * This code has been modified
+ ******************************************************************************/
+
+buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,9 +28,8 @@ buildscript {
         jcenter()
         google()
     }
-    dependencies {
-        
 
+    dependencies {
     }
 }
 
@@ -41,25 +59,70 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        
+    }
+}
+
+project(":tests") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["src/"]
+
+    dependencies {
+
+		/**
+		 * If you do have some classes to test in os specific code you may want to uncomment
+		 * some of these lines.
+		 *
+		 * BUT: I recommend to create seperate test sub projects for each platform. Trust me :)
+		 *
+		 */
+
+//        compile project(":android")
+//        compile project(":html")
+//        compile project(":desktop")
+
+
+//        if(System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+//        	compile project(":ios")
+//        }
+
+        compile project(":core")
+
+        compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+        testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+        testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.4.2',
+            'junit:junit:4.12',
+            'org.mockito:mockito-junit-jupiter:3.5.13',
+        )
+        testRuntime(
+            'org.junit.jupiter:junit-jupiter-engine:5.4.2',
+            'org.junit.vintage:junit-vintage-engine:5.4.2',
+        )
+    }
+
+    test {
+        useJUnitPlatform();
     }
 }
