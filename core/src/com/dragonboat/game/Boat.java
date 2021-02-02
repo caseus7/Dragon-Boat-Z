@@ -22,12 +22,14 @@ public class Boat {
 
     public int boostTimer;
     public Texture texture;
-    private int durability;
     protected float yPosition, xPosition, penalties;
     protected int width = 56, height = 182;
     protected Lane lane;
+    protected int leftBound;
+    protected int rightBound;
     private DragonBoatGame game;
     private float currentSpeed, fastestLegTime, tiredness;
+    private int durability;
     private Texture[] textureFrames;
     private int frameCounter;
     private String name;
@@ -43,8 +45,6 @@ public class Boat {
     // `nextTextureFrameCounter` can be reduced by at most this amount
     private int nextTextureFrameCounterReductionCap;
     private int nextTextureFrameCounterReductionCapBoosted;
-    private int leftBound;
-    private int rightBound;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -563,6 +563,15 @@ public class Boat {
     }
 
     public boolean getImmune() { return this.immune;}
+
+    /**
+     *
+     * @return String representing the type of boost applied.
+     */
+    public String getBoosted() {
+        return this.boosted;
+    }
+
     /**
      *
      * @return Float representing the time penalty incurred for the current race.
@@ -600,6 +609,50 @@ public class Boat {
      */
     public void setRightBound(int rightBound) {
         this.rightBound = rightBound;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setXPosition(float x) {
+        this.xPosition = x;
+    }
+
+    public void setYPosition(float y) {
+        this.yPosition = y;
+    }
+
+    public void setCurrentSpeed(float speed) {
+        this.currentSpeed = speed;
+    }
+
+    public void setDurability(int dur) {
+        this.durability = dur;
+    }
+
+    public void setTiredness(float tire) {
+        this.tiredness = tire;
+    }
+
+    public void setImmune(boolean immu) {
+        this.immune = immu;
+    }
+
+    public void setBoosted(String boostType) {
+        this.boosted = boostType;
+    }
+
+    public void setBoostTimer(int time) {
+        this.boostTimer = time;
+    }
+
+    public void setPenalties(float pen) {
+        this.penalties = pen;
+    }
+
+    public void setFastestLegTime(float time) {
+        this.fastestLegTime = time;
     }
 
     /**

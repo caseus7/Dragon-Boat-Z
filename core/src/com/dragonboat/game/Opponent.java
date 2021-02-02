@@ -1,6 +1,7 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -21,7 +22,7 @@ public class Opponent extends Boat {
      * @param lane      Lane for the boat.
      * @param name      Name of the opponent.
      */
-    public Opponent(DragonBoatGame game, int yPosition, Lane lane, String name) {
+    public Opponent(DragonBoatGame game, float yPosition, Lane lane, String name) {
         super(game, yPosition, lane, name);
         sortedIncomingObstacles = new ArrayList<Obstacle>();
     }
@@ -245,5 +246,83 @@ public class Opponent extends Boat {
         int randIndex = rnd.nextInt(possibleBoats.size());
         this.ChooseBoat(possibleBoats.get(randIndex));
         return randIndex;
+    }
+
+    /**
+     * Converts data about the instance into JSON so it can be recreated later
+     * @return JSON string sotring the instance's info
+     */
+    public String toJSON() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("className", "Opponent");
+        data.put("name", this.getName());
+        data.put("xPosition", this.xPosition);
+        data.put("yPosition", this.yPosition);
+        data.put("leftBound", this.leftBound);
+        data.put("rightBound", this.rightBound);
+        data.put("currentSpeed", this.getCurrentSpeed());
+        data.put("durability", this.getDurability());
+        data.put("tiredness", this.getTiredness());
+        data.put("immune", this.getImmune());
+        data.put("boosted", this.getBoosted());
+        data.put("boostTimer", this.boostTimer);
+        data.put("penalties", this.penalties);
+        data.put("fastestLegTime", this.getFastestTime());
+        data.put("finished", this.finished());
+        data.put("ROBUSTNESS", this.getRobustness());
+        data.put("MAXSPEED", this.getMaxSpeed());
+        data.put("MAX_DURABILITY", this.getMaxDurability());
+        data.put("ACCELERATION", this.getAcceleration());
+        data.put("MANEUVERABILITY", this.getManeuverability());
+        return IO.toJSON(data);
+    }
+
+    /**
+     * Creates an instance from the data passed
+     * @param data HashMap storing data about an instance, likely gained
+     * by converting an instance to JSON first
+     */
+    public static Opponent makeOpponent(
+            HashMap<String, Object> data, DragonBoatGame game, Lane l) {
+        String _name = (String) data.get("name");
+        float _xPosition = (float) data.get("xPosition");
+        float _yPosition = (float) data.get("yPosition");
+        int _leftBound = (int) data.get("rightBound");
+        int _rightBound = (int) data.get("rightBound");
+        float _currentSpeed = (float) data.get("currentSpeed");
+        int _durability = (int) data.get("durability");
+        float _tiredness = (float) data.get("tiredness");
+        boolean _immune = (boolean) data.get("immune");
+        String _boosted = (String) data.get("boosted");
+        int _boostTimer = (int) data.get("boostTimer");
+        float _penalties = (float) data.get("penalties");
+        float _fastestLegTime = (float) data.get("fastestLegTime");
+        boolean _finished = (boolean) data.get("finished");
+        int _ROBUSTNESS =(int) data.get("ROBUSTNESS");
+        int _MAXSPEED = (int) data.get("MAXSPEED");
+        int _MAX_DURABILITY = (int) data.get("MAX_DURABILITY");
+        float _ACCELERATION = (float) data.get("ACCELERATION");
+        float _MANEUVERABILITY = (float) data.get("MANEUVERABILITY");
+
+        Opponent opponent = new Opponent(game, _yPosition, l, _name);
+        opponent.setName(_name);
+        opponent.setXPosition(_xPosition);
+        opponent.setYPosition(_yPosition);
+        opponent.setCurrentSpeed(_currentSpeed);
+        opponent.setDurability(_durability);
+        opponent.setTiredness(_tiredness);
+        opponent.setImmune(_immune);
+        opponent.setBoosted(_boosted);
+        opponent.setBoostTimer(_boostTimer);
+        opponent.setPenalties(_penalties);
+        opponent.setFastestLegTime(_fastestLegTime);
+        opponent.setFinished(_finished);
+        opponent.setStats(
+            _MAXSPEED,
+            _MAX_DURABILITY,
+            _ROBUSTNESS,
+            _ACCELERATION,
+            _MANEUVERABILITY );
+        return opponent;
     }
 }

@@ -1,5 +1,7 @@
 package com.dragonboat.game;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,7 +18,7 @@ public class Player extends Boat {
      * @param lane      Lane for the boat.
      * @param name      Name of the boat.
      */
-    public Player(DragonBoatGame game, int yPosition, Lane lane, String name) {
+    public Player(DragonBoatGame game, float yPosition, Lane lane, String name) {
         super(game, yPosition, lane, name);
     }
 
@@ -42,5 +44,83 @@ public class Player extends Boat {
             // Call method associated
             this.SteerRight();
         }
+    }
+
+    /**
+     * Converts data about the instance into JSON so it can be recreated later
+     * @return JSON string sotring the instance's info
+     */
+    public String toJSON() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("className", "Player");
+        data.put("name", this.getName());
+        data.put("xPosition", this.xPosition);
+        data.put("yPosition", this.yPosition);
+        data.put("leftBound", this.leftBound);
+        data.put("rightBound", this.rightBound);
+        data.put("currentSpeed", this.getCurrentSpeed());
+        data.put("durability", this.getDurability());
+        data.put("tiredness", this.getTiredness());
+        data.put("immune", this.getImmune());
+        data.put("boosted", this.getBoosted());
+        data.put("boostTimer", this.boostTimer);
+        data.put("penalties", this.penalties);
+        data.put("fastestLegTime", this.getFastestTime());
+        data.put("finished", this.finished());
+        data.put("ROBUSTNESS", this.getRobustness());
+        data.put("MAXSPEED", this.getMaxSpeed());
+        data.put("MAX_DURABILITY", this.getMaxDurability());
+        data.put("ACCELERATION", this.getAcceleration());
+        data.put("MANEUVERABILITY", this.getManeuverability());
+        return IO.toJSON(data);
+    }
+
+    /**
+     * Creates an instance from the data passed
+     * @param data HashMap storing data about an instance, likely gained
+     * by converting an instance to JSON first
+     */
+    public static Player makePlayer(
+            HashMap<String, Object> data, DragonBoatGame game, Lane l) {
+        String _name = (String) data.get("name");
+        float _xPosition = (float) data.get("xPosition");
+        float _yPosition = (float) data.get("yPosition");
+        int _leftBound = (int) data.get("rightBound");
+        int _rightBound = (int) data.get("rightBound");
+        float _currentSpeed = (float) data.get("currentSpeed");
+        int _durability = (int) data.get("durability");
+        float _tiredness = (float) data.get("tiredness");
+        boolean _immune = (boolean) data.get("immune");
+        String _boosted = (String) data.get("boosted");
+        int _boostTimer = (int) data.get("boostTimer");
+        float _penalties = (float) data.get("penalties");
+        float _fastestLegTime = (float) data.get("fastestLegTime");
+        boolean _finished = (boolean) data.get("finished");
+        int _ROBUSTNESS =(int) data.get("ROBUSTNESS");
+        int _MAXSPEED = (int) data.get("MAXSPEED");
+        int _MAX_DURABILITY = (int) data.get("MAX_DURABILITY");
+        float _ACCELERATION = (float) data.get("ACCELERATION");
+        float _MANEUVERABILITY = (float) data.get("MANEUVERABILITY");
+
+        Player player = new Player(game, _yPosition, l, _name);
+        player.setName(_name);
+        player.setXPosition(_xPosition);
+        player.setYPosition(_yPosition);
+        player.setCurrentSpeed(_currentSpeed);
+        player.setDurability(_durability);
+        player.setTiredness(_tiredness);
+        player.setImmune(_immune);
+        player.setBoosted(_boosted);
+        player.setBoostTimer(_boostTimer);
+        player.setPenalties(_penalties);
+        player.setFastestLegTime(_fastestLegTime);
+        player.setFinished(_finished);
+        player.setStats(
+            _MAXSPEED,
+            _MAX_DURABILITY,
+            _ROBUSTNESS,
+            _ACCELERATION,
+            _MANEUVERABILITY );
+        return player;
     }
 }
