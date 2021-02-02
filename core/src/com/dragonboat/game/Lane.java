@@ -24,7 +24,7 @@ public class Lane {
         "immune",
         "maneuverability",
         "speed" };
-    private String boostSpritePathPostfix = "Boost.png";
+    private static String boostSpritePathPostfix = "Boost.png";
 
 
     /**
@@ -160,10 +160,18 @@ public class Lane {
 
         // Add obstacle data
         ArrayList<String> obstacleData = new ArrayList<>();
-        for (Obstacle o : this.obstacles) {
-            if (o instanceof Goose) {
-                Goose g = (Goose) o;
-                obstacleData.add(g.toJSON());
+        for (Obstacle obst : this.obstacles) {
+            if (obst instanceof Goose) {
+                Goose goose = (Goose) obst;
+                obstacleData.add(goose.toJSON());
+            }
+            else if (obst instanceof Log) {
+                Log log = (Log) obst;
+                obstacleData.add(log.toJSON());
+            }
+            else if (obst instanceof Boost) {
+                Boost boost = (Boost) obst;
+                obstacleData.add(boost.toJSON());
             }
         }
         data.put("obstacles", obstacleData);
@@ -188,13 +196,26 @@ public class Lane {
             HashMap<String, Object> obstacleData =
                 IO.hashMapFromJSON(obstacleStrings.get(i));
             String _class = (String) obstacleData.get("className");
-            if (_class == "Goose") {
+            if (_class.equals("Goose")) {
                 Texture tex = new Texture(Gdx.files.internal(gooseSpritePath));
-                Goose g = Goose.makeGoose(obstacleData, tex, lane);
-                lane.obstacles.add(g);
+                Goose goose = Goose.makeGoose(obstacleData, tex, lane);
+                lane.obstacles.add(goose);
+            }
+            else if (_class.equals("Log")) {
+                Texture tex = new Texture(Gdx.files.internal(logSpritePath));
+                Log log = Log.makeLog(obstacleData, tex, lane);
+                lane.obstacles.add(log);
+            }
+            else if (_class.equals("Boost")) {
+                System.out.println("IS BOOOOST");
+                String boostType = (String) obstacleData.get("type");
+                String texPath =
+                    obstacleData.get("type") + boostSpritePathPostfix;
+                Texture tex = new Texture(Gdx.files.internal(texPath));
+                Boost boost = Boost.makeBoost(obstacleData, tex, lane);
+                lane.obstacles.add(boost);
             }
         }
-
         return lane;
     }
 }
