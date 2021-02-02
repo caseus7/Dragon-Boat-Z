@@ -91,4 +91,31 @@ public class Goose extends Obstacle {
 		}
 	}
 
+	/**
+	 * Converts data about the instance into JSON so it can be recreated later
+	 * @return JSON string sotring the instance's info
+	 */
+	public String toJSON() {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("className", "Goose");
+		data.put("direction", this.direction);
+		data.put("xPosition", this.xPosition);
+		data.put("yPosition", this.yPosition);
+		return IO.toJSON(data);
+	}
+
+	/**
+	 * Creates an instance from the data passed
+	 * @param data HashMap storing data about an instance, likely gained
+	 * by converting an instance to JSON first
+	 */
+	public static Goose makeGoose(
+			HashMap<String, Object> data, Texture tex, Lane l) {
+		String _direction = (String) data.get("direction");
+		int _xPosition = (int) data.get("xPosition");
+		int _yPosition = (int) data.get("yPosition");
+		Goose goose = new Goose(_xPosition, _yPosition, tex, l);
+		goose.direction = _direction;
+		return goose;
+	}
 }

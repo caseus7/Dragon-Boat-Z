@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import org.w3c.dom.Text;
 
 /**
@@ -15,9 +16,9 @@ public class Lane {
     private final int LEFTBOUNDARY, RIGHTBOUNDARY;
     protected ArrayList<Obstacle> obstacles;
     private int obstacleLimit;
-    private String gooseSpritePath = "gooseSouthsprite.png";
-    private String logSpritePath = "logBig sprite.png";
-    private String[] boostSpritePathPrefixes = {
+    private static String gooseSpritePath = "gooseSouthsprite.png";
+    private static String logSpritePath = "logBig sprite.png";
+    private static String[] boostSpritePathPrefixes = {
         "acceleration",
         "health",
         "immune",
@@ -146,20 +147,54 @@ public class Lane {
         return this.obstacleLimit;
     }
 
+    /**
+     * Converts data about the instance into JSON so it can be recreated later
+     * @return JSON string sotring the instance's info
+     */
     public String toJSON() {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("class", "Lane");
+        data.put("className", "Lane");
         data.put("LEFTBOUNDARY", this.LEFTBOUNDARY);
         data.put("RIGHTBOUNDARY", this.RIGHTBOUNDARY);
         data.put("obstacleLimit", this.obstacleLimit);
+
+        // Add obstacle data
+        ArrayList<String> obstacleData = new ArrayList<>();
+        for (Obstacle o : this.obstacles) {
+            if (o instanceof Goose) {
+                Goose g = (Goose) o;
+                obstacleData.add(g.toJSON());
+            }
+        }
+        data.put("obstacles", obstacleData);
+
         return IO.toJSON(data);
     }
 
+    /**
+     * Creates a Lane object from the data passed
+     * @param data HashMap storing data about a Lane object, likely gained by
+     * converting an instance to JSON first
+     */
     public static Lane makeLane(HashMap<String, Object> data) {
         int _leftBoundary = (int) data.get("LEFTBOUNDARY");
         int _rightBoundary = (int) data.get("RIGHTBOUNDARY");
         int _obstacleLimit = (int) data.get("obstacleLimit");
         Lane lane = new Lane(_leftBoundary, _rightBoundary, _obstacleLimit);
+
+        // Create and add the obstacles to the lane
+        Array<String> obstacleStrings = (Array) data.get("obstacles");
+        for (int i = 0; i < obstacleStrings.size; i++) {
+            HashMap<String, Object> obstacleData =
+                IO.hashMapFromJSON(obstacleStrings.get(i));
+            String _class = (String) obstacleData.get("className");
+            if (_class == "Goose") {
+                Texture tex = new Texture(Gdx.files.internal(gooseSpritePath));
+                Goose g = Goose.makeGoose(obstacleData, tex, lane);
+                lane.obstacles.add(g);
+            }
+        }
+
         return lane;
     }
 }
