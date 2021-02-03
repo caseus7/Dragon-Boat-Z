@@ -3,6 +3,7 @@ package com.dragonboat.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.dragonboat.game.DragonBoatGame;
+import com.dragonboat.game.StartGame;
 
 /**
  * Launches the game window with specified graphics settings.
@@ -19,6 +20,6 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.backgroundFPS = 60;
 		config.foregroundFPS = 60;
-		new LwjglApplication(new DragonBoatGame(), config);
+		new LwjglApplication(new StartGame(), config);
 	}
 }

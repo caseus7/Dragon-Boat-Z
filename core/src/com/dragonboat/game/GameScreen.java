@@ -1,10 +1,12 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -33,7 +35,6 @@ public class GameScreen implements Screen {
     private final ProgressBar progressBar;
     private final Leaderboard leaderboard;
     private final Opponent[] opponents;
-    private String[] times;
     private boolean started = false;
     private final float penalty = 0.016f;
 
@@ -161,6 +162,20 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
+
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+			String gameData = game.toJSON();
+			IO.writeFile("../../gameSave.txt", gameData);
+            System.out.println("SAVED");
+            game.stGame.reload();
+			dispose();
+            return;
+		}
+
+
+
 
         String debug = "";
 
@@ -337,7 +352,7 @@ public class GameScreen implements Screen {
                 HEIGHT - progressBar.getTexture().getHeight() / 2 - 10);
         batch.end();
 
-        updateFinishedBoats(progress);
+        updateFinishedBoats();
         // End the race if the player has finished
         if (player.finished()) {
             float[] predictedFinishTimes = predictBoatFinishTimes(progress);
@@ -410,10 +425,10 @@ public class GameScreen implements Screen {
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);
                 batch.end();
-                this.times = leaderboard.getTimes(opponents.length + 1);
+                String[] times = leaderboard.getTimes(opponents.length + 1);
                 for (int i = 0; i < opponents.length + 1; i++) {
                     batch.begin();
-                    font44.draw(batch, this.times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
+                    font44.draw(batch, times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
                             620 - (75 * i));
                     batch.end();
                 }
@@ -436,7 +451,7 @@ public class GameScreen implements Screen {
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);
                 batch.end();
-                this.times = leaderboard.getTimes(opponents.length + 1);
+                String[] times = leaderboard.getTimes(opponents.length + 1);
                 for (int i = 0; i < opponents.length + 1; i++) {
                     if (i < 3)
                         font44.setColor(Color.GOLD);
@@ -444,12 +459,12 @@ public class GameScreen implements Screen {
                         font44.setColor(Color.WHITE);
 
                     batch.begin();
-                    font44.draw(batch, this.times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
+                    font44.draw(batch, times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
                             620 - (75 * i));
                     batch.end();
                 }
-                if (this.times[0].startsWith("Player") || this.times[1].startsWith("Player")
-                        || this.times[2].startsWith("Player")) {
+                if (times[0].startsWith("Player") || times[1].startsWith("Player")
+                        || times[2].startsWith("Player")) {
                     batch.begin();
                     font28.draw(batch, "Click anywhere to progress to the final!", 200, 40);
                     batch.end();
@@ -477,15 +492,15 @@ public class GameScreen implements Screen {
     * Check if player and each opponent has finished, and update their finished
     * booleans and fastestLegTime variables respectively.
     *
-    * @param progress Array of floats from 0 to 1 indicating how far each boat is along the rance
     */
-    private void updateFinishedBoats(float[] progress) {
-        if (progress[0] == 1 && !player.finished()) {
+    private void updateFinishedBoats() {
+        int courseHeight = course.getTexture().getHeight();
+        if (player.getProgress(courseHeight) == 1 && !player.finished()) {
             player.setFinished(true);
             player.UpdateFastestTime(progressBar.getPlayerTime());
         }
         for (int i = 0; i < opponents.length; i++) {
-            if (progress[i + 1] == 1 && !opponents[i].finished()) {
+            if (opponents[i].getProgress(courseHeight) == 1 && !opponents[i].finished()) {
                 opponents[i].setFinished(true);
                 opponents[i].UpdateFastestTime(progressBar.getTime());
             }

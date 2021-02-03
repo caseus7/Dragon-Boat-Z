@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Collections;
 import java.util.Random;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,7 +30,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  *
  * @see MenuScreen
  */
-public class DragonBoatGame extends Game {
+public class DragonBoatGame implements Screen {
 
 	// debug booleans
 	protected boolean debug_speed = false;
@@ -35,21 +38,23 @@ public class DragonBoatGame extends Game {
 	protected boolean debug_norandom = false;
 	protected boolean debug_verboseoutput = false;
 
-	protected Random rnd;
-	private MenuScreen menuScreen;
+	public StartGame stGame;
 	public Lane[] lanes;
 	public Player player;
 	public Course course;
 	public Opponent[] opponents;
+	public int[] boatLanes;
 	public ProgressBar progressBar;
 	public Leaderboard leaderboard;
 	public ArrayList<Integer>[] obstacleTimes;
-	public int noOfObstacles;
 	public int playerChoice;
 	public Music music;
 	public boolean ended = false;
 	public FreeTypeFontGenerator generator;
 	public FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+	protected Random rnd;
+	private boolean loadedFromSave;
+	private MenuScreen menuScreen;
 	private int startDifficulty = 1;
 	private int difficulty = 1;
 	private SpriteBatch batch;
@@ -59,55 +64,35 @@ public class DragonBoatGame extends Game {
 	/**
 	 * Sets up the game with settings and instantiation of objects.
 	 */
-	@Override
-	public void create() {
-		int w = Gdx.graphics.getWidth() - 80;
+	public DragonBoatGame(StartGame start, boolean loaded) {
+		this.stGame = start;
+		this.loadedFromSave = loaded;
 
-		if(debug_norandom) rnd = new Random(1);
+		if (debug_norandom) rnd = new Random(1);
 		else rnd = new Random();
-
-//		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
-//		music.setLooping(true);
-//		music.setVolume(0.4f);
-//		music.play();
-
 		courseTexture = new Texture(Gdx.files.internal("background sprite.png"));
-		lanes = new Lane[7];
-		noOfObstacles = 8;
-		obstacleTimes = new ArrayList[lanes.length];
+	}
 
-		/*
-		 * Instantiate each lane, and allocate obstacles by creating a random sequence
-		 * of Y values for obstacles to spawn at for each lane.
-		 */
-		for (int x = 0; x < lanes.length; x++) {
-			obstacleTimes[x] = new ArrayList<>();
-			lanes[x] = new Lane((x * w / lanes.length) + 40, (((x + 1) * w) / lanes.length) + 40);
-			int maxY = (courseTexture.getHeight() - (5 * noOfObstacles)) / noOfObstacles;
-			for (int y = 0; y < noOfObstacles; y++) {
-				obstacleTimes[x].add(rnd.nextInt(maxY - 5) + 5 + maxY * y);
-			}
-			Collections.sort(obstacleTimes[x]);
+	public void init() {
+		if (!this.loadedFromSave) {
+			boatLanes = new int[7];
+			createLanes();
+			int noOfObstacles = 8;
+			generateObstacleTimes(noOfObstacles);
 
-			if (debug_verboseoutput) {
-				System.out.println("Lane " + x + " obstacles to spawn: ");
-				for(Integer i : obstacleTimes[x]) {
-					System.out.print(i + ", ");
-				}
-				System.out.println();
+			player = new Player(this, 0, lanes[3], "Player");
+			boatLanes[0] = 3;
+
+			opponents = new Opponent[6];
+			for (int i = 0; i < opponents.length; i++) {
+				// Ensure player is in the middle lane by skipping over lane 4.
+				int lane = i >= 3 ? i + 1 : i;
+				opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
+				boatLanes[i+1] = lane;
 			}
 		}
 
-		// Instantiate the course and player and opponent boats.
 		course = new Course(courseTexture, lanes);
-		player = new Player(this, 0, lanes[3], "Player");
-
-		opponents = new Opponent[6];
-		for (int i = 0; i < opponents.length; i++) {
-			// Ensure player is in the middle lane by skipping over lane 4.
-			int lane = i >= 3 ? i + 1 : i;
-			opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
-		}
 
 		// Instantiate the progress bar and leaderboard.
 		progressBar = new ProgressBar(player, opponents);
@@ -121,9 +106,58 @@ public class DragonBoatGame extends Game {
 
 		batch = new SpriteBatch();
 
+
+
+
+
+
+// 		// if (debug_norandom) rnd = new Random(1);
+// 		// else rnd = new Random();
+//
+// //		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
+// //		music.setLooping(true);
+// //		music.setVolume(0.4f);
+// //		music.play();
+//
+// 		// courseTexture = new Texture(Gdx.files.internal("background sprite.png"));
+// 		// boatLanes stores index of the lane each boat is in. The first
+// 		// element is the lane player is in
+// 		// boatLanes = new int[7];
+//
+// 		// createLanes();
+// 		// int noOfObstacles = 8;
+// 		// generateObstacleTimes(noOfObstacles);
+//
+// 		// Instantiate the course and player and opponent boats.
+// 		course = new Course(courseTexture, lanes);
+// 		// player = new Player(this, 0, lanes[3], "Player");
+// 		// boatLanes[0] = 3;
+//
+// 		// opponents = new Opponent[6];
+// 		// for (int i = 0; i < opponents.length; i++) {
+// 		// 	// Ensure player is in the middle lane by skipping over lane 4.
+// 		// 	int lane = i >= 3 ? i + 1 : i;
+// 		// 	opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
+// 		// 	boatLanes[i+1] = lane;
+// 		// }
+//
+// 		// Instantiate the progress bar and leaderboard.
+// 		progressBar = new ProgressBar(player, opponents);
+// 		leaderboard = new Leaderboard(player, opponents);
+//
+// 		// Set up font.
+// 		generator = new FreeTypeFontGenerator(Gdx.files.internal("8bitOperatorPlus-Regular.ttf"));
+// 		parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+// 		parameter.size = 28;
+// 		font28 = generator.generateFont(parameter);
+//
+// 		batch = new SpriteBatch();
+	}
+
+	public void launch() {
 		// Display the menu screen.
 		menuScreen = new MenuScreen(this);
-		setScreen(menuScreen);
+		stGame.setScreen(menuScreen);
 	}
 
 	/**
@@ -137,25 +171,9 @@ public class DragonBoatGame extends Game {
 		if(debug_norandom) rnd = new Random(1);
 		else rnd = new Random();
 
-		noOfObstacles = 8 * difficulty;
-		obstacleTimes = new ArrayList[lanes.length];
-		for (int x = 0; x < lanes.length; x++) {
-			lanes[x].obstacles = new ArrayList<>();
-			obstacleTimes[x] = new ArrayList<>();
-			int maxY = (courseTexture.getHeight() - (5 * noOfObstacles))/noOfObstacles;
-			for(int y = 0; y < noOfObstacles; y++) {
-				obstacleTimes[x].add(rnd.nextInt(maxY - 5) + 5 + maxY * y);
-			}
-			Collections.sort(obstacleTimes[x]);
-
-			if(debug_verboseoutput) {
-				System.out.println("Lane " + x + " obstacles to spawn: ");
-				for(Integer i : obstacleTimes[x]) {
-					System.out.print(i + ", ");
-				}
-				System.out.println();
-			}
-		}
+		int noOfObstacles = 8 * difficulty;
+		clearLanesObstacles();
+		generateObstacleTimes(noOfObstacles);
 		player.Reset();
 
 		/*
@@ -182,7 +200,7 @@ public class DragonBoatGame extends Game {
 			o.Reset();
 		}
 		progressBar = new ProgressBar(player, opponents);
-		setScreen(new GameScreen(this));
+		stGame.setScreen(new GameScreen(this));
 	}
 
 	/*
@@ -233,8 +251,12 @@ public class DragonBoatGame extends Game {
 		return obstacles;
 	}
 
+	public void setScreen(Screen screen) {
+		stGame.setScreen(screen);
+	}
+
 	@Override
-	public void render() {
+	public void render(float deltaTime) {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
 			System.out.println("DURA BEFORE: " + player.getDurability());
 			player.Boost("health");
@@ -281,9 +303,10 @@ public class DragonBoatGame extends Game {
 		/*
 		 * If the game hasn't ended, just call the current screen render function.
 		 */
-		if (!this.ended)
-			super.render();
-		else {
+		// if (!this.ended)
+		// 	super.render();
+		// else {
+		if (this.ended) {
 			/*
 			 * Else, display an end screen and appropriate text and images.
 			 */
@@ -337,11 +360,6 @@ public class DragonBoatGame extends Game {
 		}
 	}
 
-	public void endGame() {
-		this.ended = true;
-
-	}
-
 	/**
 	 * Resizes the game screen.
 	 *
@@ -350,17 +368,190 @@ public class DragonBoatGame extends Game {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		this.getScreen().resize(width, height);
+
 	}
+
+	@Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+	@Override
+    public void hide() {
+
+    }
+
+	@Override
+    public void show() {
+
+    }
+
+	public void endGame() {
+		this.ended = true;
+
+	}
+
+	// /**
+	//  * Resizes the game screen.
+	//  *
+	//  * @param width  Width of the screen.
+	//  * @param height Height of the screen.
+	//  */
+	// @Override
+	// public void resize(int width, int height) {
+	// 	this.getScreen().resize(width, height);
+	// }
 
 	/**
 	 * Disposes of the current screen when it's no longer needed.
 	 */
 	@Override
 	public void dispose() {
-		this.getScreen().dispose();
 		batch.dispose();
 		font28.dispose();
+	}
 
+	/**
+	 * Converts data about the instance into JSON so it can be recreated later
+	 * @return JSON string sotring the instance's info
+	 */
+	public String toJSON() {
+		HashMap<String, Object> data = new HashMap<>();
+
+		ArrayList<String> laneData = new ArrayList<>();
+		for (Lane l : this.lanes) {
+			laneData.add(l.toJSON());
+		}
+		ArrayList<String> opponentData = new ArrayList<>();
+		for (Opponent op : this.opponents) {
+			opponentData.add(op.toJSON());
+		}
+
+		data.put("className", "DragonBoatGame");
+		data.put("startDifficulty", this.startDifficulty);
+		data.put("difficulty", this.difficulty);
+		data.put("player", this.player.toJSON());
+		data.put("opponents", opponentData);
+		data.put("lanes", laneData);
+		data.put("boatLanes", this.boatLanes);
+		data.put("obstacleTimes", this.obstacleTimes);
+		return IO.toJSON(data);
+	}
+
+	/**
+	 * Creates an instance from the data passed
+	 * @param data HashMap storing data about an instance, likely gained
+	 * by converting an instance to JSON first
+	 */
+	public static DragonBoatGame makeDragonBoatGame(
+			HashMap<String, Object> data, StartGame startGame) {
+		String _class = (String) data.get("className");
+		int _startDifficulty = (int) data.get("startDifficulty");
+		int _difficulty = (int) data.get("difficulty");
+		Player _player;
+		Opponent[] _opponents;
+		Lane[] _lanes;
+		int[] _boatLanes;
+		ArrayList<Integer>[] _obstacleTimes;
+
+		DragonBoatGame loadedGame = new DragonBoatGame(startGame, true);
+
+		HashMap<String, Object> playerData =
+			IO.hashMapFromJSON((String) data.get("player"));
+		Array<String> opponentStrings = (Array) data.get("opponents");
+		Array<String> laneStrings = (Array) data.get("lanes");
+		Array<Array<Integer>> obstacleTimeData = (Array) data.get("obstacleTimes");
+
+		_boatLanes = new int[laneStrings.size];
+		Array<Float> tmp = (Array) data.get("boatLanes");
+		for (int i = 0; i < laneStrings.size; i++) {
+			_boatLanes[i] = Math.round(tmp.get(i));
+		}
+
+		_lanes = new Lane[laneStrings.size];
+		for (int i = 0; i < laneStrings.size; i++) {
+			HashMap<String, Object> laneData = IO.hashMapFromJSON(laneStrings.get(i));
+			_lanes[i] = Lane.makeLane(laneData);
+		}
+
+		_opponents = new Opponent[opponentStrings.size];
+		for (int i = 0; i < opponentStrings.size; i++) {
+			HashMap<String, Object> opponentData = IO.hashMapFromJSON(opponentStrings.get(i));
+			int laneIdx = (int) _boatLanes[i+1];
+			_opponents[i] = Opponent.makeOpponent(opponentData, loadedGame, _lanes[laneIdx]);
+		}
+
+		_obstacleTimes = new ArrayList[obstacleTimeData.size];
+		for (int i = 0; i < obstacleTimeData.size; i++) {
+			_obstacleTimes[i] = new ArrayList<>();
+			for (int j = 0; j < obstacleTimeData.get(i).size; j++) {
+				_obstacleTimes[i].add(obstacleTimeData.get(i).get(j));
+			}
+		}
+
+		int playerLaneIdx = _boatLanes[0];
+		_player = Player.makePlayer(playerData, loadedGame, _lanes[playerLaneIdx]);
+
+		loadedGame.lanes = _lanes;
+		loadedGame.player = _player;
+		loadedGame.opponents = _opponents;
+		loadedGame.boatLanes = _boatLanes;
+		loadedGame.startDifficulty = _startDifficulty;
+		loadedGame.difficulty = _difficulty;
+		loadedGame.obstacleTimes = _obstacleTimes;
+
+		return loadedGame;
+	}
+
+	/**
+	 * Instantiate the lanes
+	 */
+	private void createLanes() {
+		lanes = new Lane[7];
+		int w = Gdx.graphics.getWidth() - 80;
+		for (int i = 0; i < lanes.length; i++) {
+			lanes[i] = new Lane(
+				(i * w / lanes.length) + 40,
+				(((i + 1) * w) / lanes.length) + 40 );
+		}
+	}
+
+	/*
+	 * Allocate obstacles to the lanes by creating a random sequence
+	 * of Y values for obstacles to spawn at for each lane.
+	 */
+	private void generateObstacleTimes(int noOfObstacles) {
+		obstacleTimes = new ArrayList[lanes.length];
+		for (int i = 0; i < lanes.length; i++) {
+			// lanes[i].obstacles = new ArrayList<>();
+			obstacleTimes[i] = new ArrayList<>();
+			int maxY = (courseTexture.getHeight() - (5 * noOfObstacles))/noOfObstacles;
+			for(int y = 0; y < noOfObstacles; y++) {
+				obstacleTimes[i].add(rnd.nextInt(maxY - 5) + 5 + maxY * y);
+			}
+			Collections.sort(obstacleTimes[i]);
+
+			if (debug_verboseoutput) {
+				System.out.println("Lane " + i + " obstacles to spawn: ");
+				for (Integer num : obstacleTimes[i]) {
+					System.out.print(num + ", ");
+				}
+				System.out.println();
+			}
+		}
+	}
+
+	/**
+	 * Removes the obstacles from all lanes
+	 */
+	private void clearLanesObstacles() {
+		for (int i = 0; i < lanes.length; i++) {
+			lanes[i].removeAllObstacles();
+		}
 	}
 }

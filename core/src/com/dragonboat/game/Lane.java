@@ -108,6 +108,13 @@ public class Lane {
         this.obstacles.remove(obstacle);
     }
 
+    /**
+     * Removes all obstacles in the lane
+     */
+    public void removeAllObstacles() {
+        this.obstacles = new ArrayList<Obstacle>();
+    }
+
     // getters and setters
 
     /**
@@ -207,7 +214,6 @@ public class Lane {
                 lane.obstacles.add(log);
             }
             else if (_class.equals("Boost")) {
-                System.out.println("IS BOOOOST");
                 String boostType = (String) obstacleData.get("type");
                 String texPath =
                     obstacleData.get("type") + boostSpritePathPostfix;
