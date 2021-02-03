@@ -101,43 +101,43 @@ public class MenuScreen implements Screen {
                         game.player.ChooseBoat(0);
                         game.playerChoice = 0;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 187 && screenX <= 320) {
                         game.player.ChooseBoat(1);
                         game.playerChoice = 1;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 330 && screenX <= 463) {
                         game.player.ChooseBoat(2);
                         game.playerChoice = 2;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 473 && screenX <= 606) {
                         game.player.ChooseBoat(3);
                         game.playerChoice = 3;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 616 && screenX <= 749) {
                         game.player.ChooseBoat(4);
                         game.playerChoice = 4;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 759 && screenX <= 892) {
                         game.player.ChooseBoat(5);
                         game.playerChoice = 5;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 902 && screenX <= 1035) {
                         game.player.ChooseBoat(6);
                         game.playerChoice = 6;
                         menuScreen.dispose();
-                        game.setScreen(new GameScreen(game));
+                        game.setScreen(new GameScreen(game, false));
                     }
                 }
                 return super.touchUp(screenX, screenY, pointer, button);

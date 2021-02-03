@@ -28,6 +28,7 @@ public class Boat {
     protected int leftBound;
     protected int rightBound;
     private DragonBoatGame game;
+    private int boatNumber;
     private float currentSpeed, fastestLegTime, tiredness;
     private int durability;
     private Texture[] textureFrames;
@@ -460,10 +461,12 @@ public class Boat {
      * @param boatNo Number of the boat template selected.
      */
     public void ChooseBoat(int boatNo) {
+        this.boatNumber = boatNo;
         char boatLabel = (char) (65 + boatNo);
         this.setTexture(new Texture(Gdx.files.internal("boat" + boatLabel + " sprite1.png")));
         this.GenerateTextureFrames(boatLabel);
         this.setStats(boatLabel);
+        this.Reset();
     }
 
     /**
@@ -485,7 +488,6 @@ public class Boat {
         this.ROBUSTNESS = robustness;
         this.ACCELERATION = acceleration / 64;
         this.MANEUVERABILITY = maneuverability / 8;
-        this.durability = maxDurability;
     }
 
     /**
@@ -504,6 +506,10 @@ public class Boat {
         int boatNo = boatLabel - 65;
 
         this.setStats(maxspeeds[boatNo], maxDurabilities[boatNo], robustnesses[boatNo], accelerations[boatNo], maneuverabilities[boatNo]);
+    }
+
+    public int getBoatNumber() {
+        return this.boatNumber;
     }
 
     /**

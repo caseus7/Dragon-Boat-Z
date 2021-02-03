@@ -105,53 +105,6 @@ public class DragonBoatGame implements Screen {
 		font28 = generator.generateFont(parameter);
 
 		batch = new SpriteBatch();
-
-
-
-
-
-
-// 		// if (debug_norandom) rnd = new Random(1);
-// 		// else rnd = new Random();
-//
-// //		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
-// //		music.setLooping(true);
-// //		music.setVolume(0.4f);
-// //		music.play();
-//
-// 		// courseTexture = new Texture(Gdx.files.internal("background sprite.png"));
-// 		// boatLanes stores index of the lane each boat is in. The first
-// 		// element is the lane player is in
-// 		// boatLanes = new int[7];
-//
-// 		// createLanes();
-// 		// int noOfObstacles = 8;
-// 		// generateObstacleTimes(noOfObstacles);
-//
-// 		// Instantiate the course and player and opponent boats.
-// 		course = new Course(courseTexture, lanes);
-// 		// player = new Player(this, 0, lanes[3], "Player");
-// 		// boatLanes[0] = 3;
-//
-// 		// opponents = new Opponent[6];
-// 		// for (int i = 0; i < opponents.length; i++) {
-// 		// 	// Ensure player is in the middle lane by skipping over lane 4.
-// 		// 	int lane = i >= 3 ? i + 1 : i;
-// 		// 	opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
-// 		// 	boatLanes[i+1] = lane;
-// 		// }
-//
-// 		// Instantiate the progress bar and leaderboard.
-// 		progressBar = new ProgressBar(player, opponents);
-// 		leaderboard = new Leaderboard(player, opponents);
-//
-// 		// Set up font.
-// 		generator = new FreeTypeFontGenerator(Gdx.files.internal("8bitOperatorPlus-Regular.ttf"));
-// 		parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-// 		parameter.size = 28;
-// 		font28 = generator.generateFont(parameter);
-//
-// 		batch = new SpriteBatch();
 	}
 
 	public void launch() {
@@ -200,7 +153,7 @@ public class DragonBoatGame implements Screen {
 			o.Reset();
 		}
 		progressBar = new ProgressBar(player, opponents);
-		stGame.setScreen(new GameScreen(this));
+		stGame.setScreen(new GameScreen(this, false));
 	}
 
 	/*

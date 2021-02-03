@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
      *
      * @param game Represents the initial state of DragonBoatGame.
      */
-    public GameScreen(DragonBoatGame game) {
+    public GameScreen(DragonBoatGame game, boolean loaded) {
         /*
          * Grab game objects from DragonBoatGame.
          */
@@ -82,15 +82,17 @@ public class GameScreen implements Screen {
         opponents = this.game.opponents;
         rnd = this.game.rnd;
 
-        ArrayList<Integer> possibleBoats = new ArrayList<Integer>();
-        for (int i = 0; i < lanes.length; i++) {
-            if (i != game.playerChoice) {
-                possibleBoats.add(i);
+        if (!loaded) {
+            ArrayList<Integer> possibleBoats = new ArrayList<Integer>();
+            for (int i = 0; i < lanes.length; i++) {
+                if (i != game.playerChoice) {
+                    possibleBoats.add(i);
+                }
             }
-        }
-        for (Opponent o : opponents) {
-            int choice = o.SetRandomBoat(possibleBoats);
-            possibleBoats.remove(choice);
+            for (Opponent o : opponents) {
+                int choice = o.SetRandomBoat(possibleBoats);
+                possibleBoats.remove(choice);
+            }
         }
 
         leaderboard = this.game.leaderboard;

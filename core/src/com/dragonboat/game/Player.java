@@ -54,6 +54,7 @@ public class Player extends Boat {
         HashMap<String, Object> data = new HashMap<>();
         data.put("className", "Player");
         data.put("name", this.getName());
+        data.put("boatNumber", this.getBoatNumber());
         data.put("xPosition", this.xPosition);
         data.put("yPosition", this.yPosition);
         data.put("leftBound", this.leftBound);
@@ -67,11 +68,6 @@ public class Player extends Boat {
         data.put("penalties", this.penalties);
         data.put("fastestLegTime", this.getFastestTime());
         data.put("finished", this.finished());
-        data.put("ROBUSTNESS", this.getRobustness());
-        data.put("MAXSPEED", this.getMaxSpeed());
-        data.put("MAX_DURABILITY", this.getMaxDurability());
-        data.put("ACCELERATION", this.getAcceleration());
-        data.put("MANEUVERABILITY", this.getManeuverability());
         return IO.toJSON(data);
     }
 
@@ -83,6 +79,7 @@ public class Player extends Boat {
     public static Player makePlayer(
             HashMap<String, Object> data, DragonBoatGame game, Lane l) {
         String _name = (String) data.get("name");
+        int _boatNumber = (int) data.get("boatNumber");
         float _xPosition = (float) data.get("xPosition");
         float _yPosition = (float) data.get("yPosition");
         int _leftBound = (int) data.get("rightBound");
@@ -96,14 +93,10 @@ public class Player extends Boat {
         float _penalties = (float) data.get("penalties");
         float _fastestLegTime = (float) data.get("fastestLegTime");
         boolean _finished = (boolean) data.get("finished");
-        int _ROBUSTNESS =(int) data.get("ROBUSTNESS");
-        int _MAXSPEED = (int) data.get("MAXSPEED");
-        int _MAX_DURABILITY = (int) data.get("MAX_DURABILITY");
-        float _ACCELERATION = (float) data.get("ACCELERATION");
-        float _MANEUVERABILITY = (float) data.get("MANEUVERABILITY");
 
         Player player = new Player(game, _yPosition, l, _name);
         player.setName(_name);
+        player.ChooseBoat(_boatNumber);
         player.setXPosition(_xPosition);
         player.setYPosition(_yPosition);
         player.setCurrentSpeed(_currentSpeed);
@@ -115,12 +108,6 @@ public class Player extends Boat {
         player.setPenalties(_penalties);
         player.setFastestLegTime(_fastestLegTime);
         player.setFinished(_finished);
-        player.setStats(
-            _MAXSPEED,
-            _MAX_DURABILITY,
-            _ROBUSTNESS,
-            _ACCELERATION,
-            _MANEUVERABILITY );
         return player;
     }
 }
