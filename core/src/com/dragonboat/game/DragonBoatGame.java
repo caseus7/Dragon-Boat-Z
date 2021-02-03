@@ -90,12 +90,10 @@ public class DragonBoatGame implements Screen {
 				opponents[i] = new Opponent(this, 0, lanes[lane], "Opponent" + (i + 1));
 				boatLanes[i+1] = lane;
 			}
+			progressBar = new ProgressBar(player, opponents);
 		}
 
 		course = new Course(courseTexture, lanes);
-
-		// Instantiate the progress bar and leaderboard.
-		progressBar = new ProgressBar(player, opponents);
 		leaderboard = new Leaderboard(player, opponents);
 
 		// Set up font.
@@ -393,6 +391,7 @@ public class DragonBoatGame implements Screen {
 		data.put("lanes", laneData);
 		data.put("boatLanes", this.boatLanes);
 		data.put("obstacleTimes", this.obstacleTimes);
+		data.put("progressBar", this.progressBar.toJSON());
 		return IO.toJSON(data);
 	}
 
@@ -411,6 +410,7 @@ public class DragonBoatGame implements Screen {
 		Lane[] _lanes;
 		int[] _boatLanes;
 		ArrayList<Integer>[] _obstacleTimes;
+		ProgressBar _progressBar;
 
 		DragonBoatGame loadedGame = new DragonBoatGame(startGame, true);
 
@@ -419,6 +419,8 @@ public class DragonBoatGame implements Screen {
 		Array<String> opponentStrings = (Array) data.get("opponents");
 		Array<String> laneStrings = (Array) data.get("lanes");
 		Array<Array<Integer>> obstacleTimeData = (Array) data.get("obstacleTimes");
+		HashMap<String, Object> progressBarData =
+			IO.hashMapFromJSON((String) data.get("progressBar"));
 
 		_boatLanes = new int[laneStrings.size];
 		Array<Float> tmp = (Array) data.get("boatLanes");
@@ -450,13 +452,18 @@ public class DragonBoatGame implements Screen {
 		int playerLaneIdx = _boatLanes[0];
 		_player = Player.makePlayer(playerData, loadedGame, _lanes[playerLaneIdx]);
 
+		_progressBar = ProgressBar.makeProgressBar(
+			progressBarData, _player, _opponents );
+
 		loadedGame.lanes = _lanes;
 		loadedGame.player = _player;
+		loadedGame.playerChoice = _player.getBoatNumber();
 		loadedGame.opponents = _opponents;
 		loadedGame.boatLanes = _boatLanes;
 		loadedGame.startDifficulty = _startDifficulty;
 		loadedGame.difficulty = _difficulty;
 		loadedGame.obstacleTimes = _obstacleTimes;
+		loadedGame.progressBar = _progressBar;
 
 		return loadedGame;
 	}

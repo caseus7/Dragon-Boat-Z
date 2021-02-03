@@ -54,8 +54,8 @@ public class GameScreen implements Screen {
     private final BitmapFont font18,font28,font44;
 
     // timing
+    public float totalDeltaTime = 0;
     private int backgroundOffset;
-    private float totalDeltaTime = 0;
 
     // global parameters
     private final int WIDTH = 1080, HEIGHT = 720;
@@ -93,6 +93,9 @@ public class GameScreen implements Screen {
                 int choice = o.SetRandomBoat(possibleBoats);
                 possibleBoats.remove(choice);
             }
+        }
+        else {
+            this.started = true;
         }
 
         leaderboard = this.game.leaderboard;
@@ -164,20 +167,13 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
-
-
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 			String gameData = game.toJSON();
-			IO.writeFile("../../gameSave.txt", gameData);
-            System.out.println("SAVED");
+			IO.writeFile(game.stGame.saveLocation, gameData);
             game.stGame.reload();
 			dispose();
             return;
 		}
-
-
-
 
         String debug = "";
 

@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class StartGame extends Game {
 	public DragonBoatGame game;
+	public final String saveLocation = "../../gameSave.txt";
 
 	public void reload() {
 		game = new DragonBoatGame(this, false);
