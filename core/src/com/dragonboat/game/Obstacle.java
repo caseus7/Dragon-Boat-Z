@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
  *
  * @see Log
  * @see Goose
+ * @see Boost
  */
 public class Obstacle {
 	public int width, height;
