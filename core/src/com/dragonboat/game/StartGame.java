@@ -28,7 +28,7 @@ public class StartGame extends Game {
 
 	@Override
 	public void create() {
-		this.reload();2
+		this.reload();
 	}
 
 	@Override
