@@ -149,7 +149,6 @@ public class MenuScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
             String loadedData = IO.readFile(game.stGame.saveLocation);
             HashMap<String, Object> gameData = IO.hashMapFromJSON(loadedData);
@@ -158,6 +157,7 @@ public class MenuScreen implements Screen {
             loadedGame.init();
             GameScreen gScreen = new GameScreen(loadedGame, true);
             game.setScreen(gScreen);
+            game.stGame.pauseAfter(2);
             game.dispose();
             dispose();
             return;

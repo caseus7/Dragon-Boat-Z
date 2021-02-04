@@ -22,6 +22,7 @@ public class StartGame extends Game {
 	public DragonBoatGame game;
 	public final String saveLocation = "../../gameSave.txt";
 	private boolean paused = false;
+	private int pauseAfter = -1;
 
 	public void reload() {
 		game = new DragonBoatGame(this, false);
@@ -42,6 +43,10 @@ public class StartGame extends Game {
 		}
 	}
 
+	public void pauseAfter(int frameCount) {
+		this.pauseAfter = frameCount;
+	}
+
 	public void togglePause() {
 		if (getScreen().getClass().equals(GameScreen.class)) {
 			this.paused = !this.paused;
@@ -58,6 +63,13 @@ public class StartGame extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
             togglePause();
         }
+		if (this.pauseAfter > 0) {
+			this.pauseAfter -= 1;
+		}
+		else if (this.pauseAfter == 0) {
+			pause();
+			this.pauseAfter = -1;
+		}
 		if (this.paused && !getScreen().getClass().equals(MenuScreen.class)) {
 			return;
 		}
