@@ -206,8 +206,7 @@ public class DragonBoatGame implements Screen {
 		stGame.setScreen(screen);
 	}
 
-	@Override
-	public void render(float deltaTime) {
+	public void step() {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
 			System.out.println("DURA BEFORE: " + player.getDurability());
 			player.Boost("health");
@@ -234,39 +233,37 @@ public class DragonBoatGame implements Screen {
 			System.out.println("SPEED AFTER: " + player.getCurrentSpeed());
 		}
 
-		if (player.isBoosted()){
+		if (player.isBoosted()) {
 			player.boostTimer += 1;
-			System.out.println(player.boostTimer);
-			if (player.boostTimer >= 500){
+			if (player.boostTimer >= 500) {
 				System.out.println("HHHHHHHH");
 				player.removeBoost();
 			}
 		}
 
-		for (Opponent o : opponents){
+		for (Opponent o : opponents) {
 			o.boostTimer += 1;
-			if (o.boostTimer >= 500){
+			if (o.boostTimer >= 500) {
 				o.removeBoost();
 			}
 		}
 
-		final DragonBoatGame game = this;
 		/*
 		 * If the game hasn't ended, just call the current screen render function.
 		 */
-		// if (!this.ended)
-		// 	super.render();
-		// else {
 		if (this.ended) {
 			/*
 			 * Else, display an end screen and appropriate text and images.
 			 */
-			Gdx.gl.glClearColor(0, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			ArrayList<Texture> textures = new ArrayList<>();
+			ArrayList<String> text = new ArrayList<>();
+			ArrayList<float[]> texturePositions = new ArrayList<>();
+			ArrayList<float[]> textPositions = new ArrayList<>();
+
+			textures.add(new Texture(Gdx.files.internal("end screen.png")));
+			texturePositions.add(new float[] {0, 0});
+
 			boolean playerWon = false;
-			batch.begin();
-			batch.draw(new Texture(Gdx.files.internal("end screen.png")), 0, 0);
-			batch.end();
 			Boat[] podium = leaderboard.getPodium();
 			for (int i = 0; i < podium.length; i++) {
 				/*
@@ -276,39 +273,55 @@ public class DragonBoatGame implements Screen {
 				if (podium[i].getName().startsWith("Player") && player.getDurability() > 0) {
 					playerWon = true;
 					batch.begin();
-					batch.draw(player.texture, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 3);
-					batch.end();
+					textures.add(player.texture);
+					texturePositions.add(
+						new float[] {
+							Gdx.graphics.getWidth() / 2,
+							Gdx.graphics.getHeight() / 3 });
 					switch (i) {
 						case 0:
-							batch.begin();
-							batch.draw(new Texture(Gdx.files.internal("medal gold.png")), Gdx.graphics.getWidth() / 3,
-									Gdx.graphics.getHeight() / 3);
-							batch.end();
+							textures.add(new Texture(Gdx.files.internal("medal gold.png")));
+							texturePositions.add(
+								new float[] {
+									Gdx.graphics.getWidth() / 3,
+									Gdx.graphics.getHeight() / 3 });
 							break;
 						case 1:
-							batch.begin();
-							batch.draw(new Texture(Gdx.files.internal("medal silver.png")), Gdx.graphics.getWidth() / 3,
-									Gdx.graphics.getHeight() / 3);
-							batch.end();
+							textures.add(new Texture(Gdx.files.internal("medal silver.png")));
+							texturePositions.add(
+								new float[] {
+									Gdx.graphics.getWidth() / 3,
+									Gdx.graphics.getHeight() / 3 });
 							break;
 						case 2:
-							batch.begin();
-							batch.draw(new Texture(Gdx.files.internal("medal bronze.png")), Gdx.graphics.getWidth() / 3,
-									Gdx.graphics.getHeight() / 3);
-							batch.end();
+							textures.add(new Texture(Gdx.files.internal("medal bronze.png")));
+							texturePositions.add(
+								new float[] {
+									Gdx.graphics.getWidth() / 3,
+									Gdx.graphics.getHeight() / 3 });
 							break;
 					}
-					batch.begin();
-					font28.draw(batch, "Congratulations! You reached Super Saiyan!", 140, 140);
-					batch.end();
+					text.add("Congratulations! You reached Super Saiyan!");
+					textPositions.add(new float[] {140, 140});
 				}
 			}
 			if (!playerWon) {
-				batch.begin();
-				font28.draw(batch, "Unlucky, would you like to try again?", 140, 200);
-				batch.end();
+				text.add("Unlucky, click to return to the menu");
+				textPositions.add(new float[] {140, 200});
 			}
+
+			ArrayList<float[]> positions = new ArrayList<>();
+			positions.addAll(texturePositions);
+			positions.addAll(textPositions);
+			setScreen(new EndGameScreen(stGame, textures, text, positions));
+			dispose();
+			return;
 		}
+	}
+
+	@Override
+	public void render(float deltaTime) {
+
 	}
 
 	/**
@@ -346,17 +359,6 @@ public class DragonBoatGame implements Screen {
 		this.ended = true;
 
 	}
-
-	// /**
-	//  * Resizes the game screen.
-	//  *
-	//  * @param width  Width of the screen.
-	//  * @param height Height of the screen.
-	//  */
-	// @Override
-	// public void resize(int width, int height) {
-	// 	this.getScreen().resize(width, height);
-	// }
 
 	/**
 	 * Disposes of the current screen when it's no longer needed.

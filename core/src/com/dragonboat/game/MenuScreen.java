@@ -38,9 +38,7 @@ public class MenuScreen implements Screen {
         easyScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty easy.png"));
         mediumScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty normal.png"));
         hardScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty hard.png"));
-        // startScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty.png"));
         startScreen = easyScreen;
-        final MenuScreen menuScreen = this;
 
         /*
          * Defines how to handle mouse inputs.
@@ -101,43 +99,43 @@ public class MenuScreen implements Screen {
                     if (screenX >= 44 && screenX <= 177) {
                         game.player.ChooseBoat(0);
                         game.playerChoice = 0;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 187 && screenX <= 320) {
                         game.player.ChooseBoat(1);
                         game.playerChoice = 1;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 330 && screenX <= 463) {
                         game.player.ChooseBoat(2);
                         game.playerChoice = 2;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 473 && screenX <= 606) {
                         game.player.ChooseBoat(3);
                         game.playerChoice = 3;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 616 && screenX <= 749) {
                         game.player.ChooseBoat(4);
                         game.playerChoice = 4;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 759 && screenX <= 892) {
                         game.player.ChooseBoat(5);
                         game.playerChoice = 5;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                     if (screenX >= 902 && screenX <= 1035) {
                         game.player.ChooseBoat(6);
                         game.playerChoice = 6;
-                        menuScreen.dispose();
+                        dispose();
                         game.setScreen(new GameScreen(game, false));
                     }
                 }

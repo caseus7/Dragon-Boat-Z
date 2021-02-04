@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Collections;
 import java.util.Random;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,11 +21,31 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class StartGame extends Game {
 	public DragonBoatGame game;
 	public final String saveLocation = "../../gameSave.txt";
+	private boolean paused = false;
 
 	public void reload() {
 		game = new DragonBoatGame(this, false);
 		game.init();
+		setScreen(game);
 		game.launch();
+	}
+
+	public void pause() {
+		if (getScreen().getClass().equals(GameScreen.class)) {
+			this.paused = true;
+		}
+	}
+
+	public void resume() {
+		if (getScreen().getClass().equals(GameScreen.class)) {
+			this.paused = false;
+		}
+	}
+
+	public void togglePause() {
+		if (getScreen().getClass().equals(GameScreen.class)) {
+			this.paused = !this.paused;
+		}
 	}
 
 	@Override
@@ -34,7 +55,16 @@ public class StartGame extends Game {
 
 	@Override
 	public void render() {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+            togglePause();
+        }
+		if (this.paused && !getScreen().getClass().equals(MenuScreen.class)) {
+			return;
+		}
 		super.render();
+		if (!getScreen().getClass().equals(EndGameScreen.class)) {
+			game.step();
+		}
 	}
 
 	/**
