@@ -17,7 +17,7 @@ import caseus.dragonboattesting.GdxTestRunner;
 
 import com.dragonboat.game.*;
 
-
+@RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 // @RunWith(GdxTestRunner.class)
 public class LaneTest {
