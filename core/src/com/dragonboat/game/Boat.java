@@ -590,6 +590,11 @@ public class Boat {
     }
 
     /**
+     * Sets the xPosition of the boat
+     */
+    public void setXPosition(int xPosition) { this.xPosition = xPosition; }
+
+    /**
      * Advances to the next frame of the animation
      */
     private void AdvanceTextureFrame() {

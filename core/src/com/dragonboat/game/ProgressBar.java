@@ -142,4 +142,7 @@ public class ProgressBar {
 	public Texture getOpponentIcon() {
 		return opponentIcon;
 	}
+
 }
+
+
