@@ -17,6 +17,7 @@ import com.badlogic.gdx.Gdx;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Unit test for the methods within the
  * Obstacle class.
  */

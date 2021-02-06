@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.dragonboat.game"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"caseus.dragonboattesting.tests.integration"},{"l":"caseus.dragonboattesting.tests.unit"},{"l":"com.dragonboat.game"}]

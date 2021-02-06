@@ -19,6 +19,7 @@ import java.util.Arrays;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Unit test for the methods within the
  * ProgressBar class.
  */
