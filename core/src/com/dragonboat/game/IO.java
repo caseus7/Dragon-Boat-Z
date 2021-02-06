@@ -20,6 +20,9 @@ public class IO {
 	 */
 	public static String readFile(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
+		if (!file.exists()) {
+			return null;
+		}
 		String text = file.readString();
 		return text;
 	}
