@@ -486,8 +486,8 @@ public class Boat {
         this.MAXSPEED = maxspeed;
         this.MAX_DURABILITY = maxDurability;
         this.ROBUSTNESS = robustness;
-        this.ACCELERATION = acceleration / 64;
-        this.MANEUVERABILITY = maneuverability / 8;
+        this.ACCELERATION = acceleration;
+        this.MANEUVERABILITY = maneuverability;
     }
 
     /**
@@ -500,8 +500,8 @@ public class Boat {
         int[] maxspeeds = { 5, 4, 5, 5, 4, 7, 5 };
         int[] maxDurabilities = { 50, 50, 50, 50, 50, 50, 50 };
         int[] robustnesses = { 2, 4, 1, 4, 8, 3, 5 };
-        float[] accelerations = { 6f, 2f, 8f, 4f, 3f, 1.4f, 2f };
-        float[] maneuverabilities = { 3f, 8f, 3f, 4f, 2f, 1f, 5f };
+        float[] accelerations = { 0.094f, 0.031f, 0.125f, 0.063f, 0.047f, 0.022f, 0.031f };
+        float[] maneuverabilities = { 0.375f, 1f, 0.375f, 0.5f, 0.25f, 0.125f, 0.625f };
 
         int boatNo = boatLabel - 65;
 
