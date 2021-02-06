@@ -154,6 +154,10 @@ public class Lane {
         return this.obstacleLimit;
     }
 
+    public void setObstacleLimit(int newLimit) {
+        this.obstacleLimit = newLimit;
+    }
+
     /**
      * Converts data about the instance into JSON so it can be recreated later
      * @return JSON string sotring the instance's info

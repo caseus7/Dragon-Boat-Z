@@ -76,8 +76,8 @@ public class DragonBoatGame implements Screen {
 	public void init() {
 		if (!this.loadedFromSave) {
 			boatLanes = new int[7];
-			createLanes();
 			int noOfObstacles = 8;
+			createLanes(noOfObstacles);
 			generateObstacleTimes(noOfObstacles);
 
 			player = new Player(this, 0, lanes[3], "Player");
@@ -124,6 +124,7 @@ public class DragonBoatGame implements Screen {
 
 		int noOfObstacles = 8 * difficulty;
 		clearLanesObstacles();
+		updateLaneObstacleLimits(noOfObstacles);
 		generateObstacleTimes(noOfObstacles);
 		player.Reset();
 
@@ -473,13 +474,20 @@ public class DragonBoatGame implements Screen {
 	/**
 	 * Instantiate the lanes
 	 */
-	private void createLanes() {
+	private void createLanes(int obstacleLimit) {
 		lanes = new Lane[7];
 		int w = Gdx.graphics.getWidth() - 80;
 		for (int i = 0; i < lanes.length; i++) {
 			lanes[i] = new Lane(
 				(i * w / lanes.length) + 40,
-				(((i + 1) * w) / lanes.length) + 40 );
+				(((i + 1) * w) / lanes.length) + 40,
+				obstacleLimit );
+		}
+	}
+
+	private void updateLaneObstacleLimits(int newLimit) {
+		for (Lane l : lanes) {
+			l.setObstacleLimit(newLimit);
 		}
 	}
 
@@ -489,12 +497,12 @@ public class DragonBoatGame implements Screen {
 	 */
 	private void generateObstacleTimes(int noOfObstacles) {
 		obstacleTimes = new ArrayList[lanes.length];
+		int minY = Gdx.graphics.getHeight();
+		int maxY = (int) Math.round(courseTexture.getHeight() - 0.01 * courseTexture.getHeight());
 		for (int i = 0; i < lanes.length; i++) {
-			// lanes[i].obstacles = new ArrayList<>();
 			obstacleTimes[i] = new ArrayList<>();
-			int maxY = (courseTexture.getHeight() - (5 * noOfObstacles))/noOfObstacles;
 			for(int y = 0; y < noOfObstacles; y++) {
-				obstacleTimes[i].add(rnd.nextInt(maxY - 5) + 5 + maxY * y);
+				obstacleTimes[i].add(minY + rnd.nextInt(maxY - minY));
 			}
 			Collections.sort(obstacleTimes[i]);
 

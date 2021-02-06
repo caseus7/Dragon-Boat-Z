@@ -135,6 +135,31 @@ public class GameScreen implements Screen {
         resumeBounds = new float[2][2];
         saveBounds = new float[2][2];
         exitBounds = new float[2][2];
+
+        /*
+         * Spawns all obstacles if they do not exceed the limit for each lane
+         *
+         * - IMPORTANT -
+         * It should be noted that the obstacles use a coordinate system
+         * relative to the screen. This means all collision checking methods
+         * need to be passed backgroundOffset to translate the object's y
+         * position.
+         */
+        for (int i = 0; i < course.getNoLanes(); i++) {
+            int count = this.game.obstacleTimes[i].size();
+            while (count > 0) {
+                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
+                int xCoord =
+                    lanes[i].getLeftBoundary()
+                    + rnd.nextInt(
+                        lanes[i].getRightBoundary()
+                        - lanes[i].getLeftBoundary()
+                        - 15 );
+                lanes[i].SpawnObstacle(xCoord, this.game.obstacleTimes[i].get(0), obstacleTypes[rnd.nextInt(obstacleTypes.length)]);
+                this.game.obstacleTimes[i].remove(0);
+                count -= 1;
+            }
+        }
     }
 
     /**
@@ -252,31 +277,6 @@ public class GameScreen implements Screen {
          * If the game has started, start incrementing time.
          */
         totalDeltaTime += started ? deltaTime : 0;
-
-        /*
-         * Check whether obstacles need to be spawned, and spawns them if so. Breaks
-         * instantly if the game hasn't started, if the player has finished, or if there
-         * are no more obstacles to be spawned.
-         *
-         * - IMPORTANT -
-         * It should be noted that the obstacles currently use a
-         * coordinate system relative to the screen, as they are always spawned at
-         * HEIGHT + 40 (y = 760). This means all collision checking methods need to be
-         * passed backgroundOffset to translate the object's y position.
-         */
-        for (int i = 0; i < course.getNoLanes(); i++) {
-            if (!started || player.finished() || this.game.obstacleTimes[i].size() == 0)
-                break;
-            if (this.game.obstacleTimes[i].get(0) - player.getY() + player.getHeight() < 1) {
-                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
-                // spawn an obstacle in lane i.
-                int xCoord = lanes[i].getLeftBoundary()
-                        + rnd.nextInt(lanes[i].getRightBoundary() - lanes[i].getLeftBoundary() - 15);
-                lanes[i].SpawnObstacle(xCoord, HEIGHT + 40, obstacleTypes[rnd.nextInt(obstacleTypes.length)]);
-                // make sure obstacle is only spawned once.
-                this.game.obstacleTimes[i].remove(0);
-            }
-        }
 
         /*
          * Move player. Advance animation.
