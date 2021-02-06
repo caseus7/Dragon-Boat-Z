@@ -14,7 +14,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
- * Shows the end screen. It is shown whenever the player wins or loses.
+ * --ASSESSMENT 2--
+ * Shows the end screen.
+ * This will be shown whenever the player wins or loses.
  *
  * @see EndGameScreen
  * @see Screen
@@ -31,7 +33,10 @@ public class EndGameScreen implements Screen {
     /**
      * Creates an Input Processor to listen for a mouse click within set boundaries.
      *
-     * @param Game represents the initial state of DragonBoatGame.
+     * @param startGame Represents the initial state of DragonBoatGame.
+     * @param texs ArrayList of textures containing the required assets for the screen.
+     * @param text ArrayList of strings containing the necessary text for the screen.
+     * @param positions ArrayList of floats representing the positions to draw everything.
      * @see com.badlogic.gdx.InputProcessor
      */
     public EndGameScreen(StartGame startGame, ArrayList<Texture> texs, ArrayList<String> text, ArrayList<float[]> positions) {
@@ -73,7 +78,10 @@ public class EndGameScreen implements Screen {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Rendering function for the menu screen.
+     *
+     * @param delta Float representing the time passed since the render function was last run.
      */
     @Override
     public void render(float delta) {
@@ -116,6 +124,7 @@ public class EndGameScreen implements Screen {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Disposes of the screen when it is no longer needed.
      */
     @Override

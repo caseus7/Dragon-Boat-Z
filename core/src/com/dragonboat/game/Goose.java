@@ -92,8 +92,10 @@ public class Goose extends Obstacle {
 	}
 
 	/**
-	 * Converts data about the instance into JSON so it can be recreated later
-	 * @return JSON string sotring the instance's info
+	 * --ASSESSMENT 2--
+	 * Converts data about the instance into a JSON file so it can be recreated later.
+	 *
+	 * @return JSON string storing the instance's info.
 	 */
 	public String toJSON() {
 		HashMap<String, Object> data = new HashMap<>();
@@ -105,9 +107,12 @@ public class Goose extends Obstacle {
 	}
 
 	/**
-	 * Creates an instance from the data passed
-	 * @param data HashMap storing data about an instance, likely gained
-	 * by converting an instance to JSON first
+	 * --ASSESSMENT 2--
+	 * Creates an instance from the data passed.
+	 *
+	 * @param data HashMap storing data about an instance, likely gained by converting an instance to JSON first.
+	 * @param tex Texture representing the asset for the goose.
+	 * @param l Lane representing the lane to spawn the goose.
 	 */
 	public static Goose makeGoose(
 			HashMap<String, Object> data, Texture tex, Lane l) {

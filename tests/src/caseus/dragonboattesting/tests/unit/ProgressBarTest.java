@@ -31,7 +31,7 @@ public class ProgressBarTest {
     private DragonBoatGame game;
 
     private Lane lane = new Lane(0,100);
-    private Player player = new Player(game, 0, 0, 0, lane, "");
+    private Player player = new Player(game, 0, lane, "");
 
     private Opponent[] opponents = new Opponent[6];
 
@@ -68,9 +68,9 @@ public class ProgressBarTest {
      */
     @Test
     public void AllFinishedTest(){
-        player = new Player(game, 10, 0, 0, lane, "");
+        player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 10, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 10, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         Assertions.assertTrue(pb.allFinished(9));
@@ -82,9 +82,9 @@ public class ProgressBarTest {
      */
     @Test
     public void PlayerNotFinishedTest(){
-        player = new Player(game, 5, 0, 0, lane, "");
+        player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 10, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 10, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         Assertions.assertFalse(pb.allFinished(9));
@@ -96,9 +96,9 @@ public class ProgressBarTest {
      */
     @Test
     public void OpponentsNotFinishedTest(){
-        player = new Player(game, 10, 0, 0, lane, "");
+        player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 5, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 5, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         Assertions.assertFalse(pb.allFinished(9));
@@ -110,9 +110,9 @@ public class ProgressBarTest {
      */
     @Test
     public void AllNotFinishedTest(){
-        player = new Player(game, 10, 0, 0, lane, "");
+        player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 5, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 5, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         Assertions.assertFalse(pb.allFinished(9));
@@ -124,9 +124,9 @@ public class ProgressBarTest {
      */
     @Test
     public void GetAllFinishedProgressTest(){
-        player = new Player(game, 10, 0, 0, lane, "");
+        player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 10, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 10, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         float[] other = {1.0F,1.0F,1.0F,1.0F,1.0F,1.0F,1.0F};
@@ -139,9 +139,9 @@ public class ProgressBarTest {
      */
     @Test
     public void GetOpponentFinishedProgressTest(){
-        player = new Player(game, 5, 0, 0, lane, "");
+        player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 10, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 10, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         float[] other = {0.5F,1.0F,1.0F,1.0F,1.0F,1.0F,1.0F};
@@ -154,9 +154,9 @@ public class ProgressBarTest {
      */
     @Test
     public void GetPlayerFinishedProgressTest(){
-        player = new Player(game, 10, 0, 0, lane, "");
+        player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 5, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 5, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         float[] other = {1.0F,0.5F,0.5F,0.5F,0.5F,0.5F,0.5F};
@@ -169,9 +169,9 @@ public class ProgressBarTest {
      */
     @Test
     public void GetNoneFinishedProgressTest(){
-        player = new Player(game, 5, 0, 0, lane, "");
+        player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
-            opponents[j] = new Opponent(game, 5, 0, 0, lane, "");
+            opponents[j] = new Opponent(game, 5, lane, "");
         }
         pb = new ProgressBar(player, opponents);
         float[] other = {1.0F,1.0F,1.0F,1.0F,1.0F,1.0F,1.0F};

@@ -8,6 +8,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
+ * --ASSESSMENT 2--
  * Represents a power-up on the course.
  */
 public class Boost extends Obstacle {
@@ -36,8 +37,9 @@ public class Boost extends Obstacle {
     }
 
     /**
-     * Converts data about the instance into JSON so it can be recreated later
-     * @return JSON string sotring the instance's info
+     * Converts data about the instance into JSON so it can be recreated later.
+     *
+     * @return JSON string representing the instance's info.
      */
     public String toJSON() {
         HashMap<String, Object> data = new HashMap<>();
@@ -49,9 +51,11 @@ public class Boost extends Obstacle {
     }
 
     /**
-     * Creates an instance from the data passed
-     * @param data HashMap storing data about an instance, likely gained
-     * by converting an instance to JSON first
+     * Creates an instance from the data passed.
+     *
+     * @param data HashMap storing data about an instance, likely gained by converting an instance to JSON first.
+     * @param tex  Texture asset for the boost.
+     * @param l    Lane that the boost will be spawned in.
      */
     public static Boost makeBoost(
             HashMap<String, Object> data, Texture tex, Lane l) {

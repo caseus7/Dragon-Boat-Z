@@ -19,6 +19,7 @@ import java.util.Arrays;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Unit test for the methods within the
  * Leaderboard class.
  */
@@ -32,7 +33,7 @@ public class LeaderboardTest {
     private DragonBoatGame game;
 
     private Lane lane = new Lane(0,100);
-    private Player player = new Player(game, 0, 0, 0, lane, "");
+    private Player player = new Player(game, 0, lane, "");
 
     private Opponent[] opponents = new Opponent[6];
 

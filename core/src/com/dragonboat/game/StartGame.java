@@ -17,13 +17,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-
+/**
+ * --ASSESSMENT 2--
+ * Represents the initial state of the game.
+ */
 public class StartGame extends Game {
 	public DragonBoatGame game;
 	public final String saveLocation = "../../gameSave.json";
 	private boolean paused = false;
 	private int pauseAfter = -1;
 
+	/**
+	 * Reloads a fresh game with the original values.
+	 */
 	public void reload() {
 		game = new DragonBoatGame(this, false);
 		game.init();

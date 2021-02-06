@@ -70,9 +70,11 @@ public class GameScreen implements Screen {
     private final int WIDTH = 1080, HEIGHT = 720;
 
     /**
+     * --ASSESSMENT 2--
      * Sets up everything needed for a race to take place.
      *
      * @param game Represents the initial state of DragonBoatGame.
+     * @param loaded Boolean representing whether the game has been loaded from a save.
      */
     public GameScreen(DragonBoatGame game, boolean loaded) {
         /*
@@ -163,11 +165,12 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Pauses the game after the given number of frames have passed.
      * Usually called with a value of 1 to make sure the previous frame has
-     * been cleared before pausing
+     * been cleared before pausing.
      *
-     * @param frames number of frames to pass before pausing
+     * @param frames Number of frames to pass before pausing.
      */
     public void setPausedAfter(int frames) {
         if (frames < 0) {
@@ -177,10 +180,11 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Pauses or unpauses the game. If the menu is open and `pauseState` is
-     * true, then closes the menu as well
+     * true, then closes the menu as well.
      *
-     * @param pauseState whether to pause or unpause the game
+     * @param pauseState Boolean representing whether to pause or unpause the game.
      */
     public void setPaused(boolean pauseState) {
         // Toggle pause if the menu isn't open
@@ -195,10 +199,11 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Opens or closes the pause menu, and pauses or unpauses the game
-     * respectively
+     * respectively.
      *
-     * @param pauseState wether to open or close the pause menu
+     * @param pauseState Boolean representing whether to open or close the pause menu.
      */
     public void setPausedWithMenu(boolean pauseState) {
         this.showPauseMenu = pauseState;
@@ -611,12 +616,11 @@ public class GameScreen implements Screen {
 
     }
 
-    /*
-    * Check if player and each opponent has finished, and update their finished
-    * booleans and fastestLegTime variables respectively.
-    *
-    * @param progress Array of floats from 0 to 1 indicating how far each boat is along the rance
-    */
+    /**
+     * --ASSESSMENT 2--
+     * Check if player and each opponent has finished, and update their finished
+     * booleans and fastestLegTime variables respectively.
+     */
     private void updateFinishedBoats() {
         int courseHeight = course.getTexture().getHeight();
         if (player.getProgress(courseHeight) == 1 && !player.finished()) {
@@ -631,11 +635,13 @@ public class GameScreen implements Screen {
         }
     }
 
-    /*
-    * Returns the predicted time each boat will finish the race.
-    *
-    * @param progress The distance along the race each boat is, as a float from 0 to 1
-    */
+    /**
+     * --ASSESSMENT 2--
+     * Returns the predicted time each boat will finish the race.
+     *
+     * @param progress List of floats from 0 to 1, representing the distance along the race each boat is.
+     * @return List of floats representing the predicted boat times.
+     */
     private float[] predictBoatFinishTimes(float[] progress) {
         float[] finishTimes = new float[opponents.length + 1];
         if (player.finished()) {
@@ -659,14 +665,16 @@ public class GameScreen implements Screen {
         return finishTimes;
     }
 
-    /*
-    * Returns the predicted time the boat will finish the race.
-    * The prediction is based on the time it took for the boat to reach its
-    * current distance along the race
-    *
-    * @param progress The distance along the race as a float from 0 to 1
-    * @param time The time it took for the boat to reach its current distance
-    */
+    /**
+     * --ASSESSMENT 2--
+     * Returns the predicted time the boat will finish the race.
+     * The prediction is based on the time it took for the boat to reach its
+     * current distance along the race.
+     *
+     * @param progress The distance along the race as a float from 0 to 1.
+     * @param time The time it took for the boat to reach its current distance.
+     * @return Float representing the predicted finish time.
+     */
     private float predictBoatFinishTime(float progress, float time) {
         if (progress >= 1.0) {
             return time;
@@ -675,7 +683,8 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Shows a menu with options to resume, save and exit, and exit without saving
+     * --ASSESSMENT 2--
+     * Shows a menu with options to resume, save and exit, and exit without saving.
      */
     private void showPauseMenu() {
         batch.begin();

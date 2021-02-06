@@ -140,7 +140,10 @@ public class Boat {
     }
 
     /**
-     * Checks each obstacle and power-up for a collision.
+     * Checks each obstacle for a collision.
+     *
+     * --ASSESSMENT 2--
+     * Also checks for collisions with power-ups.
      *
      * @param backgroundOffset How far up the course the player is.
      * @return Boolean representing if a collision occurs.
@@ -173,6 +176,7 @@ public class Boat {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Defines the various different power-ups and what
      * effect they have on the boat.
      *
@@ -203,6 +207,7 @@ public class Boat {
     }
 
     /**
+     * --ASSESSMENT 2--
      * Reverses the effects of a power-up that has been applied to
      * the boat; setting the stats back to the original values.
      */
@@ -438,6 +443,7 @@ public class Boat {
     }
 
     /**
+     *--ASSESSMENT 2--
      *
      * @return Boolean representing whether a power-up has been applied.
      */
@@ -585,12 +591,14 @@ public class Boat {
     }
 
     /**
+     *--ASSESSMENT 2--
      *
      * @return Boolean representing whether a boat has the immune power-up.
      */
     public boolean getImmune() { return this.immune;}
 
     /**
+     * --ASSESSMENT 2--
      *
      * @return String representing the type of boost applied.
      */

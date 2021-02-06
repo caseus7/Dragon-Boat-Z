@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
+ * --ASSESSMENT 2--
  * Screen class for the Menu Screen. Allows the user to select a Boat, select
  * the difficulty of the game and shows the controls of the game. Once the user
  * clicks within set boundaries, the game starts within GameScreen.
@@ -183,9 +184,10 @@ public class MenuScreen implements Screen {
     }
 
     /**
-     * Loads the saved game from file
+     * --ASSESSMENT 2--
+     * Loads the saved game from file.
      *
-     * @return whether or not loading the game was successful
+     * @return Boolean representing whether or not loading the game was successful.
      */
     public boolean loadGame() {
         String loadedData = IO.readFile(game.stGame.saveLocation);

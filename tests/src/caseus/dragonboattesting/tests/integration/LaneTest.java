@@ -18,6 +18,7 @@ import caseus.dragonboattesting.GdxTestRunner;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Integration test for the methods within the
  * Lane class.
  */

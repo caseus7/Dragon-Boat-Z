@@ -109,7 +109,8 @@ public class Lane {
     }
 
     /**
-     * Removes all obstacles in the lane
+     * --ASSESSMENT 2--
+     * Removes all obstacles in the lane.
      */
     public void removeAllObstacles() {
         this.obstacles = new ArrayList<Obstacle>();
@@ -154,13 +155,21 @@ public class Lane {
         return this.obstacleLimit;
     }
 
+    /**
+     * --ASSESSMENT 2--
+     * Sets a new obstacle limit.
+     *
+     * @param newLimit Int representing the new max number of obstacles to be spawned.
+     */
     public void setObstacleLimit(int newLimit) {
         this.obstacleLimit = newLimit;
     }
 
     /**
-     * Converts data about the instance into JSON so it can be recreated later
-     * @return JSON string sotring the instance's info
+     * --ASSESSMENT 2--
+     * Converts data about the instance into JSON so it can be recreated later.
+     *
+     * @return JSON string storing the instance's info.
      */
     public String toJSON() {
         HashMap<String, Object> data = new HashMap<>();
@@ -191,9 +200,11 @@ public class Lane {
     }
 
     /**
-     * Creates a Lane object from the data passed
-     * @param data HashMap storing data about a Lane object, likely gained by
-     * converting an instance to JSON first
+     * --ASSESSMENT 2--
+     * Creates a Lane object from the data passed.
+     *
+     * @param data HashMap storing data about a Lane object, likely gained by converting an instance to JSON first.
+     * @return Lane representing the information about the lane.
      */
     public static Lane makeLane(HashMap<String, Object> data) {
         int _leftBoundary = (int) data.get("LEFTBOUNDARY");

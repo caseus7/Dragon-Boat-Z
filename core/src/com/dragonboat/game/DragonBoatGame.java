@@ -63,6 +63,7 @@ public class DragonBoatGame implements Screen {
 	private Texture courseTexture;
 
 	/**
+	 * --ASSESSMENT 2--
 	 * Sets up the game with settings and instantiation of objects.
 	 */
 	public DragonBoatGame(StartGame start, boolean loaded) {
@@ -110,6 +111,10 @@ public class DragonBoatGame implements Screen {
 		batch = new SpriteBatch();
 	}
 
+	/**
+	 * --ASSESSMENT 2--
+	 * Launches the game to the menu screen.
+	 */
 	public void launch() {
 		// Display the menu screen.
 		menuScreen = new MenuScreen(this);
@@ -160,17 +165,20 @@ public class DragonBoatGame implements Screen {
 		stGame.setScreen(new GameScreen(this, false));
 	}
 
-	/*
-	* Gets the start difficulty
+	/**
+	 * --ASSESSMENT 2--
+	 * @return Int representing the start difficulty.
 	*/
 	public int getStartDifficulty() {
 		return this.startDifficulty;
 	}
 
-	/*
-	* Sets the start difficulty
-	* @param newStartDifficulty Integer greater than 0
-	* @return If the difficulty was changed successfully
+	/**
+	 * --ASSESSMENT 2--
+	 * Sets the start difficulty
+	 *
+	 * @param newStartDifficulty Integer greater than 0.
+	 * @return Boolean representing if the start difficulty was set.
 	*/
 	public boolean setStartDifficulty(int newStartDifficulty) {
 		if (newStartDifficulty > 0) {
@@ -180,17 +188,20 @@ public class DragonBoatGame implements Screen {
 		return false;
 	}
 
-	/*
-	* Gets the difficulty
+	/**
+	 * --ASSESSMENT 2--
+	 * @return Int representing the difficulty.
 	*/
 	public int getDifficulty() {
 		return this.difficulty;
 	}
 
-	/*
-	* Sets the difficulty
-	* @param newDifficulty Integer greater than 0
-	* @return If the difficulty was changed successfully
+	/**
+	 * --ASSESSMENT 2--
+	 * Sets the difficulty.
+	 *
+	 * @param newDifficulty Integer greater than 0.
+	 * @return Boolean representing if the difficulty was set.
 	*/
 	public boolean setDifficulty(int newDifficulty) {
 		if (newDifficulty > 0) {
@@ -200,6 +211,12 @@ public class DragonBoatGame implements Screen {
 		return false;
 	}
 
+	/**
+	 * --ASSESSMENT 2--
+	 * Gets a list of all obstacles across the lanes.
+	 *
+	 * @return ArrayList representing all the obstacles on the game screen.
+	 */
 	public ArrayList<Obstacle> getObstacles() {
 		ArrayList<Obstacle> obstacles = new ArrayList<>();
 		for (Lane lane : this.lanes) {
@@ -208,6 +225,10 @@ public class DragonBoatGame implements Screen {
 		return obstacles;
 	}
 
+	/**
+	 * --ASSESSMENT 2--
+	 * @param screen The game screen to be set.
+	 */
 	public void setScreen(Screen screen) {
 		stGame.setScreen(screen);
 	}
@@ -377,8 +398,10 @@ public class DragonBoatGame implements Screen {
 	}
 
 	/**
-	 * Converts data about the instance into JSON so it can be recreated later
-	 * @return JSON string sotring the instance's info
+	 * --ASSESSMENT 2--
+	 * Converts data about the instance into JSON so it can be recreated later.
+	 *
+	 * @return JSON string storing the instance's info.
 	 */
 	public String toJSON() {
 		HashMap<String, Object> data = new HashMap<>();
@@ -405,9 +428,11 @@ public class DragonBoatGame implements Screen {
 	}
 
 	/**
-	 * Creates an instance from the data passed
-	 * @param data HashMap storing data about an instance, likely gained
-	 * by converting an instance to JSON first
+	 * --ASSESSMENT 2--
+	 * Creates an instance from the data passed.
+	 *
+	 * @param data HashMap storing data about an instance, likely gained by converting an instance to JSON first
+	 * @param startGame StartGame representing the start of a game.
 	 */
 	public static DragonBoatGame makeDragonBoatGame(
 			HashMap<String, Object> data, StartGame startGame) {
@@ -478,7 +503,10 @@ public class DragonBoatGame implements Screen {
 	}
 
 	/**
-	 * Instantiate the lanes
+	 * --ASSESSMENT 2--
+	 * Instantiate the lanes.
+	 *
+	 * @param obstacleLimit Int representing the max number of obstacles allowed.
 	 */
 	private void createLanes(int obstacleLimit) {
 		lanes = new Lane[7];
@@ -491,15 +519,22 @@ public class DragonBoatGame implements Screen {
 		}
 	}
 
+	/**
+	 * --ASSESSMENT 2--
+	 * @param newLimit Int representing the new max number of obstacles allowed.
+	 */
 	private void updateLaneObstacleLimits(int newLimit) {
 		for (Lane l : lanes) {
 			l.setObstacleLimit(newLimit);
 		}
 	}
 
-	/*
+	/**
+	 * --ASSESSMENT 2--
 	 * Allocate obstacles to the lanes by creating a random sequence
 	 * of Y values for obstacles to spawn at for each lane.
+	 *
+	 * @param noOfObstacles Int representing the number of obstacles to spawn.
 	 */
 	private void generateObstacleTimes(int noOfObstacles) {
 		obstacleTimes = new ArrayList[lanes.length];
@@ -523,7 +558,8 @@ public class DragonBoatGame implements Screen {
 	}
 
 	/**
-	 * Removes the obstacles from all lanes
+	 * --ASSESSMENT 2--
+	 * Removes the obstacles from all lanes.
 	 */
 	private void clearLanesObstacles() {
 		for (int i = 0; i < lanes.length; i++) {

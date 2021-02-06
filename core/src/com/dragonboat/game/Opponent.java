@@ -249,8 +249,10 @@ public class Opponent extends Boat {
     }
 
     /**
-     * Converts data about the instance into JSON so it can be recreated later
-     * @return JSON string sotring the instance's info
+     * --ASSESSMENT 2--
+     * Converts data about the instance into JSON so it can be recreated later.
+     *
+     * @return JSON string storing the instance's info.
      */
     public String toJSON() {
         HashMap<String, Object> data = new HashMap<>();
@@ -274,9 +276,12 @@ public class Opponent extends Boat {
     }
 
     /**
-     * Creates an instance from the data passed
-     * @param data HashMap storing data about an instance, likely gained
-     * by converting an instance to JSON first
+     * --ASSESSMENT 2--
+     * Creates an instance from the data passed.
+     *
+     * @param data HashMap storing data about an instance, likely gained by converting an instance to JSON first.
+     * @param game The game instance.
+     * @param l    Lane representing the lane to spawn the opponent in.
      */
     public static Opponent makeOpponent(
             HashMap<String, Object> data, DragonBoatGame game, Lane l) {

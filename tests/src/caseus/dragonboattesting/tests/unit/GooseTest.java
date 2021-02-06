@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Integration test for the methods within the
  * Goose class.
  */

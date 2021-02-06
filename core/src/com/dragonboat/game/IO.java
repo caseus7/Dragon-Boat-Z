@@ -8,15 +8,17 @@ import com.badlogic.gdx.files.FileHandle;
 
 
 /**
- * Used to save and load data from file
+ * --ASSESSMENT 2--
+ * Used to save and load data from a file.
  */
 public class IO {
 	private static Json json = new Json();
 
 	/**
-	 * Reads from file
-	 * @param filepath Path of the file to read
-	 * @return Content of the file as a String or null if it doesn't exist
+	 * Reads from file.
+	 *
+	 * @param filepath Path of the file to read.
+	 * @return Content of the file as a String or null if it doesn't exist.
 	 */
 	public static String readFile(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
@@ -28,9 +30,10 @@ public class IO {
 	}
 
 	/**
-	 * Writes to file
-	 * @param filepath Path of the file to read
-	 * @param data Data to write to the file
+	 * Writes to file.
+	 *
+	 * @param filepath Path of the file to read.
+	 * @param data Data to write to the file.
 	 */
 	public static void writeFile(String filepath, String data) {
 		FileHandle file = Gdx.files.local(filepath);
@@ -38,29 +41,31 @@ public class IO {
 	}
 
 	/**
-	 * Returns the JSON representation of the object
-	 * @param data The object to convert to JSON
-	 * @return Object in JSON form
+	 * Returns the JSON representation of the object.
+	 *
+	 * @param data The object to convert to JSON.
+	 * @return Object in JSON form.
 	 */
 	public static String toJSON(Object data) {
 		return json.toJson(data);
 	}
 
 	/**
-	 * Makes the object represented by the JSON
-	 * @param dataType Class of the object being created from the JSON
-	 * @param jsonData JSON representing the object
-	 * @return Object made from the JSON
+	 * Makes the object represented by the JSON.
+	 *
+	 * @param jsonData JSON representing the object.
+	 * @return Object made from the JSON.
 	 */
 	public static HashMap<String, Object> hashMapFromJSON(String jsonData) {
 		return json.fromJson(HashMap.class, jsonData);
 	}
 
 	/**
-	 * Makes the object represented by the JSON
-	 * @param dataType Class of the object being created from the JSON
-	 * @param jsonData JSON representing the object
-	 * @return Object made from the JSON
+	 * Makes the object represented by the JSON.
+	 *
+	 * @param dataType Class of the object being created from the JSON.
+	 * @param jsonData JSON representing the object.
+	 * @return Object made from the JSON.
 	 */
 	public static Object fromJSON(Class dataType, String jsonData) {
 		return json.fromJson(dataType, jsonData);

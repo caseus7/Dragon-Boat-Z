@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import com.dragonboat.game.*;
 
 /**
+ * --ASSESSMENT 2--
  * Unit test for the methods within the Boat
  * class.
  */
@@ -42,7 +43,7 @@ public class BoatTest {
 	public void testSteerLeftMovesLeft() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.IncreaseSpeed();
 		float initialX = boat.getXPosition();
@@ -60,7 +61,7 @@ public class BoatTest {
 	public void testSteerLeftAtLeftBoundary() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.IncreaseSpeed();
 		float initialX = boat.getXPosition();
@@ -86,7 +87,7 @@ public class BoatTest {
 	public void testSteerRightMovesRight() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.setRightBound(100);
 		boat.IncreaseSpeed();
@@ -105,7 +106,7 @@ public class BoatTest {
 	public void testSteerRightAtRightBound() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.IncreaseSpeed();
 		float initialX = boat.getXPosition();
@@ -131,7 +132,7 @@ public class BoatTest {
 	public void testMoveForwardMovesUp() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.IncreaseSpeed();
 		float initialY = boat.getYPosition();
@@ -148,7 +149,7 @@ public class BoatTest {
 	public void testIncreaseSpeedIncreasesSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		float initialSpeed = boat.getCurrentSpeed();
 		boat.IncreaseSpeed();
@@ -170,7 +171,7 @@ public class BoatTest {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
 		int maxSpeed = 10;
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(maxSpeed, 1, 1, 20, 4);
 
 		// Set private variable `boat.currentSpeed` to `maxSpeed`
@@ -192,7 +193,7 @@ public class BoatTest {
 	public void testDecreaseSpeedDecreasesSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		boat.IncreaseSpeed();
 		float initialSpeed = boat.getCurrentSpeed();
@@ -209,7 +210,7 @@ public class BoatTest {
 	public void testDecreaseSpeedAtZeroSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
 		float initialSpeed = boat.getCurrentSpeed();
 		boat.DecreaseSpeed();
@@ -225,7 +226,7 @@ public class BoatTest {
 	public void testApplyDamageReducesDurability() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(0, 1, 1, 0, 0);
 		int obstacleDamage = 20;
 		int initialDurability = boat.getDurability();
@@ -245,7 +246,7 @@ public class BoatTest {
 		// robustness, causing division by 0 if no checks are in place
 //		when(lane.getLeftBoundary()).thenReturn(0);
 //		when(lane.getRightBoundary()).thenReturn(10);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		int obstacleDamage = 20;
 		boat.ApplyDamage(obstacleDamage);
 	}
@@ -256,7 +257,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void BoostAppliedCorrectly(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		int startDura = boat.getDurability();
 		boat.Boost("health");
 		Assertions.assertTrue(startDura < boat.getDurability());
@@ -283,7 +284,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void removeBoostWhenBoosted(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.Boost("speed");
 		boat.removeBoost();
 		Assertions.assertTrue(boat.isBoosted() == false);
@@ -295,7 +296,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void removeBoostWhenNotBoosted(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.removeBoost();
 		Assertions.assertTrue(boat.isBoosted() == false);
 	}
@@ -306,7 +307,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void LaneCheckInLane(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 //		this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
@@ -318,7 +319,7 @@ public class BoatTest {
 	@Test
 	public void LaneCheckInLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(94);
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
@@ -330,7 +331,7 @@ public class BoatTest {
 	@Test
 	public void LaneCheckInLaneLeftBoundaryLimit(){
 		lane = new Lane(0,100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(-4);
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
@@ -342,7 +343,7 @@ public class BoatTest {
 	@Test
 	public void LaneCheckOutsideLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(95);
 		Assertions.assertFalse(boat.CheckIfInLane());
 	}
@@ -354,7 +355,7 @@ public class BoatTest {
 	@Test
 	public void LaneCheckOutsideLaneLeftBoundaryLimit(){
 		lane = new Lane(0,100);
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(-5);
 		Assertions.assertFalse(boat.CheckIfInLane());
 	}
@@ -366,7 +367,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void SuccessfulFastestTimeZeroUpdateTest(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		float beforeUpdate = boat.getFastestTime();
 		boat.UpdateFastestTime(10);
 		Assertions.assertTrue(beforeUpdate < boat.getFastestTime());
@@ -379,7 +380,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void SuccessfulFastestTimeNonZeroUpdateTest(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
 		boat.UpdateFastestTime(9);
@@ -392,7 +393,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void UnsuccessfulFastestTimeNonZeroUpdateTest(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
 		boat.UpdateFastestTime(11);
@@ -406,7 +407,7 @@ public class BoatTest {
 	 */
 	@Test
 	public void SuccessfulFastestTimeNonZeroUpdateTestWithPenalties(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
 		boat.applyPenalty(2);
@@ -416,7 +417,7 @@ public class BoatTest {
 
 	@Test
 	public void ResetTest(){
-		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
+		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(10);
 		boat.IncreaseSpeed();
 		boat.applyPenalty(10);

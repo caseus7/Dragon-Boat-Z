@@ -146,8 +146,10 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Converts data about the instance into JSON so it can be recreated later
-	 * @return JSON string sotring the instance's info
+	 * --ASSESSMENT 2--
+	 * Converts data about the instance into JSON so it can be recreated later.
+	 *
+	 * @return JSON string storing the instance's info.
 	 */
 	public String toJSON() {
 		HashMap<String, Object> data = new HashMap<>();
@@ -159,9 +161,12 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Creates an instance from the data passed
-	 * @param data HashMap storing data about an instance, likely gained
-	 * by converting an instance to JSON first
+	 * --ASSESSMENT 2--
+	 * Creates an instance from the data passed.
+	 *
+	 * @param data HashMap storing data about an instance, likely gained by converting an instance to JSON first.
+	 * @param p    The instance of the player.
+	 * @param opps List representing the opponents.
 	 */
 	public static ProgressBar makeProgressBar(
 			HashMap<String, Object> data, Player p, Opponent[] opps) {
