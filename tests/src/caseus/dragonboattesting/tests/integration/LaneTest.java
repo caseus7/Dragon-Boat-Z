@@ -17,6 +17,10 @@ import caseus.dragonboattesting.GdxTestRunner;
 
 import com.dragonboat.game.*;
 
+/**
+ * Integration test for the methods within the
+ * Lane class.
+ */
 @RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 // @RunWith(GdxTestRunner.class)
@@ -28,6 +32,13 @@ public class LaneTest {
 
 	}
 
+	/**
+	 * Tests that the <i>SpawnObstacle</i> method increases
+	 * the number of obstacles.
+	 *
+ 	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testSpawnObstacleIncreasesObstacleCount()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -42,6 +53,13 @@ public class LaneTest {
 		Assertions.assertTrue(initialObstacleCount < finalObstacleCount);
 	}
 
+	/**
+	 * Tests that the <i>SpawnObstacle</i> method can
+	 * spawn a goose.
+	 *
+	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testSpawnObstacleCreatesGoose()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -56,6 +74,13 @@ public class LaneTest {
 		Assertions.assertEquals(Goose.class, outputObstacle.getClass());
 	}
 
+	/**
+	 * Tests that the <i>SpawnObstacle</i> method can
+	 * spawn a log.
+	 *
+ 	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testSpawnObstacleCreatesLog()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -70,6 +95,13 @@ public class LaneTest {
 		Assertions.assertEquals(Log.class, outputObstacle.getClass());
 	}
 
+	/**
+	 * Tests that the <i>SpawnObstacle</i> method can
+	 * spawn a boost.
+	 *
+	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testSpawnObstacleCreatesBoost()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -84,6 +116,13 @@ public class LaneTest {
 		Assertions.assertEquals(Boost.class, outputObstacle.getClass());
 	}
 
+	/**
+	 * Tests that the <i>SpawnObstacle</i> method will
+	 * not spawn more obstacles than the limit.
+	 *
+	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testSpawnObstacleReachedObstacleLimit()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -100,8 +139,10 @@ public class LaneTest {
 	}
 
 	/**
-	 * During testing the relative paths to files are different, this fixes 
-	 * them.
+	 * Sets the paths to the sprites, since the relative
+	 * paths are different during testing.
+	 *
+	 * @param lane The lane class.
 	 */
 	private void setSpritePaths(Lane lane)
 			throws IllegalAccessException, NoSuchFieldException {

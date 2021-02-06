@@ -18,6 +18,10 @@ import java.util.Arrays;
 
 import com.dragonboat.game.*;
 
+/**
+ * Unit test for the methods within the
+ * Leaderboard class.
+ */
 @RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class LeaderboardTest {
@@ -32,6 +36,10 @@ public class LeaderboardTest {
 
     private Opponent[] opponents = new Opponent[6];
 
+    /**
+     * Tests that the <i>getTimes</i> method successfully
+     * gets the times for all the boats in the race.
+     */
     @Test
     public void getTimesTest(){
         lb = new Leaderboard(player, opponents);

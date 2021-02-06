@@ -16,6 +16,10 @@ import com.badlogic.gdx.Gdx;
 
 import com.dragonboat.game.*;
 
+/**
+ * Unit test for the methods within the
+ * Obstacle class.
+ */
 @RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class ObstacleTest {
@@ -36,6 +40,10 @@ public class ObstacleTest {
 	public void setup() {
 	}
 
+	/**
+	 * Tests that the <i>Move</i> method is able
+	 * to move an obstacle to a new position.
+	 */
 	@Test
 	public void testMove() {
 		obstacle = new Obstacle(damage, xPosition, yPosition, width, height, tex, lane);
@@ -46,6 +54,10 @@ public class ObstacleTest {
 		Assertions.assertArrayEquals(expectedPosition, finalPosition);
 	}
 
+	/**
+	 * Tests that the <i>Remove</i> method is able to
+	 * remove an obstacle from its lane and the game.
+	 */
 	@Test
 	public void testRemove(){
 		lane = new Lane(0,100,1);

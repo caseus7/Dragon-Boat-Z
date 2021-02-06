@@ -15,7 +15,10 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.dragonboat.game.*;
 
-
+/**
+ * Integration test for the methods within the
+ * Goose class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class GooseTest {
 	private Goose goose;
@@ -33,6 +36,11 @@ public class GooseTest {
 		goose = new Goose(xPosition, yPosition, tex, lane);
 	}
 
+	/**
+	 * Tests that the <i>ChangeDirection</i> method
+	 * successfully changes the direction of a goose
+	 * obstacle.
+	 */
 	@Test
 	void testChangeDirection() {
 		String initialDirection = goose.direction;
@@ -41,6 +49,10 @@ public class GooseTest {
 		Assertions.assertNotEquals(initialDirection, finalDirection);
 	}
 
+	/**
+	 * Tests that the <i>Move</i> method successfully
+	 * moves a goose obstacle.
+	 */
 	@Test
 	void testMove() {
 		float moveVal = 20;

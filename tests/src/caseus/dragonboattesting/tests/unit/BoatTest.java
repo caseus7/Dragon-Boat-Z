@@ -15,6 +15,10 @@ import java.lang.reflect.Field;
 
 import com.dragonboat.game.*;
 
+/**
+ * Unit test for the methods within the Boat
+ * class.
+ */
 @RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class BoatTest {
@@ -30,6 +34,10 @@ public class BoatTest {
 
 	}
 
+	/**
+	 * Tests that the <i>SteerLeft</i> method moves
+	 * the boat to the left.
+	 */
 	@Test
 	public void testSteerLeftMovesLeft() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -43,6 +51,11 @@ public class BoatTest {
 		Assertions.assertTrue(initialX > finalX);
 	}
 
+	/**
+	 * Tests that the <i>SteerLeft</i> method will
+	 * not move the boat if it as at the left boundary
+	 * of the map.
+	 */
 	@Test
 	public void testSteerLeftAtLeftBoundary() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -65,6 +78,10 @@ public class BoatTest {
 		Assertions.assertEquals(initialX, finalX);
 	}
 
+	/**
+	 * Tests that the <i>SteerRight</i> method moves
+	 * the boat to the right.
+	 */
 	@Test
 	public void testSteerRightMovesRight() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -79,6 +96,11 @@ public class BoatTest {
 		Assertions.assertTrue(initialX < finalX);
 	}
 
+	/**
+	 * Tests that the <i>SteerRight</i> method will
+	 * not move the boat if it as at the right boundary
+	 * of the map.
+	 */
 	@Test
 	public void testSteerRightAtRightBound() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -101,6 +123,10 @@ public class BoatTest {
 		Assertions.assertEquals(initialX, finalX);
 	}
 
+	/**
+	 * Tests that the <i>MoveForward</i> method increases
+	 * the y-position of the boat.
+	 */
 	@Test
 	public void testMoveForwardMovesUp() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -114,6 +140,10 @@ public class BoatTest {
 		Assertions.assertTrue(initialY < finalY);
 	}
 
+	/**
+	 * Tests that the <i>IncreaseSpeed</i> method increases
+	 * the speed of the boat.
+	 */
 	@Test
 	public void testIncreaseSpeedIncreasesSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -126,6 +156,14 @@ public class BoatTest {
 		Assertions.assertTrue(initialSpeed < finalSpeed);
 	}
 
+	/**
+	 * Tests that the <i>IncreaseSpeed</i> method will
+	 * not increase the speed higher than the max speed
+	 * for the specific boat.
+	 *
+	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
 	@Test
 	public void testIncreaseSpeedAtMaxSpeed()
 			throws IllegalAccessException, NoSuchFieldException {
@@ -146,6 +184,10 @@ public class BoatTest {
 		Assertions.assertEquals(initialSpeed, finalSpeed);
 	}
 
+	/**
+	 * Test that the <i>DecreaseSpeed</i> method decreases
+	 * the speed of the boat.
+	 */
 	@Test
 	public void testDecreaseSpeedDecreasesSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -159,6 +201,10 @@ public class BoatTest {
 		Assertions.assertTrue(initialSpeed > finalSpeed);
 	}
 
+	/**
+	 * Tests that the <i>DecreaseSpeed</i> method will
+	 * not decrease the speed below zero.
+	 */
 	@Test
 	public void testDecreaseSpeedAtZeroSpeed() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -171,6 +217,10 @@ public class BoatTest {
 		Assertions.assertEquals(initialSpeed, finalSpeed);
 	}
 
+	/**
+	 * Tests that the <i>ApplyDamage</i> method reduces
+	 * the durability of the boat.
+	 */
 	@Test
 	public void testApplyDamageReducesDurability() {
 //		when(lane.getLeftBoundary()).thenReturn(0);
@@ -184,6 +234,10 @@ public class BoatTest {
 		Assertions.assertTrue(initialDurability > finalDurability);
 	}
 
+	/**
+	 * Tests that the <i>ApplyDamage</i> method does not
+	 * reduce the durability further than 0.
+	 */
 	@Test
 	public void testApplyDamageNoDivisionByZeroError() {
 		// On initialisation, boat's robustness is 0 and one way damage to the
@@ -196,6 +250,10 @@ public class BoatTest {
 		boat.ApplyDamage(obstacleDamage);
 	}
 
+	/**
+	 * Tests that the <i>Boost</i> method applies
+	 * the appropriate boost and applies it correctly.
+	 */
 	@Test
 	public void BoostAppliedCorrectly(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -219,6 +277,10 @@ public class BoatTest {
 		Assertions.assertTrue(startCurrentSpeed < boat.getCurrentSpeed() && startMaxSpeed < boat.getMaxSpeed() && boat.isBoosted());
 	}
 
+	/**
+	 * Tests that the <i>removeBoost</i> method removes
+	 * the boost once it is no longer needed.
+	 */
 	@Test
 	public void removeBoostWhenBoosted(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -227,6 +289,10 @@ public class BoatTest {
 		Assertions.assertTrue(boat.isBoosted() == false);
 	}
 
+	/**
+	 * Tests that teh <i>removeBoost</i> method removes
+	 * the boost when it isn't being boosted.
+	 */
 	@Test
 	public void removeBoostWhenNotBoosted(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -234,6 +300,10 @@ public class BoatTest {
 		Assertions.assertTrue(boat.isBoosted() == false);
 	}
 
+	/**
+	 * Tests that the <i>CheckIfInLane</i> method checks
+	 * that the boat is within the boundaries for the lane.
+	 */
 	@Test
 	public void LaneCheckInLane(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -241,6 +311,10 @@ public class BoatTest {
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
 
+	/**
+	 * Tests that the <i>CheckIfInLane</i> method checks
+	 * that the boat is within the right lane boundary.
+	 */
 	@Test
 	public void LaneCheckInLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
@@ -249,6 +323,10 @@ public class BoatTest {
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
 
+	/**
+	 * Tests that the <i>CheckIfInLane</i> method checks
+	 * that the boat is within the left lane boundary.
+	 */
 	@Test
 	public void LaneCheckInLaneLeftBoundaryLimit(){
 		lane = new Lane(0,100);
@@ -257,6 +335,10 @@ public class BoatTest {
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
 
+	/**
+	 * Tests that the <i>CheckIfInLane</i> method checks
+	 * that the boat is outside the right lane boundary.
+	 */
 	@Test
 	public void LaneCheckOutsideLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
@@ -265,6 +347,10 @@ public class BoatTest {
 		Assertions.assertFalse(boat.CheckIfInLane());
 	}
 
+	/**
+	 * Tests that the <i>CheckIfInLane</i> method checks
+	 * that the boat is outside the left lane boundary.
+	 */
 	@Test
 	public void LaneCheckOutsideLaneLeftBoundaryLimit(){
 		lane = new Lane(0,100);
@@ -273,6 +359,11 @@ public class BoatTest {
 		Assertions.assertFalse(boat.CheckIfInLane());
 	}
 
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * successfully updates the time when the boat is
+	 * faster than it was previously.
+	 */
 	@Test
 	public void SuccessfulFastestTimeZeroUpdateTest(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -280,6 +371,12 @@ public class BoatTest {
 		boat.UpdateFastestTime(10);
 		Assertions.assertTrue(beforeUpdate < boat.getFastestTime());
 	}
+
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * successfully updates the time when the boat is
+	 * slower than it was previously.
+	 */
 	@Test
 	public void SuccessfulFastestTimeNonZeroUpdateTest(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -289,6 +386,10 @@ public class BoatTest {
 		Assertions.assertTrue(beforeUpdate > boat.getFastestTime());
 	}
 
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * will recognise when the values are wrong.
+	 */
 	@Test
 	public void UnsuccessfulFastestTimeNonZeroUpdateTest(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");
@@ -298,6 +399,11 @@ public class BoatTest {
 		Assertions.assertFalse(beforeUpdate > boat.getFastestTime());
 	}
 
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * will successfully update the time correctly and
+	 * apply a penalty.
+	 */
 	@Test
 	public void SuccessfulFastestTimeNonZeroUpdateTestWithPenalties(){
 		boat = new Boat(game, 10, 10, 10, lane, "testBoat");

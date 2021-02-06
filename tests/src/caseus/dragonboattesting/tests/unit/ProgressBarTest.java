@@ -18,6 +18,10 @@ import java.util.Arrays;
 
 import com.dragonboat.game.*;
 
+/**
+ * Unit test for the methods within the
+ * ProgressBar class.
+ */
 @RunWith(GdxTestRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class ProgressBarTest {
@@ -44,6 +48,10 @@ public class ProgressBarTest {
         Assertions.assertEquals(0, pb.getPlayerTime());
     }
 
+    /**
+     * Tests that the <i>IncrementTimer</i> method can
+     * successfully increment the timer.
+     */
     @Test
     public void IncrementTest(){
         pb = new ProgressBar(player, opponents);
@@ -53,6 +61,11 @@ public class ProgressBarTest {
         Assertions.assertTrue(pb.getPlayerTime() == pb.getTime());
     }
 
+    /**
+     * Tests that the <i>allFinished</i> method
+     * returns true if all of the boats have finished
+     * the race.
+     */
     @Test
     public void AllFinishedTest(){
         player = new Player(game, 10, 0, 0, lane, "");
@@ -63,6 +76,10 @@ public class ProgressBarTest {
         Assertions.assertTrue(pb.allFinished(9));
     }
 
+    /**
+     * Tests that the <i>allFinished</i> method can
+     * determine when the player is not finished.
+     */
     @Test
     public void PlayerNotFinishedTest(){
         player = new Player(game, 5, 0, 0, lane, "");
@@ -73,6 +90,10 @@ public class ProgressBarTest {
         Assertions.assertFalse(pb.allFinished(9));
     }
 
+    /**
+     * Tests that the <i>allFinished</i> method can
+     * determine when the opponents are not finished.
+     */
     @Test
     public void OpponentsNotFinishedTest(){
         player = new Player(game, 10, 0, 0, lane, "");
@@ -83,6 +104,10 @@ public class ProgressBarTest {
         Assertions.assertFalse(pb.allFinished(9));
     }
 
+    /**
+     * Tests that the <i>allFinished</i> method can
+     * determine when none of the boats are finished.
+     */
     @Test
     public void AllNotFinishedTest(){
         player = new Player(game, 10, 0, 0, lane, "");
@@ -93,6 +118,10 @@ public class ProgressBarTest {
         Assertions.assertFalse(pb.allFinished(9));
     }
 
+    /**
+     * Tests that the <i>getProgress</i> method can
+     * determine when every boat is finished.
+     */
     @Test
     public void GetAllFinishedProgressTest(){
         player = new Player(game, 10, 0, 0, lane, "");
@@ -104,6 +133,10 @@ public class ProgressBarTest {
         Assertions.assertArrayEquals(pb.getProgress(10), other);
     }
 
+    /**
+     * Tests that the <i>getProgress</i> method can
+     * determine when all the opponents are finished.
+     */
     @Test
     public void GetOpponentFinishedProgressTest(){
         player = new Player(game, 5, 0, 0, lane, "");
@@ -115,6 +148,10 @@ public class ProgressBarTest {
         Assertions.assertArrayEquals(pb.getProgress(10), other);
     }
 
+    /**
+     * Tests that the <i>getProgress</i> method can
+     * determine when the player is finished.
+     */
     @Test
     public void GetPlayerFinishedProgressTest(){
         player = new Player(game, 10, 0, 0, lane, "");
@@ -126,6 +163,10 @@ public class ProgressBarTest {
         Assertions.assertArrayEquals(pb.getProgress(10), other);
     }
 
+    /**
+     * Tests that the <i>getProgress</i> method can
+     * determine when none of the boats are finished.
+     */
     @Test
     public void GetNoneFinishedProgressTest(){
         player = new Player(game, 5, 0, 0, lane, "");
