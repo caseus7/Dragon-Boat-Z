@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -24,6 +25,9 @@ public class GameScreen implements Screen {
     private final Random rnd;
     private final int MAX_TIREDNESS = 100;
     private DragonBoatGame game = null;
+    private boolean pauseNoMenu = false;
+    private boolean showPauseMenu = false;
+    private int pauseAfter = -1;
 
     // debug booleans
     private boolean debug_speed,debug_positions,debug_norandom,debug_verboseoutput;
@@ -45,6 +49,7 @@ public class GameScreen implements Screen {
     // graphics
     private final SpriteBatch batch;
     private final Texture background;
+    private final Texture pauseTexture;
     private final Texture healthBarFull;
     private final Texture healthBarEmpty;
     private final Texture staminaBarFull;
@@ -52,6 +57,10 @@ public class GameScreen implements Screen {
     private final FreeTypeFontGenerator generator;
     private final FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private final BitmapFont font18,font28,font44;
+    private final GlyphLayout glyphLayout;
+    private float[][] resumeBounds;
+    private float[][] saveBounds;
+    private float[][] exitBounds;
 
     // timing
     public float totalDeltaTime = 0;
@@ -106,6 +115,7 @@ public class GameScreen implements Screen {
 
         // texture setting
         background = course.getTexture();
+        pauseTexture = new Texture("menu panel.png");
         backgroundOffset = 0;
         batch = new SpriteBatch();
         generator = game.generator;
@@ -116,10 +126,58 @@ public class GameScreen implements Screen {
         font28 = generator.generateFont(parameter);
         parameter.size = 44;
         font44 = generator.generateFont(parameter);
+        glyphLayout = new GlyphLayout();
         staminaBarFull = new Texture(Gdx.files.internal("bar stamina yellow.png"));
         staminaBarEmpty = new Texture(Gdx.files.internal("bar stamina grey.png"));
         healthBarFull = new Texture(Gdx.files.internal("bar health yellow.png"));
         healthBarEmpty = new Texture(Gdx.files.internal("bar health grey.png"));
+
+        resumeBounds = new float[2][2];
+        saveBounds = new float[2][2];
+        exitBounds = new float[2][2];
+    }
+
+    /**
+     * Pauses the game after the given number of frames have passed.
+     * Usually called with a value of 1 to make sure the previous frame has
+     * been cleared before pausing
+     *
+     * @param frames number of frames to pass before pausing
+     */
+    public void setPausedAfter(int frames) {
+        if (frames < 0) {
+            return;
+        }
+        this.pauseAfter = frames;
+    }
+
+    /**
+     * Pauses or unpauses the game. If the menu is open and `pauseState` is
+     * true, then closes the menu as well
+     *
+     * @param pauseState whether to pause or unpause the game
+     */
+    public void setPaused(boolean pauseState) {
+        // Toggle pause if the menu isn't open
+        if (!this.showPauseMenu) {
+            this.pauseNoMenu = pauseState;
+        }
+        // If the menu is open, close it and pause
+        else if (pauseState) {
+            this.showPauseMenu = false;
+            setPausedAfter(1);
+        }
+    }
+
+    /**
+     * Opens or closes the pause menu, and pauses or unpauses the game
+     * respectively
+     *
+     * @param pauseState wether to open or close the pause menu
+     */
+    public void setPausedWithMenu(boolean pauseState) {
+        this.showPauseMenu = pauseState;
+        this.pauseNoMenu = false;
     }
 
     /**
@@ -167,13 +225,24 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-			String gameData = game.toJSON();
-			IO.writeFile(game.stGame.saveLocation, gameData);
-            game.stGame.reload();
-			dispose();
-            return;
+        this.pauseAfter = this.pauseAfter > 0 ? this.pauseAfter - 1 : this.pauseAfter;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            setPausedWithMenu(!this.showPauseMenu);
 		}
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            setPaused(!this.pauseNoMenu);
+        }
+        if (this.showPauseMenu) {
+            showPauseMenu();
+            return;
+        }
+        if (this.pauseNoMenu) {
+            return;
+        }
+        if (this.pauseAfter == 0) {
+            this.pauseNoMenu = true;
+            this.pauseAfter = -1;
+        }
 
         String debug = "";
 
@@ -235,17 +304,14 @@ public class GameScreen implements Screen {
             o.ProgressAnimation();
         }
 
-        /*
-         * Increase the background offset so the player is centered.
-         */
-        if (player.getY() + HEIGHT / 2 + player.getHeight() / 2 > course.getTexture().getHeight()) {
-            // Stop increasing the background offset when the player reaches the end of the
-            // course.
-        } else if (player.getY() + player.getHeight() / 2 > HEIGHT / 2) {
-            // Start increasing the background offset when the player is above half the
-            // window height.
-            backgroundOffset = player.getY() + player.getHeight() / 2 - HEIGHT / 2;
-        }
+        // Clamp the background offset so that the texture stays within the
+        // screens bounds and otherwise tries to keep the player's boat
+        // centered
+        backgroundOffset = Math.min(
+            Math.max(
+                player.getY() + player.getHeight() / 2 - HEIGHT / 2,
+                0 ),
+            course.getTexture().getHeight() - HEIGHT);
 
         player.CheckCollisions(backgroundOffset);
 
@@ -486,6 +552,65 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Resizes the game screen.
+     *
+     * @param width  Width of the screen.
+     * @param height Height of the screen.
+     */
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
+        batch.setProjectionMatrix(camera.combined);
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    /**
+     * Disposes of the screen when it is no longer needed.
+     */
+    @Override
+    public void dispose() {
+        batch.dispose();
+        background.dispose();
+        player.texture.dispose();
+        for (Lane lane : lanes) {
+            for (int j = 0; j < lane.obstacles.size(); j++) {
+                lane.obstacles.get(j).getTexture().dispose();
+            }
+        }
+        progressBar.getTexture().dispose();
+        progressBar.getOpponentIcon().dispose();
+        progressBar.getPlayerIcon().dispose();
+        staminaBarFull.dispose();
+        staminaBarEmpty.dispose();
+        healthBarEmpty.dispose();
+        healthBarFull.dispose();
+        generator.dispose();
+        font28.dispose();
+        font44.dispose();
+        leaderboard.getTexture().dispose();
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
     /*
     * Check if player and each opponent has finished, and update their finished
     * booleans and fastestLegTime variables respectively.
@@ -549,61 +674,79 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Resizes the game screen.
-     *
-     * @param width  Width of the screen.
-     * @param height Height of the screen.
+     * Shows a menu with options to resume, save and exit, and exit without saving
      */
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        batch.setProjectionMatrix(camera.combined);
-    }
+    private void showPauseMenu() {
+        batch.begin();
+        batch.draw(
+            pauseTexture,
+            WIDTH / 2 - pauseTexture.getWidth() / 2,
+            HEIGHT / 2 - pauseTexture.getHeight() / 2 );
 
-    @Override
-    public void pause() {
+        glyphLayout.setText(font28, "Resume");
+        final float yOffset = 40;
+        resumeBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 - yOffset };
+        resumeBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 - yOffset };
+        font28.draw(batch, glyphLayout, resumeBounds[0][0], resumeBounds[1][1] + 2 * yOffset);
 
-    }
+        glyphLayout.setText(font28, "Save and exit");
+        saveBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 };
+        saveBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 };
+        font28.draw(batch, glyphLayout, saveBounds[0][0], saveBounds[1][1]);
 
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    /**
-     * Disposes of the screen when it is no longer needed.
-     */
-    @Override
-    public void dispose() {
-        batch.dispose();
-        background.dispose();
-        player.texture.dispose();
-        for (Lane lane : lanes) {
-            for (int j = 0; j < lane.obstacles.size(); j++) {
-                lane.obstacles.get(j).getTexture().dispose();
+        glyphLayout.setText(font28, "Exit without saving");
+        exitBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 + yOffset };
+        exitBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 + yOffset };
+        font28.draw(batch, glyphLayout, exitBounds[0][0], exitBounds[1][1] - 2 * yOffset);
+        batch.end();
+        /*
+         * Defines how to handle keyboard and mouse inputs.
+         */
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                // If resume is selected
+                if (
+                        (screenX >= resumeBounds[0][0] && screenX <= resumeBounds[1][0])
+                        && (screenY >= resumeBounds[0][1] && screenY <= resumeBounds[1][1])
+                ) {
+                    showPauseMenu = false;
+                }
+                // If save and exit is selected
+                else if (
+                        (screenX >= saveBounds[0][0] && screenX <= saveBounds[1][0])
+                        && (screenY >= saveBounds[0][1] && screenY <= saveBounds[1][1])) {
+                    String gameData = game.toJSON();
+                    IO.writeFile(game.stGame.saveLocation, gameData);
+                    game.stGame.reload();
+                    game.dispose();
+                    dispose();
+                    return false;
+                }
+                // If exit without saving is selected
+                else if (
+                        (screenX >= exitBounds[0][0] && screenX <= exitBounds[1][0])
+                        && (screenY >= exitBounds[0][1] && screenY <= exitBounds[1][1])) {
+                    game.stGame.reload();
+                    game.dispose();
+                    dispose();
+                    return false;
+                }
+                Gdx.input.setInputProcessor(null);
+                return super.touchUp(screenX, screenY, pointer, button);
             }
-        }
-        progressBar.getTexture().dispose();
-        progressBar.getOpponentIcon().dispose();
-        progressBar.getPlayerIcon().dispose();
-        staminaBarFull.dispose();
-        staminaBarEmpty.dispose();
-        healthBarEmpty.dispose();
-        healthBarFull.dispose();
-        generator.dispose();
-        font28.dispose();
-        font44.dispose();
-        leaderboard.getTexture().dispose();
-
-    }
-
-    @Override
-    public void show() {
-
+        });
     }
 }

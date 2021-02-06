@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class StartGame extends Game {
 	public DragonBoatGame game;
-	public final String saveLocation = "../../gameSave.txt";
+	public final String saveLocation = "../../gameSave.json";
 	private boolean paused = false;
 	private int pauseAfter = -1;
 
@@ -31,28 +31,6 @@ public class StartGame extends Game {
 		game.launch();
 	}
 
-	public void pause() {
-		if (getScreen().getClass().equals(GameScreen.class)) {
-			this.paused = true;
-		}
-	}
-
-	public void resume() {
-		if (getScreen().getClass().equals(GameScreen.class)) {
-			this.paused = false;
-		}
-	}
-
-	public void pauseAfter(int frameCount) {
-		this.pauseAfter = frameCount;
-	}
-
-	public void togglePause() {
-		if (getScreen().getClass().equals(GameScreen.class)) {
-			this.paused = !this.paused;
-		}
-	}
-
 	@Override
 	public void create() {
 		this.reload();
@@ -60,19 +38,6 @@ public class StartGame extends Game {
 
 	@Override
 	public void render() {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.J)) {
-            togglePause();
-        }
-		if (this.pauseAfter > 0) {
-			this.pauseAfter -= 1;
-		}
-		else if (this.pauseAfter == 0) {
-			pause();
-			this.pauseAfter = -1;
-		}
-		if (this.paused && !getScreen().getClass().equals(MenuScreen.class)) {
-			return;
-		}
 		super.render();
 		if (!getScreen().getClass().equals(EndGameScreen.class)) {
 			game.step();

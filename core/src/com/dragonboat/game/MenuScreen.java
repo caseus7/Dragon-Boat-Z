@@ -8,6 +8,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -26,6 +29,18 @@ public class MenuScreen implements Screen {
     final DragonBoatGame game;
     private final SpriteBatch batch;
 
+    private final FreeTypeFontGenerator generator;
+    private final FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private final BitmapFont font24;
+    private final GlyphLayout glyphLayout;
+
+    private String menuHint;
+    private String pauseHint;
+    private String loadText;
+    private float[][] menuHintBounds;
+    private float[][] pauseHintBounds;
+    private float[][] loadTextBounds;
+
     /**
      * Creates an Input Processor to listen for a mouse click within set boundaries.
      *
@@ -39,6 +54,19 @@ public class MenuScreen implements Screen {
         mediumScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty normal.png"));
         hardScreen = new Texture(Gdx.files.internal("start screen w fade w controls w difficulty hard.png"));
         startScreen = easyScreen;
+
+        generator = game.generator;
+        parameter = game.parameter;
+        parameter.size = 24;
+        font24 = generator.generateFont(parameter);
+        glyphLayout = new GlyphLayout();
+
+        menuHint = "ESCAPE: open/close menu";
+        pauseHint = "P: pause/unpause";
+        loadText = "Load save game";
+        menuHintBounds = new float[2][2];
+        pauseHintBounds = new float[2][2];
+        loadTextBounds = new float[2][2];
 
         /*
          * Defines how to handle mouse inputs.
@@ -139,9 +167,41 @@ public class MenuScreen implements Screen {
                         game.setScreen(new GameScreen(game, false));
                     }
                 }
+
+                if (
+                        (screenX >= loadTextBounds[0][0] && screenX <= loadTextBounds[1][0])
+                        && (screenY >= loadTextBounds[0][1] && screenY <= loadTextBounds[1][1])
+                ) {
+                    boolean loaded = loadGame();
+                    if (!loaded) {
+                        loadText = "Load failed";
+                    }
+                }
                 return super.touchUp(screenX, screenY, pointer, button);
             }
         });
+    }
+
+    /**
+     * Loads the saved game from file
+     *
+     * @return whether or not loading the game was successful
+     */
+    public boolean loadGame() {
+        String loadedData = IO.readFile(game.stGame.saveLocation);
+        if (loadedData == null) {
+            return false;
+        }
+        HashMap<String, Object> gameData = IO.hashMapFromJSON(loadedData);
+        DragonBoatGame loadedGame = DragonBoatGame.makeDragonBoatGame(gameData, game.stGame);
+        game.stGame.game = loadedGame;
+        loadedGame.init();
+        GameScreen gScreen = new GameScreen(loadedGame, true);
+        game.setScreen(gScreen);
+        gScreen.setPausedAfter(2);
+        game.dispose();
+        dispose();
+        return true;
     }
 
     /**
@@ -149,25 +209,40 @@ public class MenuScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-            String loadedData = IO.readFile(game.stGame.saveLocation);
-            HashMap<String, Object> gameData = IO.hashMapFromJSON(loadedData);
-            DragonBoatGame loadedGame = DragonBoatGame.makeDragonBoatGame(gameData, game.stGame);
-            game.stGame.game = loadedGame;
-            loadedGame.init();
-            GameScreen gScreen = new GameScreen(loadedGame, true);
-            game.setScreen(gScreen);
-            game.stGame.pauseAfter(2);
-            game.dispose();
-            dispose();
-            return;
-		}
-
-
         Gdx.gl.glClearColor(0.15f, 0.15f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(startScreen, 0, 0);
+
+        float height = startScreen.getHeight();
+        float width = startScreen.getWidth();
+
+        glyphLayout.setText(font24, menuHint);
+        menuHintBounds[0] = new float[] {
+            10,
+            height / 2 + 4 * glyphLayout.height };
+        menuHintBounds[1] = new float[] {
+            10 + glyphLayout.width,
+            height / 2 + 3 * glyphLayout.height };
+        font24.draw(batch, glyphLayout, menuHintBounds[0][0], menuHintBounds[1][1]);
+
+        glyphLayout.setText(font24, pauseHint);
+        pauseHintBounds[0] = new float[] {
+            width - 10 - glyphLayout.width,
+            height / 2 + 4 * glyphLayout.height };
+        pauseHintBounds[1] = new float[] {
+            width - 10,
+            height / 2 + 3 * glyphLayout.height };
+        font24.draw(batch, glyphLayout, pauseHintBounds[0][0], pauseHintBounds[1][1]);
+
+        glyphLayout.setText(font24, loadText);
+        loadTextBounds[0] = new float[] {
+            width / 2 - glyphLayout.width / 2,
+            height - 20 - glyphLayout.height};
+        loadTextBounds[1] = new float[] {
+            width / 2 + glyphLayout.width / 2,
+            height - 20 };
+        font24.draw(batch, glyphLayout, loadTextBounds[0][0], height - loadTextBounds[1][1] + 20);
         batch.end();
     }
 
