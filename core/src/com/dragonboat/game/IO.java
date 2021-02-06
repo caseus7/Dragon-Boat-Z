@@ -16,7 +16,7 @@ public class IO {
 	/**
 	 * Reads from file
 	 * @param filepath Path of the file to read
-	 * @return Content of the file as a String
+	 * @return Content of the file as a String or null if it doesn't exist
 	 */
 	public static String readFile(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
