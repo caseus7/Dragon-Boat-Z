@@ -22,12 +22,15 @@ public class Boat {
 
     public int boostTimer;
     public Texture texture;
-    private int durability;
     protected float yPosition, xPosition, penalties;
     protected int width = 56, height = 182;
     protected Lane lane;
+    protected int leftBound;
+    protected int rightBound;
     private DragonBoatGame game;
+    private int boatNumber;
     private float currentSpeed, fastestLegTime, tiredness;
+    private int durability;
     private Texture[] textureFrames;
     private int frameCounter;
     private String name;
@@ -43,8 +46,6 @@ public class Boat {
     // `nextTextureFrameCounter` can be reduced by at most this amount
     private int nextTextureFrameCounterReductionCap;
     private int nextTextureFrameCounterReductionCapBoosted;
-    private int leftBound;
-    private int rightBound;
 
     /**
      * Creates a Boat instance in a specified Lane.
@@ -476,10 +477,12 @@ public class Boat {
      * @param boatNo Number of the boat template selected.
      */
     public void ChooseBoat(int boatNo) {
+        this.boatNumber = boatNo;
         char boatLabel = (char) (65 + boatNo);
         this.setTexture(new Texture(Gdx.files.internal("boat" + boatLabel + " sprite1.png")));
         this.GenerateTextureFrames(boatLabel);
         this.setStats(boatLabel);
+        this.Reset();
     }
 
     /**
@@ -499,9 +502,8 @@ public class Boat {
         this.MAXSPEED = maxspeed;
         this.MAX_DURABILITY = maxDurability;
         this.ROBUSTNESS = robustness;
-        this.ACCELERATION = acceleration / 64;
-        this.MANEUVERABILITY = maneuverability / 8;
-        this.durability = maxDurability;
+        this.ACCELERATION = acceleration;
+        this.MANEUVERABILITY = maneuverability;
     }
 
     /**
@@ -514,12 +516,16 @@ public class Boat {
         int[] maxspeeds = { 5, 4, 5, 5, 4, 7, 5 };
         int[] maxDurabilities = { 50, 50, 50, 50, 50, 50, 50 };
         int[] robustnesses = { 2, 4, 1, 4, 8, 3, 5 };
-        float[] accelerations = { 6f, 2f, 8f, 4f, 3f, 1.4f, 2f };
-        float[] maneuverabilities = { 3f, 8f, 3f, 4f, 2f, 1f, 5f };
+        float[] accelerations = { 0.094f, 0.031f, 0.125f, 0.063f, 0.047f, 0.022f, 0.031f };
+        float[] maneuverabilities = { 0.375f, 1f, 0.375f, 0.5f, 0.25f, 0.125f, 0.625f };
 
         int boatNo = boatLabel - 65;
 
         this.setStats(maxspeeds[boatNo], maxDurabilities[boatNo], robustnesses[boatNo], accelerations[boatNo], maneuverabilities[boatNo]);
+    }
+
+    public int getBoatNumber() {
+        return this.boatNumber;
     }
 
     /**
@@ -583,6 +589,15 @@ public class Boat {
      * @return Boolean representing whether a boat has the immune power-up.
      */
     public boolean getImmune() { return this.immune;}
+
+    /**
+     *
+     * @return String representing the type of boost applied.
+     */
+    public String getBoosted() {
+        return this.boosted;
+    }
+
     /**
      *
      * @return Float representing the time penalty incurred for the current race.
@@ -620,6 +635,50 @@ public class Boat {
      */
     public void setRightBound(int rightBound) {
         this.rightBound = rightBound;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setXPosition(float x) {
+        this.xPosition = x;
+    }
+
+    public void setYPosition(float y) {
+        this.yPosition = y;
+    }
+
+    public void setCurrentSpeed(float speed) {
+        this.currentSpeed = speed;
+    }
+
+    public void setDurability(int dur) {
+        this.durability = dur;
+    }
+
+    public void setTiredness(float tire) {
+        this.tiredness = tire;
+    }
+
+    public void setImmune(boolean immu) {
+        this.immune = immu;
+    }
+
+    public void setBoosted(String boostType) {
+        this.boosted = boostType;
+    }
+
+    public void setBoostTimer(int time) {
+        this.boostTimer = time;
+    }
+
+    public void setPenalties(float pen) {
+        this.penalties = pen;
+    }
+
+    public void setFastestLegTime(float time) {
+        this.fastestLegTime = time;
     }
 
     /**

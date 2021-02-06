@@ -1,12 +1,10 @@
 package com.dragonboat.game;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.files.FileHandle;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 
 /**
@@ -18,10 +16,13 @@ public class IO {
 	/**
 	 * Reads from file
 	 * @param filepath Path of the file to read
-	 * @return Content of the file as a String
+	 * @return Content of the file as a String or null if it doesn't exist
 	 */
 	public static String readFile(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
+		if (!file.exists()) {
+			return null;
+		}
 		String text = file.readString();
 		return text;
 	}
@@ -43,6 +44,16 @@ public class IO {
 	 */
 	public static String toJSON(Object data) {
 		return json.toJson(data);
+	}
+
+	/**
+	 * Makes the object represented by the JSON
+	 * @param dataType Class of the object being created from the JSON
+	 * @param jsonData JSON representing the object
+	 * @return Object made from the JSON
+	 */
+	public static HashMap<String, Object> hashMapFromJSON(String jsonData) {
+		return json.fromJson(HashMap.class, jsonData);
 	}
 
 	/**

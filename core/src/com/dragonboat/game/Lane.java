@@ -1,10 +1,12 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import org.w3c.dom.Text;
 
 /**
@@ -14,15 +16,15 @@ public class Lane {
     private final int LEFTBOUNDARY, RIGHTBOUNDARY;
     protected ArrayList<Obstacle> obstacles;
     private int obstacleLimit;
-    private String gooseSpritePath = "gooseSouthsprite.png";
-    private String logSpritePath = "logBig sprite.png";
-    private String[] boostSpritePathPrefixes = {
+    private static String gooseSpritePath = "gooseSouthsprite.png";
+    private static String logSpritePath = "logBig sprite.png";
+    private static String[] boostSpritePathPrefixes = {
         "acceleration",
         "health",
         "immune",
         "maneuverability",
         "speed" };
-    private String boostSpritePathPostfix = "Boost.png";
+    private static String boostSpritePathPostfix = "Boost.png";
 
 
     /**
@@ -106,6 +108,13 @@ public class Lane {
         this.obstacles.remove(obstacle);
     }
 
+    /**
+     * Removes all obstacles in the lane
+     */
+    public void removeAllObstacles() {
+        this.obstacles = new ArrayList<Obstacle>();
+    }
+
     // getters and setters
 
     /**
@@ -143,5 +152,80 @@ public class Lane {
     */
     public int getObstacleLimit() {
         return this.obstacleLimit;
+    }
+
+    public void setObstacleLimit(int newLimit) {
+        this.obstacleLimit = newLimit;
+    }
+
+    /**
+     * Converts data about the instance into JSON so it can be recreated later
+     * @return JSON string sotring the instance's info
+     */
+    public String toJSON() {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("className", "Lane");
+        data.put("LEFTBOUNDARY", this.LEFTBOUNDARY);
+        data.put("RIGHTBOUNDARY", this.RIGHTBOUNDARY);
+        data.put("obstacleLimit", this.obstacleLimit);
+
+        // Add obstacle data
+        ArrayList<String> obstacleData = new ArrayList<>();
+        for (Obstacle obst : this.obstacles) {
+            if (obst instanceof Goose) {
+                Goose goose = (Goose) obst;
+                obstacleData.add(goose.toJSON());
+            }
+            else if (obst instanceof Log) {
+                Log log = (Log) obst;
+                obstacleData.add(log.toJSON());
+            }
+            else if (obst instanceof Boost) {
+                Boost boost = (Boost) obst;
+                obstacleData.add(boost.toJSON());
+            }
+        }
+        data.put("obstacles", obstacleData);
+
+        return IO.toJSON(data);
+    }
+
+    /**
+     * Creates a Lane object from the data passed
+     * @param data HashMap storing data about a Lane object, likely gained by
+     * converting an instance to JSON first
+     */
+    public static Lane makeLane(HashMap<String, Object> data) {
+        int _leftBoundary = (int) data.get("LEFTBOUNDARY");
+        int _rightBoundary = (int) data.get("RIGHTBOUNDARY");
+        int _obstacleLimit = (int) data.get("obstacleLimit");
+        Lane lane = new Lane(_leftBoundary, _rightBoundary, _obstacleLimit);
+
+        // Create and add the obstacles to the lane
+        Array<String> obstacleStrings = (Array) data.get("obstacles");
+        for (int i = 0; i < obstacleStrings.size; i++) {
+            HashMap<String, Object> obstacleData =
+                IO.hashMapFromJSON(obstacleStrings.get(i));
+            String _class = (String) obstacleData.get("className");
+            if (_class.equals("Goose")) {
+                Texture tex = new Texture(Gdx.files.internal(gooseSpritePath));
+                Goose goose = Goose.makeGoose(obstacleData, tex, lane);
+                lane.obstacles.add(goose);
+            }
+            else if (_class.equals("Log")) {
+                Texture tex = new Texture(Gdx.files.internal(logSpritePath));
+                Log log = Log.makeLog(obstacleData, tex, lane);
+                lane.obstacles.add(log);
+            }
+            else if (_class.equals("Boost")) {
+                String boostType = (String) obstacleData.get("type");
+                String texPath =
+                    obstacleData.get("type") + boostSpritePathPostfix;
+                Texture tex = new Texture(Gdx.files.internal(texPath));
+                Boost boost = Boost.makeBoost(obstacleData, tex, lane);
+                lane.obstacles.add(boost);
+            }
+        }
+        return lane;
     }
 }

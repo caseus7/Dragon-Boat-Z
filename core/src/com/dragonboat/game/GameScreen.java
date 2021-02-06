@@ -1,15 +1,18 @@
 package com.dragonboat.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,6 +25,9 @@ public class GameScreen implements Screen {
     private final Random rnd;
     private final int MAX_TIREDNESS = 100;
     private DragonBoatGame game = null;
+    private boolean pauseNoMenu = false;
+    private boolean showPauseMenu = false;
+    private int pauseAfter = -1;
 
     // debug booleans
     private boolean debug_speed,debug_positions,debug_norandom,debug_verboseoutput;
@@ -33,7 +39,6 @@ public class GameScreen implements Screen {
     private final ProgressBar progressBar;
     private final Leaderboard leaderboard;
     private final Opponent[] opponents;
-    private String[] times;
     private boolean started = false;
     private final float penalty = 0.016f;
 
@@ -44,6 +49,7 @@ public class GameScreen implements Screen {
     // graphics
     private final SpriteBatch batch;
     private final Texture background;
+    private final Texture pauseTexture;
     private final Texture healthBarFull;
     private final Texture healthBarEmpty;
     private final Texture staminaBarFull;
@@ -51,10 +57,14 @@ public class GameScreen implements Screen {
     private final FreeTypeFontGenerator generator;
     private final FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private final BitmapFont font18,font28,font44;
+    private final GlyphLayout glyphLayout;
+    private float[][] resumeBounds;
+    private float[][] saveBounds;
+    private float[][] exitBounds;
 
     // timing
+    public float totalDeltaTime = 0;
     private int backgroundOffset;
-    private float totalDeltaTime = 0;
 
     // global parameters
     private final int WIDTH = 1080, HEIGHT = 720;
@@ -64,7 +74,7 @@ public class GameScreen implements Screen {
      *
      * @param game Represents the initial state of DragonBoatGame.
      */
-    public GameScreen(DragonBoatGame game) {
+    public GameScreen(DragonBoatGame game, boolean loaded) {
         /*
          * Grab game objects from DragonBoatGame.
          */
@@ -81,15 +91,20 @@ public class GameScreen implements Screen {
         opponents = this.game.opponents;
         rnd = this.game.rnd;
 
-        ArrayList<Integer> possibleBoats = new ArrayList<Integer>();
-        for (int i = 0; i < lanes.length; i++) {
-            if (i != game.playerChoice) {
-                possibleBoats.add(i);
+        if (!loaded) {
+            ArrayList<Integer> possibleBoats = new ArrayList<Integer>();
+            for (int i = 0; i < lanes.length; i++) {
+                if (i != game.playerChoice) {
+                    possibleBoats.add(i);
+                }
+            }
+            for (Opponent o : opponents) {
+                int choice = o.SetRandomBoat(possibleBoats);
+                possibleBoats.remove(choice);
             }
         }
-        for (Opponent o : opponents) {
-            int choice = o.SetRandomBoat(possibleBoats);
-            possibleBoats.remove(choice);
+        else {
+            this.started = true;
         }
 
         leaderboard = this.game.leaderboard;
@@ -100,6 +115,7 @@ public class GameScreen implements Screen {
 
         // texture setting
         background = course.getTexture();
+        pauseTexture = new Texture("menu panel.png");
         backgroundOffset = 0;
         batch = new SpriteBatch();
         generator = game.generator;
@@ -110,10 +126,83 @@ public class GameScreen implements Screen {
         font28 = generator.generateFont(parameter);
         parameter.size = 44;
         font44 = generator.generateFont(parameter);
+        glyphLayout = new GlyphLayout();
         staminaBarFull = new Texture(Gdx.files.internal("bar stamina yellow.png"));
         staminaBarEmpty = new Texture(Gdx.files.internal("bar stamina grey.png"));
         healthBarFull = new Texture(Gdx.files.internal("bar health yellow.png"));
         healthBarEmpty = new Texture(Gdx.files.internal("bar health grey.png"));
+
+        resumeBounds = new float[2][2];
+        saveBounds = new float[2][2];
+        exitBounds = new float[2][2];
+
+        /*
+         * Spawns all obstacles if they do not exceed the limit for each lane
+         *
+         * - IMPORTANT -
+         * It should be noted that the obstacles use a coordinate system
+         * relative to the screen. This means all collision checking methods
+         * need to be passed backgroundOffset to translate the object's y
+         * position.
+         */
+        for (int i = 0; i < course.getNoLanes(); i++) {
+            int count = this.game.obstacleTimes[i].size();
+            while (count > 0) {
+                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
+                int xCoord =
+                    lanes[i].getLeftBoundary()
+                    + rnd.nextInt(
+                        lanes[i].getRightBoundary()
+                        - lanes[i].getLeftBoundary()
+                        - 15 );
+                lanes[i].SpawnObstacle(xCoord, this.game.obstacleTimes[i].get(0), obstacleTypes[rnd.nextInt(obstacleTypes.length)]);
+                this.game.obstacleTimes[i].remove(0);
+                count -= 1;
+            }
+        }
+    }
+
+    /**
+     * Pauses the game after the given number of frames have passed.
+     * Usually called with a value of 1 to make sure the previous frame has
+     * been cleared before pausing
+     *
+     * @param frames number of frames to pass before pausing
+     */
+    public void setPausedAfter(int frames) {
+        if (frames < 0) {
+            return;
+        }
+        this.pauseAfter = frames;
+    }
+
+    /**
+     * Pauses or unpauses the game. If the menu is open and `pauseState` is
+     * true, then closes the menu as well
+     *
+     * @param pauseState whether to pause or unpause the game
+     */
+    public void setPaused(boolean pauseState) {
+        // Toggle pause if the menu isn't open
+        if (!this.showPauseMenu) {
+            this.pauseNoMenu = pauseState;
+        }
+        // If the menu is open, close it and pause
+        else if (pauseState) {
+            this.showPauseMenu = false;
+            setPausedAfter(1);
+        }
+    }
+
+    /**
+     * Opens or closes the pause menu, and pauses or unpauses the game
+     * respectively
+     *
+     * @param pauseState wether to open or close the pause menu
+     */
+    public void setPausedWithMenu(boolean pauseState) {
+        this.showPauseMenu = pauseState;
+        this.pauseNoMenu = false;
     }
 
     /**
@@ -161,6 +250,24 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float deltaTime) {
+        this.pauseAfter = this.pauseAfter > 0 ? this.pauseAfter - 1 : this.pauseAfter;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            setPausedWithMenu(!this.showPauseMenu);
+		}
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            setPaused(!this.pauseNoMenu);
+        }
+        if (this.showPauseMenu) {
+            showPauseMenu();
+            return;
+        }
+        if (this.pauseNoMenu) {
+            return;
+        }
+        if (this.pauseAfter == 0) {
+            this.pauseNoMenu = true;
+            this.pauseAfter = -1;
+        }
 
         String debug = "";
 
@@ -170,31 +277,6 @@ public class GameScreen implements Screen {
          * If the game has started, start incrementing time.
          */
         totalDeltaTime += started ? deltaTime : 0;
-
-        /*
-         * Check whether obstacles need to be spawned, and spawns them if so. Breaks
-         * instantly if the game hasn't started, if the player has finished, or if there
-         * are no more obstacles to be spawned.
-         *
-         * - IMPORTANT -
-         * It should be noted that the obstacles currently use a
-         * coordinate system relative to the screen, as they are always spawned at
-         * HEIGHT + 40 (y = 760). This means all collision checking methods need to be
-         * passed backgroundOffset to translate the object's y position.
-         */
-        for (int i = 0; i < course.getNoLanes(); i++) {
-            if (!started || player.finished() || this.game.obstacleTimes[i].size() == 0)
-                break;
-            if (this.game.obstacleTimes[i].get(0) - player.getY() + player.getHeight() < 1) {
-                String[] obstacleTypes = { "Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Goose", "Log","Boost" };
-                // spawn an obstacle in lane i.
-                int xCoord = lanes[i].getLeftBoundary()
-                        + rnd.nextInt(lanes[i].getRightBoundary() - lanes[i].getLeftBoundary() - 15);
-                lanes[i].SpawnObstacle(xCoord, HEIGHT + 40, obstacleTypes[rnd.nextInt(obstacleTypes.length)]);
-                // make sure obstacle is only spawned once.
-                this.game.obstacleTimes[i].remove(0);
-            }
-        }
 
         /*
          * Move player. Advance animation.
@@ -222,17 +304,14 @@ public class GameScreen implements Screen {
             o.ProgressAnimation();
         }
 
-        /*
-         * Increase the background offset so the player is centered.
-         */
-        if (player.getY() + HEIGHT / 2 + player.getHeight() / 2 > course.getTexture().getHeight()) {
-            // Stop increasing the background offset when the player reaches the end of the
-            // course.
-        } else if (player.getY() + player.getHeight() / 2 > HEIGHT / 2) {
-            // Start increasing the background offset when the player is above half the
-            // window height.
-            backgroundOffset = player.getY() + player.getHeight() / 2 - HEIGHT / 2;
-        }
+        // Clamp the background offset so that the texture stays within the
+        // screens bounds and otherwise tries to keep the player's boat
+        // centered
+        backgroundOffset = Math.min(
+            Math.max(
+                player.getY() + player.getHeight() / 2 - HEIGHT / 2,
+                0 ),
+            course.getTexture().getHeight() - HEIGHT);
 
         player.CheckCollisions(backgroundOffset);
 
@@ -337,7 +416,7 @@ public class GameScreen implements Screen {
                 HEIGHT - progressBar.getTexture().getHeight() / 2 - 10);
         batch.end();
 
-        updateFinishedBoats(progress);
+        updateFinishedBoats();
         // End the race if the player has finished
         if (player.finished()) {
             float[] predictedFinishTimes = predictBoatFinishTimes(progress);
@@ -410,10 +489,10 @@ public class GameScreen implements Screen {
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);
                 batch.end();
-                this.times = leaderboard.getTimes(opponents.length + 1);
+                String[] times = leaderboard.getTimes(opponents.length + 1);
                 for (int i = 0; i < opponents.length + 1; i++) {
                     batch.begin();
-                    font44.draw(batch, this.times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
+                    font44.draw(batch, times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
                             620 - (75 * i));
                     batch.end();
                 }
@@ -436,7 +515,7 @@ public class GameScreen implements Screen {
                 batch.draw(leaderboard.getTexture(), WIDTH / 2 - leaderboard.getTexture().getWidth() / 2,
                         HEIGHT / 2 - leaderboard.getTexture().getHeight() / 2);
                 batch.end();
-                this.times = leaderboard.getTimes(opponents.length + 1);
+                String[] times = leaderboard.getTimes(opponents.length + 1);
                 for (int i = 0; i < opponents.length + 1; i++) {
                     if (i < 3)
                         font44.setColor(Color.GOLD);
@@ -444,12 +523,12 @@ public class GameScreen implements Screen {
                         font44.setColor(Color.WHITE);
 
                     batch.begin();
-                    font44.draw(batch, this.times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
+                    font44.draw(batch, times[i], WIDTH / 2 - leaderboard.getTexture().getWidth() / 3,
                             620 - (75 * i));
                     batch.end();
                 }
-                if (this.times[0].startsWith("Player") || this.times[1].startsWith("Player")
-                        || this.times[2].startsWith("Player")) {
+                if (times[0].startsWith("Player") || times[1].startsWith("Player")
+                        || times[2].startsWith("Player")) {
                     batch.begin();
                     font28.draw(batch, "Click anywhere to progress to the final!", 200, 40);
                     batch.end();
@@ -471,69 +550,6 @@ public class GameScreen implements Screen {
                 game.endGame();
             }
         }
-    }
-
-    /**
-     * Check if the player opponents have finished, and update their finished
-     * booleans and fastestLegTime variables respectively.
-     *
-     * @param progress Array of floats from 0 to 1 indicating how far each boat is along the race.
-    */
-    private void updateFinishedBoats(float[] progress) {
-        if (progress[0] == 1 && !player.finished()) {
-            player.setFinished(true);
-            player.UpdateFastestTime(progressBar.getPlayerTime());
-        }
-        for (int i = 0; i < opponents.length; i++) {
-            if (progress[i + 1] == 1 && !opponents[i].finished()) {
-                opponents[i].setFinished(true);
-                opponents[i].UpdateFastestTime(progressBar.getTime());
-            }
-        }
-    }
-
-    /**
-     * Predicts the finish times for all the opponents.
-     *
-     * @param progress The distance along the race each boat is, as a float from 0 to 1.
-     * @return List of floats representing the predicted finish time for each boat.
-    */
-    private float[] predictBoatFinishTimes(float[] progress) {
-        float[] finishTimes = new float[opponents.length + 1];
-        if (player.finished()) {
-            finishTimes[0] = player.getFastestTime();
-        }
-        else {
-            finishTimes[0] = predictBoatFinishTime(
-                progress[0],
-                progressBar.getTime() );
-        }
-        for (int i=0; i<opponents.length; i++) {
-            if (opponents[i].finished()) {
-                finishTimes[i + 1] = opponents[i].getFastestTime();
-            }
-            else {
-                finishTimes[i + 1] = predictBoatFinishTime(
-                    progress[i + 1],
-                    progressBar.getTime() );
-            }
-        }
-        return finishTimes;
-    }
-
-    /**
-     * Predict the finish time for the player, based on the time it took for
-     * the boat to reach its current distance.
-     *
-     * @param progress The distance along the race as a float from 0 to 1.
-     * @param time The time it took for the boat to reach its current distance.
-     * @return Float representing the predicted finish time.
-    */
-    private float predictBoatFinishTime(float progress, float time) {
-        if (progress >= 1.0) {
-            return time;
-        }
-        return time / progress;
     }
 
     /**
@@ -593,5 +609,145 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+    }
+
+    /*
+    * Check if player and each opponent has finished, and update their finished
+    * booleans and fastestLegTime variables respectively.
+    *
+    * @param progress Array of floats from 0 to 1 indicating how far each boat is along the rance
+    */
+    private void updateFinishedBoats() {
+        int courseHeight = course.getTexture().getHeight();
+        if (player.getProgress(courseHeight) == 1 && !player.finished()) {
+            player.setFinished(true);
+            player.UpdateFastestTime(progressBar.getPlayerTime());
+        }
+        for (int i = 0; i < opponents.length; i++) {
+            if (opponents[i].getProgress(courseHeight) == 1 && !opponents[i].finished()) {
+                opponents[i].setFinished(true);
+                opponents[i].UpdateFastestTime(progressBar.getTime());
+            }
+        }
+    }
+
+    /*
+    * Returns the predicted time each boat will finish the race.
+    *
+    * @param progress The distance along the race each boat is, as a float from 0 to 1
+    */
+    private float[] predictBoatFinishTimes(float[] progress) {
+        float[] finishTimes = new float[opponents.length + 1];
+        if (player.finished()) {
+            finishTimes[0] = player.getFastestTime();
+        }
+        else {
+            finishTimes[0] = predictBoatFinishTime(
+                progress[0],
+                progressBar.getTime() );
+        }
+        for (int i=0; i<opponents.length; i++) {
+            if (opponents[i].finished()) {
+                finishTimes[i + 1] = opponents[i].getFastestTime();
+            }
+            else {
+                finishTimes[i + 1] = predictBoatFinishTime(
+                    progress[i + 1],
+                    progressBar.getTime() );
+            }
+        }
+        return finishTimes;
+    }
+
+    /*
+    * Returns the predicted time the boat will finish the race.
+    * The prediction is based on the time it took for the boat to reach its
+    * current distance along the race
+    *
+    * @param progress The distance along the race as a float from 0 to 1
+    * @param time The time it took for the boat to reach its current distance
+    */
+    private float predictBoatFinishTime(float progress, float time) {
+        if (progress >= 1.0) {
+            return time;
+        }
+        return time / progress;
+    }
+
+    /**
+     * Shows a menu with options to resume, save and exit, and exit without saving
+     */
+    private void showPauseMenu() {
+        batch.begin();
+        batch.draw(
+            pauseTexture,
+            WIDTH / 2 - pauseTexture.getWidth() / 2,
+            HEIGHT / 2 - pauseTexture.getHeight() / 2 );
+
+        glyphLayout.setText(font28, "Resume");
+        final float yOffset = 40;
+        resumeBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 - yOffset };
+        resumeBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 - yOffset };
+        font28.draw(batch, glyphLayout, resumeBounds[0][0], resumeBounds[1][1] + 2 * yOffset);
+
+        glyphLayout.setText(font28, "Save and exit");
+        saveBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 };
+        saveBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 };
+        font28.draw(batch, glyphLayout, saveBounds[0][0], saveBounds[1][1]);
+
+        glyphLayout.setText(font28, "Exit without saving");
+        exitBounds[0] = new float[] {
+                WIDTH / 2 - glyphLayout.width / 2,
+                HEIGHT / 2 - glyphLayout.height / 2 + yOffset };
+        exitBounds[1] = new float[] {
+                WIDTH / 2 + glyphLayout.width / 2,
+                HEIGHT / 2 + glyphLayout.height / 2 + yOffset };
+        font28.draw(batch, glyphLayout, exitBounds[0][0], exitBounds[1][1] - 2 * yOffset);
+        batch.end();
+        /*
+         * Defines how to handle keyboard and mouse inputs.
+         */
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                // If resume is selected
+                if (
+                        (screenX >= resumeBounds[0][0] && screenX <= resumeBounds[1][0])
+                        && (screenY >= resumeBounds[0][1] && screenY <= resumeBounds[1][1])
+                ) {
+                    showPauseMenu = false;
+                }
+                // If save and exit is selected
+                else if (
+                        (screenX >= saveBounds[0][0] && screenX <= saveBounds[1][0])
+                        && (screenY >= saveBounds[0][1] && screenY <= saveBounds[1][1])) {
+                    String gameData = game.toJSON();
+                    IO.writeFile(game.stGame.saveLocation, gameData);
+                    game.stGame.reload();
+                    game.dispose();
+                    dispose();
+                    return false;
+                }
+                // If exit without saving is selected
+                else if (
+                        (screenX >= exitBounds[0][0] && screenX <= exitBounds[1][0])
+                        && (screenY >= exitBounds[0][1] && screenY <= exitBounds[1][1])) {
+                    game.stGame.reload();
+                    game.dispose();
+                    dispose();
+                    return false;
+                }
+                Gdx.input.setInputProcessor(null);
+                return super.touchUp(screenX, screenY, pointer, button);
+            }
+        });
     }
 }

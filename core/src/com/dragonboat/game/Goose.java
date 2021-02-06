@@ -28,7 +28,7 @@ public class Goose extends Obstacle {
 	 * @param texture   Texture asset for the goose.
 	 * @param lane      Lane the goose will spawn in.
 	 */
-	public Goose(int xPosition, int yPosition, Texture texture, Lane lane) {
+	public Goose(float xPosition, float yPosition, Texture texture, Lane lane) {
 		super(10, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
 	}
 
@@ -91,4 +91,31 @@ public class Goose extends Obstacle {
 		}
 	}
 
+	/**
+	 * Converts data about the instance into JSON so it can be recreated later
+	 * @return JSON string sotring the instance's info
+	 */
+	public String toJSON() {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("className", "Goose");
+		data.put("direction", this.direction);
+		data.put("xPosition", this.xPosition);
+		data.put("yPosition", this.yPosition);
+		return IO.toJSON(data);
+	}
+
+	/**
+	 * Creates an instance from the data passed
+	 * @param data HashMap storing data about an instance, likely gained
+	 * by converting an instance to JSON first
+	 */
+	public static Goose makeGoose(
+			HashMap<String, Object> data, Texture tex, Lane l) {
+		String _direction = (String) data.get("direction");
+		float _xPosition = (float) data.get("xPosition");
+		float _yPosition = (float) data.get("yPosition");
+		Goose goose = new Goose(_xPosition, _yPosition, tex, l);
+		goose.direction = _direction;
+		return goose;
+	}
 }

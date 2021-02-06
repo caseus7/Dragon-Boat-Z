@@ -26,7 +26,7 @@ public class Obstacle {
 	 * @param height    Height of the obstacle.
 	 * @param texture   Texture asset for the obstacle.
 	 */
-	public Obstacle(int damage, int xPosition, int yPosition, int width, int height, Texture texture, Lane lane) {
+	public Obstacle(int damage, float xPosition, float yPosition, int width, int height, Texture texture, Lane lane) {
 		this.damage = damage;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;

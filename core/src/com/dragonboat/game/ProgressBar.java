@@ -1,5 +1,7 @@
 package com.dragonboat.game;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -18,7 +20,7 @@ public class ProgressBar {
 	/**
 	 * Creates a progress bar that tracks the player and opponent boats progress
 	 * along the course.
-	 * 
+	 *
 	 * @param player    The player's boat.
 	 * @param opponents Array of opponent boats.
 	 */
@@ -41,7 +43,7 @@ public class ProgressBar {
 
 	/**
 	 * Increments the timer by the time passed.
-	 * 
+	 *
 	 * @param timePassed The time delta from the last frame.
 	 */
 	public void IncrementTimer(float timePassed) {
@@ -56,7 +58,7 @@ public class ProgressBar {
 
 	/**
 	 * Returns true if all boats have finished.
-	 * 
+	 *
 	 * @param finishY Y-position of the finish line.
 	 * @return Boolean representing if all boats have finished the course.
 	 */
@@ -72,7 +74,7 @@ public class ProgressBar {
 
 	/**
 	 * Gets the progress of all boats.
-	 * 
+	 *
 	 * @param finishY Y-position of the finish line.
 	 * @return Array of floats representing the percentage of the course covered by
 	 *         each boat. First index stores player's progress.
@@ -89,7 +91,7 @@ public class ProgressBar {
 
 	/**
 	 * Gets the time elapsed for the player in the current race.
-	 * 
+	 *
 	 * @return Returns a float representing the player's current race time.
 	 */
 	public float getPlayerTime() {
@@ -99,7 +101,7 @@ public class ProgressBar {
 	/**
 	 * Gets the time elapsed for the player in the current race and total penalty
 	 * time.
-	 * 
+	 *
 	 * @return String representing player time ":" penalty time.
 	 */
 	public String getPlayerTimeString() {
@@ -109,7 +111,7 @@ public class ProgressBar {
 
 	/**
 	 * Gets the time passed for the current race.
-	 * 
+	 *
 	 * @return Returns a float representing the current race time.
 	 */
 	public float getTime() {
@@ -118,7 +120,7 @@ public class ProgressBar {
 
 	/**
 	 * Gets the progress bar texture.
-	 * 
+	 *
 	 * @return A Texture representing the sprite.
 	 */
 	public Texture getTexture() {
@@ -127,7 +129,7 @@ public class ProgressBar {
 
 	/**
 	 * Gets the player icon texture.
-	 * 
+	 *
 	 * @return A Texture representing the sprite.
 	 */
 	public Texture getPlayerIcon() {
@@ -136,10 +138,40 @@ public class ProgressBar {
 
 	/**
 	 * Gets the opponent icon texture.
-	 * 
+	 *
 	 * @return A Texture representing the sprite.
 	 */
 	public Texture getOpponentIcon() {
 		return opponentIcon;
+	}
+
+	/**
+	 * Converts data about the instance into JSON so it can be recreated later
+	 * @return JSON string sotring the instance's info
+	 */
+	public String toJSON() {
+		HashMap<String, Object> data = new HashMap<>();
+
+		data.put("className", "ProgressBar");
+		data.put("timeSeconds", this.timeSeconds);
+		data.put("playerTime", this.playerTime);
+		return IO.toJSON(data);
+	}
+
+	/**
+	 * Creates an instance from the data passed
+	 * @param data HashMap storing data about an instance, likely gained
+	 * by converting an instance to JSON first
+	 */
+	public static ProgressBar makeProgressBar(
+			HashMap<String, Object> data, Player p, Opponent[] opps) {
+		String _class = (String) data.get("className");
+		float _timeSeconds = (float) data.get("timeSeconds");
+		float _playerTime = (float) data.get("playerTime");
+
+		ProgressBar progressBar = new ProgressBar(p, opps);
+		progressBar.timeSeconds = _timeSeconds;
+		progressBar.playerTime = _playerTime;
+		return progressBar;
 	}
 }
