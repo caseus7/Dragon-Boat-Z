@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Screen class for the Menu Screen. Allows the user to select a Boat, and shows
- * the controls of the game. Once the user clicks within set boundaries, the
- * game starts within GameScreen.
+ * Screen class for the Menu Screen. Allows the user to select a Boat, select
+ * the difficulty of the game and shows the controls of the game. Once the user
+ * clicks within set boundaries, the game starts within GameScreen.
  *
  * @see GameScreen
  * @see Screen

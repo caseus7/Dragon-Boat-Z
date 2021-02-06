@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * Represents a opponent boat with AI.
+ * Represents an opponent boat with AI.
  */
 public class Opponent extends Boat {
 

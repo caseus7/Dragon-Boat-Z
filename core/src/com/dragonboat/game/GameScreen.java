@@ -473,11 +473,11 @@ public class GameScreen implements Screen {
         }
     }
 
-    /*
-    * Check if player and each opponent has finished, and update their finished
-    * booleans and fastestLegTime variables respectively.
-    *
-    * @param progress Array of floats from 0 to 1 indicating how far each boat is along the rance
+    /**
+     * Check if the player opponents have finished, and update their finished
+     * booleans and fastestLegTime variables respectively.
+     *
+     * @param progress Array of floats from 0 to 1 indicating how far each boat is along the race.
     */
     private void updateFinishedBoats(float[] progress) {
         if (progress[0] == 1 && !player.finished()) {
@@ -492,10 +492,11 @@ public class GameScreen implements Screen {
         }
     }
 
-    /*
-    * Returns the predicted time each boat will finish the race.
-    *
-    * @param progress The distance along the race each boat is, as a float from 0 to 1
+    /**
+     * Predicts the finish times for all the opponents.
+     *
+     * @param progress The distance along the race each boat is, as a float from 0 to 1.
+     * @return List of floats representing the predicted finish time for each boat.
     */
     private float[] predictBoatFinishTimes(float[] progress) {
         float[] finishTimes = new float[opponents.length + 1];
@@ -520,13 +521,13 @@ public class GameScreen implements Screen {
         return finishTimes;
     }
 
-    /*
-    * Returns the predicted time the boat will finish the race.
-    * The prediction is based on the time it took for the boat to reach its
-    * current distance along the race
-    *
-    * @param progress The distance along the race as a float from 0 to 1
-    * @param time The time it took for the boat to reach its current distance
+    /**
+     * Predict the finish time for the player, based on the time it took for
+     * the boat to reach its current distance.
+     *
+     * @param progress The distance along the race as a float from 0 to 1.
+     * @param time The time it took for the boat to reach its current distance.
+     * @return Float representing the predicted finish time.
     */
     private float predictBoatFinishTime(float progress, float time) {
         if (progress >= 1.0) {

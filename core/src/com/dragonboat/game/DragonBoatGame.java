@@ -185,17 +185,19 @@ public class DragonBoatGame extends Game {
 		setScreen(new GameScreen(this));
 	}
 
-	/*
-	* Gets the start difficulty
-	*/
+	/**
+	 *
+	 * @return Int representing the start difficulty.
+	 */
 	public int getStartDifficulty() {
 		return this.startDifficulty;
 	}
 
-	/*
-	* Sets the start difficulty
-	* @param newStartDifficulty Integer greater than 0
-	* @return If the difficulty was changed successfully
+	/**
+	 * Sets the start difficulty.
+	 *
+	 * @param newStartDifficulty Integer greater than 0.
+	 * @return Boolean representing if the difficulty was changed successfully.
 	*/
 	public boolean setStartDifficulty(int newStartDifficulty) {
 		if (newStartDifficulty > 0) {
@@ -205,17 +207,19 @@ public class DragonBoatGame extends Game {
 		return false;
 	}
 
-	/*
-	* Gets the difficulty
+	/**
+	 *
+	 * @return Int representing the current game difficulty.
 	*/
 	public int getDifficulty() {
 		return this.difficulty;
 	}
 
-	/*
-	* Sets the difficulty
-	* @param newDifficulty Integer greater than 0
-	* @return If the difficulty was changed successfully
+	/**
+	 * Sets the difficulty.
+	 *
+	 * @param newDifficulty Integer greater than 0.
+	 * @return Boolean representing if the difficulty was changed successfully.
 	*/
 	public boolean setDifficulty(int newDifficulty) {
 		if (newDifficulty > 0) {
@@ -225,6 +229,11 @@ public class DragonBoatGame extends Game {
 		return false;
 	}
 
+	/**
+	 * Gets a list of all the obstacles across all the lanes.
+	 *
+	 * @return ArrayList representing all the obstacles on the game screen.
+	 */
 	public ArrayList<Obstacle> getObstacles() {
 		ArrayList<Obstacle> obstacles = new ArrayList<>();
 		for (Lane lane : this.lanes) {
@@ -263,10 +272,9 @@ public class DragonBoatGame extends Game {
 
 		if (player.isBoosted()){
 			player.boostTimer += 1;
-			System.out.println(player.boostTimer);
 			if (player.boostTimer >= 500){
-				System.out.println("HHHHHHHH");
 				player.removeBoost();
+				player.boostTimer = 0;
 			}
 		}
 
@@ -274,6 +282,7 @@ public class DragonBoatGame extends Game {
 			o.boostTimer += 1;
 			if (o.boostTimer >= 500){
 				o.removeBoost();
+				o.boostTimer = 0;
 			}
 		}
 
@@ -337,10 +346,7 @@ public class DragonBoatGame extends Game {
 		}
 	}
 
-	public void endGame() {
-		this.ended = true;
-
-	}
+	public void endGame() { this.ended = true; }
 
 	/**
 	 * Resizes the game screen.

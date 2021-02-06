@@ -8,16 +8,14 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * Represents a goose obstacle on the course.
+ * Represents a power-up on the course.
  */
 public class Boost extends Obstacle {
 
     public String type;
 
     /**
-     * <p>
      * Creates a boost instance.
-     * </p>
      *
      * @param xPosition X-position.
      * @param yPosition Y-position.
@@ -29,6 +27,10 @@ public class Boost extends Obstacle {
         this.type = type;
     }
 
+    /**
+     *
+     * @return String representing the type of power-up.
+     */
     public String getType() {
         return this.type;
     }

@@ -139,7 +139,7 @@ public class Boat {
     }
 
     /**
-     * Checks each obstacle in the Lane for a collision.
+     * Checks each obstacle and power-up for a collision.
      *
      * @param backgroundOffset How far up the course the player is.
      * @return Boolean representing if a collision occurs.
@@ -171,6 +171,12 @@ public class Boat {
         return false;
     }
 
+    /**
+     * Defines the various different power-ups and what
+     * effect they have on the boat.
+     *
+     * @param type The type of power-up.
+     */
     public void Boost(String type){
         if (type == "health"){
             this.durability += 1;
@@ -187,7 +193,6 @@ public class Boat {
             this.currentSpeed += 5;
             this.MAXSPEED += 5;
             boosted = "speed";
-            // System.out.println(currentSpeed);
         }
 //        System.out.println("MAN" + this.MANEUVERABILITY);
 //        System.out.println("HEL" + this.durability);
@@ -196,15 +201,22 @@ public class Boat {
 //        System.out.println("IMM" + this.immune);
     }
 
+    /**
+     * Reverses the effects of a power-up that has been applied to
+     * the boat; setting the stats back to the original values.
+     */
     public void removeBoost(){
-        // System.out.println("Boost Removed");
+        this.boosted = "";
+        System.out.println("Boost Removed");
         if (this.boosted == "acceleration") {
             this.ACCELERATION -= 0.5f;
         } else if (this.boosted == "immune"){
             this.immune = false;
         } else if (this.boosted == "speed"){
+            System.out.println(this.currentSpeed);
             this.currentSpeed -= 5;
             this.MAXSPEED -= 5;
+            System.out.println(this.currentSpeed);
         } else if (this.boosted == "maneuverability"){
             this.MANEUVERABILITY -= 0.5f;
         }
@@ -424,6 +436,10 @@ public class Boat {
         this.finished = f;
     }
 
+    /**
+     *
+     * @return Boolean representing whether a power-up has been applied.
+     */
     public boolean isBoosted(){
         if (this.boosted == ""){
             return false;
@@ -508,7 +524,7 @@ public class Boat {
 
     /**
      *
-     * @return Float representing the manouverability of the boat.
+     * @return Float representing the maneuverability of the boat.
      */
     public float getManeuverability() {
         return this.MANEUVERABILITY;
@@ -562,6 +578,10 @@ public class Boat {
         return this.tiredness;
     }
 
+    /**
+     *
+     * @return Boolean representing whether a boat has the immune power-up.
+     */
     public boolean getImmune() { return this.immune;}
     /**
      *
