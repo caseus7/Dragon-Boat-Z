@@ -45,6 +45,7 @@ public class BoatTest {
 //		when(lane.getRightBoundary()).thenReturn(100);
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setStats(20, 1, 1, 20, 4);
+		// Must increase speed otherwise the boat won't move
 		boat.IncreaseSpeed();
 		float initialX = boat.getXPosition();
 		boat.SteerLeft();
@@ -256,7 +257,7 @@ public class BoatTest {
 	 * the appropriate boost and applies it correctly.
 	 */
 	@Test
-	public void BoostAppliedCorrectly(){
+	public void testBoostAppliedCorrectly(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		int startDura = boat.getDurability();
 		boat.Boost("health");
@@ -283,7 +284,7 @@ public class BoatTest {
 	 * the boost once it is no longer needed.
 	 */
 	@Test
-	public void removeBoostWhenBoosted(){
+	public void testRemoveBoostWhenBoosted(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.Boost("speed");
 		boat.removeBoost();
@@ -295,7 +296,7 @@ public class BoatTest {
 	 * the boost when it isn't being boosted.
 	 */
 	@Test
-	public void removeBoostWhenNotBoosted(){
+	public void testRemoveBoostWhenNotBoosted(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.removeBoost();
 		Assertions.assertTrue(boat.isBoosted() == false);
@@ -306,7 +307,7 @@ public class BoatTest {
 	 * that the boat is within the boundaries for the lane.
 	 */
 	@Test
-	public void LaneCheckInLane(){
+	public void testCheckIfInLaneWhileInLane(){
 		boat = new Boat(game, 10, lane, "testBoat");
 //		this.xPosition = lane.getRightBoundary() - (lane.getRightBoundary() - lane.getLeftBoundary()) / 2 - width / 2;
 		Assertions.assertTrue(boat.CheckIfInLane());
@@ -317,7 +318,7 @@ public class BoatTest {
 	 * that the boat is within the right lane boundary.
 	 */
 	@Test
-	public void LaneCheckInLaneRightBoundaryLimit(){
+	public void testCheckIfInLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(94);
@@ -329,7 +330,7 @@ public class BoatTest {
 	 * that the boat is within the left lane boundary.
 	 */
 	@Test
-	public void LaneCheckInLaneLeftBoundaryLimit(){
+	public void testCheckIfInLaneLeftBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(-4);
@@ -341,7 +342,7 @@ public class BoatTest {
 	 * that the boat is outside the right lane boundary.
 	 */
 	@Test
-	public void LaneCheckOutsideLaneRightBoundaryLimit(){
+	public void testCheckIfInLaneOutsideRightBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(95);
@@ -353,7 +354,7 @@ public class BoatTest {
 	 * that the boat is outside the left lane boundary.
 	 */
 	@Test
-	public void LaneCheckOutsideLaneLeftBoundaryLimit(){
+	public void testCheckIfInLaneOutsideLeftBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(-5);
@@ -362,24 +363,11 @@ public class BoatTest {
 
 	/**
 	 * Tests that the <i>UpdateFastestTime</i> method
-	 * successfully updates the time when the boat is
-	 * faster than it was previously.
+	 * successfully updates the boat's fastest time
+	 * when it is faster
 	 */
 	@Test
-	public void SuccessfulFastestTimeZeroUpdateTest(){
-		boat = new Boat(game, 10, lane, "testBoat");
-		float beforeUpdate = boat.getFastestTime();
-		boat.UpdateFastestTime(10);
-		Assertions.assertTrue(beforeUpdate < boat.getFastestTime());
-	}
-
-	/**
-	 * Tests that the <i>UpdateFastestTime</i> method
-	 * successfully updates the time when the boat is
-	 * slower than it was previously.
-	 */
-	@Test
-	public void SuccessfulFastestTimeNonZeroUpdateTest(){
+	public void testUpdateFastestTimeUpdatesTime(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
@@ -389,39 +377,65 @@ public class BoatTest {
 
 	/**
 	 * Tests that the <i>UpdateFastestTime</i> method
-	 * will recognise when the values are wrong.
+	 * successfully updates the boat's fastest time for
+	 * the first time.
 	 */
 	@Test
-	public void UnsuccessfulFastestTimeNonZeroUpdateTest(){
+	public void testUpdateFastestTimeInitialUpdate(){
 		boat = new Boat(game, 10, lane, "testBoat");
-		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
-		boat.UpdateFastestTime(11);
-		Assertions.assertFalse(beforeUpdate > boat.getFastestTime());
+		boat.UpdateFastestTime(10);
+		Assertions.assertNotEquals(beforeUpdate, boat.getFastestTime());
 	}
 
 	/**
 	 * Tests that the <i>UpdateFastestTime</i> method
-	 * will successfully update the time correctly and
-	 * apply a penalty.
+	 * will not update the boat's fastest time when given
+	 * a slower time.
 	 */
 	@Test
-	public void SuccessfulFastestTimeNonZeroUpdateTestWithPenalties(){
+	public void testUpdateFastestTimeWithSlowerTime(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.UpdateFastestTime(10);
 		float beforeUpdate = boat.getFastestTime();
-		boat.applyPenalty(2);
+		boat.UpdateFastestTime(11);
+		Assertions.assertEquals(beforeUpdate, boat.getFastestTime());
+	}
+
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * takes into account time penalties.
+	 */
+	@Test
+	public void testUpdateFastestTimeAccountsForPenalties(){
+		boat = new Boat(game, 10, lane, "testBoat");
+		boat.UpdateFastestTime(10);
+		float beforeUpdate = boat.getFastestTime();
+		boat.applyPenalty(5);
 		boat.UpdateFastestTime(7);
-		Assertions.assertTrue(beforeUpdate > boat.getFastestTime());
+		Assertions.assertEquals(beforeUpdate, boat.getFastestTime());
+	}
+
+	/**
+	 * Tests that the <i>UpdateFastestTime</i> method
+	 * includes time penalties in the new fastest time.
+	 */
+	@Test
+	public void testUpdateFastestTimeIncludesPenalties(){
+		boat = new Boat(game, 10, lane, "testBoat");
+		boat.UpdateFastestTime(20);
+		boat.applyPenalty(3);
+		boat.UpdateFastestTime(7);
+		Assertions.assertEquals(10, boat.getFastestTime());
 	}
 
 	/**
 	 * Tests that the <i>Reset</i> method
-	 * will successfully put the boat back 
+	 * will successfully put the boat back
 	 * into its initial state.
 	 */
 	@Test
-	public void ResetTest(){
+	public void testReset(){
 		boat = new Boat(game, 10, lane, "testBoat");
 		boat.setXPosition(10);
 		boat.IncreaseSpeed();
