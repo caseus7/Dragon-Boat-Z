@@ -29,7 +29,7 @@ public class Goose extends Obstacle {
 	 * @param lane      Lane the goose will spawn in.
 	 */
 	public Goose(float xPosition, float yPosition, Texture texture, Lane lane) {
-		super(10, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
+		super(40, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
 	}
 
 	/**

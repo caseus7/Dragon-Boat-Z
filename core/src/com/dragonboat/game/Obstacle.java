@@ -106,7 +106,7 @@ public class Obstacle {
 	/**
 	* Removes the object from its lane and game
 	*/
-	public void remove() {
+	public void Remove() {
 		lane.RemoveObstacle(this);
 	}
 }

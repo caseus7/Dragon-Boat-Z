@@ -64,8 +64,11 @@ Upon completing the final race, the player will be awarded a medal, bronze, silv
 - Organised Documentation plans
 - Began Risk Assessment
 - Forked previous teams github page and code
+- Made a list of the new features to implement and the issues to fix
+- Assigned tasks to team members
 ## 26th January
 - Discussed reaching out to module leaders to alert them of absent team member
+- Recaped over the progress on the code
 ## 28th January
 - Discussed risk monitoring
 - Analysed current code bugs

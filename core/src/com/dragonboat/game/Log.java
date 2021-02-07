@@ -18,7 +18,7 @@ public class Log extends Obstacle {
 	 * @param lane      Lane the log will spawn in.
 	 */
 	public Log(float xPosition, float yPosition, Texture texture, Lane lane) {
-		super(15, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
+		super(60, xPosition, yPosition, texture.getWidth(), texture.getHeight(), texture, lane);
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class ProgressBarTest {
     }
 
     @Test
-    public void ResetTest(){
+    public void testReset(){
         pb = new ProgressBar(player, opponents);
         pb.StartTimer();
         Assertions.assertEquals(0, pb.getTime());
@@ -54,7 +54,7 @@ public class ProgressBarTest {
      * successfully increment the timer.
      */
     @Test
-    public void IncrementTest(){
+    public void testIncrement(){
         pb = new ProgressBar(player, opponents);
         float start = pb.getTime();
         pb.IncrementTimer(100);
@@ -68,7 +68,7 @@ public class ProgressBarTest {
      * the race.
      */
     @Test
-    public void AllFinishedTest(){
+    public void testAllFinished(){
         player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 10, lane, "");
@@ -82,7 +82,7 @@ public class ProgressBarTest {
      * determine when the player is not finished.
      */
     @Test
-    public void PlayerNotFinishedTest(){
+    public void testPlayerNotFinished(){
         player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 10, lane, "");
@@ -96,7 +96,7 @@ public class ProgressBarTest {
      * determine when the opponents are not finished.
      */
     @Test
-    public void OpponentsNotFinishedTest(){
+    public void testOpponentsNotFinished(){
         player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 5, lane, "");
@@ -110,7 +110,7 @@ public class ProgressBarTest {
      * determine when none of the boats are finished.
      */
     @Test
-    public void AllNotFinishedTest(){
+    public void testAllNotFinished(){
         player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 5, lane, "");
@@ -124,7 +124,7 @@ public class ProgressBarTest {
      * determine when every boat is finished.
      */
     @Test
-    public void GetAllFinishedProgressTest(){
+    public void testAllFinishedProgress(){
         player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 10, lane, "");
@@ -139,7 +139,7 @@ public class ProgressBarTest {
      * determine when all the opponents are finished.
      */
     @Test
-    public void GetOpponentFinishedProgressTest(){
+    public void testOpponentsFinishedProgress(){
         player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 10, lane, "");
@@ -154,7 +154,7 @@ public class ProgressBarTest {
      * determine when the player is finished.
      */
     @Test
-    public void GetPlayerFinishedProgressTest(){
+    public void testPlayerFinishedProgress(){
         player = new Player(game, 10, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 5, lane, "");
@@ -169,7 +169,7 @@ public class ProgressBarTest {
      * determine when none of the boats are finished.
      */
     @Test
-    public void GetNoneFinishedProgressTest(){
+    public void testNoFinishedProgress(){
         player = new Player(game, 5, lane, "");
         for (int j = 0; j<6; j++){
             opponents[j] = new Opponent(game, 5, lane, "");
