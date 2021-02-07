@@ -184,19 +184,19 @@ public class Boat {
      */
     public void Boost(String type){
         if (type == "health"){
-            this.durability += 1;
+            this.durability += 20;
         } else if (type == "acceleration"){
-            this.ACCELERATION += 0.5f;
+            this.ACCELERATION += 0.2f;
             boosted = "acceleration";
         } else if (type == "immune"){
             this.immune = true;
             boosted = "immune";
         } else if (type == "maneuverability"){
-            this.MANEUVERABILITY += 0.5f;
+            this.MANEUVERABILITY += 0.2f;
             boosted = "maneuverability";
         } else if (type == "speed"){
-            this.currentSpeed += 5;
-            this.MAXSPEED += 5;
+            this.currentSpeed += 1;
+            this.MAXSPEED += 1;
             boosted = "speed";
         }
 //        System.out.println("MAN" + this.MANEUVERABILITY);
@@ -215,16 +215,16 @@ public class Boat {
         this.boosted = "";
         System.out.println("Boost Removed");
         if (this.boosted == "acceleration") {
-            this.ACCELERATION -= 0.5f;
+            this.ACCELERATION -= 0.2f;
         } else if (this.boosted == "immune"){
             this.immune = false;
         } else if (this.boosted == "speed"){
             System.out.println(this.currentSpeed);
-            this.currentSpeed -= 5;
-            this.MAXSPEED -= 5;
+            this.currentSpeed -= 1;
+            this.MAXSPEED -= 1;
             System.out.println(this.currentSpeed);
         } else if (this.boosted == "maneuverability"){
-            this.MANEUVERABILITY -= 0.5f;
+            this.MANEUVERABILITY -= 0.2f;
         }
         this.boosted = "";
     }

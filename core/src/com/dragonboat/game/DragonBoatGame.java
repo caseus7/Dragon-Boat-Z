@@ -263,16 +263,19 @@ public class DragonBoatGame implements Screen {
 		if (player.isBoosted()) {
 			player.boostTimer += 1;
 			System.out.println(player.boostTimer);
-			if (player.boostTimer >= 500){
-				System.out.println("HHHHHHHH");
+			if (player.boostTimer >= 100){
 				player.removeBoost();
+				player.boostTimer = 0;
 			}
 		}
 
 		for (Opponent o : opponents) {
-			o.boostTimer += 1;
-			if (o.boostTimer >= 500) {
-				o.removeBoost();
+			if(o.isBoosted()) {
+				o.boostTimer += 1;
+				if (o.boostTimer >= 100) {
+					o.removeBoost();
+					o.boostTimer = 0;
+				}
 			}
 		}
 
