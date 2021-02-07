@@ -444,6 +444,6 @@ public class BoatTest {
 		boat.IncreaseTiredness();
 		boat.setFinished(true);
 		boat.Reset();
-		Assertions.assertTrue(boat.getXPosition() == 45 && boat.getYPosition() == 0 && boat.getCurrentSpeed() == 0f && boat.getPenalty() == 0 && boat.getDurability() == boat.getMaxDurability() && boat.getTiredness() == 0f && boat.finished() == false);
+		Assertions.assertTrue(boat.getXPosition() == 22 && boat.getYPosition() == 0 && boat.getCurrentSpeed() == 0f && boat.getPenalty() == 0 && boat.getDurability() == boat.getMaxDurability() && boat.getTiredness() == 0f && boat.finished() == false);
 	}
 }
