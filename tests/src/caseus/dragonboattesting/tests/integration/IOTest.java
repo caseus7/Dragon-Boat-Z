@@ -24,7 +24,7 @@ import com.dragonboat.game.*;
  * IO class.
  */
 public class IOTest {
-	private String testsPath = "./src/caseus/dragonboattesting/";
+	private String testsPath = "../../tests/src/caseus/dragonboattesting/";
 	// Do not modify these files
 	private String exampleSaveGamePath = testsPath + "gameSaveExample.json";
 	private String exampleSimpleFilePath = testsPath + "simpleExample.txt";

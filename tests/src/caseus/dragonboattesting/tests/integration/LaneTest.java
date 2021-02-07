@@ -46,7 +46,7 @@ public class LaneTest {
 		int leftBoundary = 0;
 		int rightBoundary = 20;
 		lane = new Lane(leftBoundary, rightBoundary);
-		setSpritePaths(lane);
+		// setSpritePaths(lane);
 
 		int initialObstacleCount = lane.getObstacleCount();
 		lane.SpawnObstacle(leftBoundary + 2, 10, "Goose");
@@ -68,7 +68,7 @@ public class LaneTest {
 		int leftBoundary = 0;
 		int rightBoundary = 20;
 		lane = new Lane(leftBoundary, rightBoundary);
-		setSpritePaths(lane);
+		// setSpritePaths(lane);
 
 		lane.SpawnObstacle(leftBoundary + 2, rightBoundary - 2, obstacleType);
 		Obstacle outputObstacle = lane.getObstacles().get(lane.getObstacles().size() - 1);
@@ -89,7 +89,7 @@ public class LaneTest {
 		int leftBoundary = 0;
 		int rightBoundary = 20;
 		lane = new Lane(leftBoundary, rightBoundary);
-		setSpritePaths(lane);
+		// setSpritePaths(lane);
 
 		lane.SpawnObstacle(leftBoundary + 2, rightBoundary - 2, obstacleType);
 		Obstacle outputObstacle = lane.getObstacles().get(lane.getObstacles().size() - 1);
@@ -110,7 +110,7 @@ public class LaneTest {
 		int leftBoundary = 0;
 		int rightBoundary = 20;
 		lane = new Lane(leftBoundary, rightBoundary);
-		setSpritePaths(lane);
+		// setSpritePaths(lane);
 
 		lane.SpawnObstacle(leftBoundary + 2, rightBoundary - 2, obstacleType);
 		Obstacle outputObstacle = lane.getObstacles().get(lane.getObstacles().size() - 1);
@@ -131,7 +131,7 @@ public class LaneTest {
 		int leftBoundary = 0;
 		int rightBoundary = 20;
 		lane = new Lane(leftBoundary, rightBoundary);
-		setSpritePaths(lane);
+		// setSpritePaths(lane);
 
 		for (int count = 0; count < lane.getObstacleLimit() + 4; count++) {
 			lane.SpawnObstacle(leftBoundary + 2, rightBoundary - 2, obstacleType);

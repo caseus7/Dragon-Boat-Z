@@ -36,7 +36,7 @@ public class AssetExistsExampleTest {
 	@Test
 	public void backgroundSpriteExists() {
 		Assertions.assertTrue(
-			Gdx.files.internal("../core/assets/background sprite.png").exists(),
+			Gdx.files.internal("background sprite.png").exists(),
 			"This test will only pass when the specified file exists."
 		);
 	}

@@ -47,7 +47,6 @@ public class DragonBoatGame implements Screen {
 	public ProgressBar progressBar;
 	public Leaderboard leaderboard;
 	public ArrayList<Integer>[] obstacleTimes;
-	public int noOfObstacles;
 	public int playerChoice;
 	public Music music;
 	public boolean ended = false;
