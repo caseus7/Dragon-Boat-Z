@@ -82,7 +82,7 @@ public class Lane {
                 this.obstacles.add(log);
 
             } else if (obstacleType.equals("Boost")){
-                String boostType = boostSpritePathPrefixes[ThreadLocalRandom.current().nextInt(3, 5)];
+                String boostType = boostSpritePathPrefixes[ThreadLocalRandom.current().nextInt(0, 5)];
                 Boost boost = new Boost(
                     x, y,
                     new Texture(Gdx.files.internal(boostType + boostSpritePathPostfix)),

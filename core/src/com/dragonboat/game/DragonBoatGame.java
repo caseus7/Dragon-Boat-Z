@@ -81,10 +81,6 @@ public class DragonBoatGame implements Screen {
 			int noOfObstacles = 8;
 			createLanes(noOfObstacles);
 			generateObstacleTimes(noOfObstacles);
-//		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
-//		music.setLooping(true);
-//		music.setVolume(0.4f);
-//		music.play();
 
 			player = new Player(this, 0, lanes[3], "Player");
 			boatLanes[0] = 3;
@@ -98,6 +94,11 @@ public class DragonBoatGame implements Screen {
 			}
 			progressBar = new ProgressBar(player, opponents);
 		}
+
+		music = Gdx.audio.newMusic(Gdx.files.internal("cantgobackwards.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.4f);
+		music.play();
 
 		course = new Course(courseTexture, lanes);
 		leaderboard = new Leaderboard(player, opponents);
@@ -395,6 +396,7 @@ public class DragonBoatGame implements Screen {
 		batch.dispose();
 		font28.dispose();
 		courseTexture.dispose();
+		music.dispose();
 	}
 
 	/**
