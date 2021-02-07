@@ -130,3 +130,5 @@ Thumbs.db
 ## VSCode
 .vscode
 
+## Program's generated files
+gameSave.json
