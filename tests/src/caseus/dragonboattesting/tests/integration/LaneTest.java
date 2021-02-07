@@ -143,7 +143,7 @@ public class LaneTest {
 	 * Sets the paths to the sprites, since the relative
 	 * paths are different during testing.
 	 *
-	 * @param lane The lane class.
+	 * @param lane The lane object.
 	 */
 	private void setSpritePaths(Lane lane)
 			throws IllegalAccessException, NoSuchFieldException {

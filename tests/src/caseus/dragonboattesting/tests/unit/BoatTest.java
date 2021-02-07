@@ -415,6 +415,11 @@ public class BoatTest {
 		Assertions.assertTrue(beforeUpdate > boat.getFastestTime());
 	}
 
+	/**
+	 * Tests that the <i>Reset</i> method
+	 * will successfully put the boat back 
+	 * into its initial state.
+	 */
 	@Test
 	public void ResetTest(){
 		boat = new Boat(game, 10, lane, "testBoat");
