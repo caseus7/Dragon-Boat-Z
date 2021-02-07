@@ -321,7 +321,7 @@ public class BoatTest {
 	public void testCheckIfInLaneRightBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
-		boat.setXPosition(94);
+		boat.setXPosition(48);
 		Assertions.assertTrue(boat.CheckIfInLane());
 	}
 
@@ -345,7 +345,7 @@ public class BoatTest {
 	public void testCheckIfInLaneOutsideRightBoundaryLimit(){
 		lane = new Lane(0,100);
 		boat = new Boat(game, 10, lane, "testBoat");
-		boat.setXPosition(95);
+		boat.setXPosition(49);
 		Assertions.assertFalse(boat.CheckIfInLane());
 	}
 
