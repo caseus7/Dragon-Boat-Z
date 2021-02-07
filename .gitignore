@@ -132,3 +132,6 @@ Thumbs.db
 
 ## Program's generated files
 gameSave.json
+
+## Test files
+tests/src/caseus/dragonboattesting/testing.txt
