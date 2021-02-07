@@ -65,7 +65,7 @@ public class ObstacleTest {
 		obstacle = new Obstacle(damage, xPosition, yPosition, width, height, tex, lane);
 		lane.SpawnObstacle(0,0,"Log");
 		Obstacle removeObstacle = lane.getObstacles().get(0);
-		removeObstacle.remove();
+		removeObstacle.Remove();
 		Assertions.assertTrue(lane.getObstacles().size() == 0);
 	}
 }

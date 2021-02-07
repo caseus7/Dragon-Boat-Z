@@ -169,7 +169,7 @@ public class Boat {
         }
         for (int i : obstaclesToRemove) {
             // this.lane.RemoveObstacle(obstacles.get(i));
-            obstacles.get(i).remove();
+            obstacles.get(i).Remove();
             return true;
         }
         return false;
@@ -212,7 +212,6 @@ public class Boat {
      * the boat; setting the stats back to the original values.
      */
     public void removeBoost(){
-        this.boosted = "";
         System.out.println("Boost Removed");
         if (this.boosted == "acceleration") {
             this.ACCELERATION -= 0.2f;
