@@ -18,6 +18,10 @@ import com.badlogic.gdx.Gdx;
 
 import com.dragonboat.game.*;
 
+/**
+ * Integration test for the methods within the
+ * Goose class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class GooseTest {
 	private Goose goose;

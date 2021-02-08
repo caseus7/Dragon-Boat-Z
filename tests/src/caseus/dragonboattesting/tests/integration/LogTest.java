@@ -18,6 +18,11 @@ import com.badlogic.gdx.Gdx;
 
 import com.dragonboat.game.*;
 
+/**
+ * --ASSESSMENT 2--
+ * Integration test for the methods in the
+ * Log class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class LogTest {
 	private Log log;

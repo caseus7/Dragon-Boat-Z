@@ -16,6 +16,11 @@ import java.lang.reflect.Field;
 
 import com.dragonboat.game.*;
 
+/**
+ * --ASSESSMENT 2--
+ * Integration test for the methods within the
+ * Player class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class PlayerTest {
 	private Player player;
@@ -30,11 +35,19 @@ public class PlayerTest {
 		player = new Player(game, 40, lane, "testPlayer");
     }
 
+	/**
+	 * Tests that the <i>toJSON</i> method
+	 * returns the object in JSON form.
+	 */
 	@Test
 	public void testToJSON() {
 		Assertions.assertEquals(String.class, player.toJSON().getClass());
 	}
 
+	/**
+	 * Tests that the <i>makePlayer</i> method
+	 * recreates the method from the data.
+	 */
 	@Test
 	public void testToJSONAndMakePlayer() {
 		int initialBoatNumber = 2;

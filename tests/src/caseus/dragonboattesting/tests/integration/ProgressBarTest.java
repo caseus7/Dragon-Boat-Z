@@ -18,6 +18,9 @@ import com.badlogic.gdx.Gdx;
 
 import com.dragonboat.game.*;
 
+/**
+ * --ASSESSMENT 2--
+ */
 @ExtendWith(MockitoExtension.class)
 public class ProgressBarTest {
 	private ProgressBar progressBar;

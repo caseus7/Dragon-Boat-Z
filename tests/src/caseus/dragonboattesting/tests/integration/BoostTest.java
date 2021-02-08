@@ -18,6 +18,11 @@ import com.badlogic.gdx.Gdx;
 
 import com.dragonboat.game.*;
 
+/**
+ * --ASSESSMENT 2--
+ * Integration test for the methods within the
+ * Boost class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class BoostTest {
 	private Boost boost;
