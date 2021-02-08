@@ -19,3 +19,4 @@
 *   <a>Javadocs HTML Export</a>
 
 ### Project Gantt Chart
+<img src="docs/gantt chart/gantt chart 2.png">
