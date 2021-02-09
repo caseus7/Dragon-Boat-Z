@@ -18,6 +18,11 @@
 *   <a href="docs/deliverables2/TestsTable.pdf">Test Table</a>
 *   <a href="docs/tests/index.html">Test Results</a>
 
+### Architecture Diagrams
+*   <a href="docs/deliverables2/Abstract_Behavioural_View.pdf">Abstract Behavioural View</a>
+*   <a href="docs/deliverables2/Abstract Structure.pdf">Abstract Structure</a>
+*   <a href="docs/deliverables2/UML Diagram.pdf">UML Diagram</a>
+
 ### Javadocs
 *   <a href="docs/javadoc/index.html">Javadocs HTML Export</a>
 
