@@ -28,7 +28,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
+var data = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">caseus.dragonboattesting.tests.unit</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">caseus.dragonboattesting.tests.integration</a></div>
 <h2 title="Class ProgressBarTest" class="title">Class ProgressBarTest</h2>
 </div>
 <div class="contentContainer">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>caseus.dragonboattesting.tests.unit.ProgressBarTest</li>
+<li>caseus.dragonboattesting.tests.integration.ProgressBarTest</li>
 </ul>
 </li>
 </ul>
@@ -135,9 +135,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 public class <span class="typeNameLabel">ProgressBarTest</span>
 extends java.lang.Object</pre>
-<div class="block">--ASSESSMENT 2--
- Unit test for the methods within the
- ProgressBar class.</div>
+<div class="block">--ASSESSMENT 2--</div>
 </li>
 </ul>
 </div>
@@ -186,81 +184,19 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testAllFinished()">testAllFinished</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testToJSON()">testToJSON</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Tests that the <i>allFinished</i> method
- returns true if all of the boats have finished
- the race.</div>
+<div class="block">Tests that the <i>toJSON</i> method
+ returns the object in JSON form.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testAllFinishedProgress()">testAllFinishedProgress</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testToJSONAndMakeProgressBar()">testToJSONAndMakeProgressBar</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when every boat is finished.</div>
+<div class="block">Tests that the <i>makeProgressBar</i> method
+ recreates the object from the data.</div>
 </td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testAllNotFinished()">testAllNotFinished</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when none of the boats are finished.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testIncrement()">testIncrement</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>IncrementTimer</i> method can
- successfully increment the timer.</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testNoFinishedProgress()">testNoFinishedProgress</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when none of the boats are finished.</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testOpponentsFinishedProgress()">testOpponentsFinishedProgress</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when all the opponents are finished.</div>
-</td>
-</tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testOpponentsNotFinished()">testOpponentsNotFinished</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when the opponents are not finished.</div>
-</td>
-</tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testPlayerFinishedProgress()">testPlayerFinishedProgress</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when the player is finished.</div>
-</td>
-</tr>
-<tr id="i9" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testPlayerNotFinished()">testPlayerNotFinished</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when the player is not finished.</div>
-</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testReset()">testReset</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -315,113 +251,28 @@ extends java.lang.Object</pre>
 public&nbsp;void&nbsp;setup()</pre>
 </li>
 </ul>
-<a id="testReset()">
+<a id="testToJSON()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>testReset</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testReset()</pre>
+<h4>testToJSON</h4>
+<pre class="methodSignature">@Test
+public&nbsp;void&nbsp;testToJSON()</pre>
+<div class="block">Tests that the <i>toJSON</i> method
+ returns the object in JSON form.</div>
 </li>
 </ul>
-<a id="testIncrement()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testIncrement</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testIncrement()</pre>
-<div class="block">Tests that the <i>IncrementTimer</i> method can
- successfully increment the timer.</div>
-</li>
-</ul>
-<a id="testAllFinished()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testAllFinished</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testAllFinished()</pre>
-<div class="block">Tests that the <i>allFinished</i> method
- returns true if all of the boats have finished
- the race.</div>
-</li>
-</ul>
-<a id="testPlayerNotFinished()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testPlayerNotFinished</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testPlayerNotFinished()</pre>
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when the player is not finished.</div>
-</li>
-</ul>
-<a id="testOpponentsNotFinished()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testOpponentsNotFinished</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testOpponentsNotFinished()</pre>
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when the opponents are not finished.</div>
-</li>
-</ul>
-<a id="testAllNotFinished()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testAllNotFinished</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testAllNotFinished()</pre>
-<div class="block">Tests that the <i>allFinished</i> method can
- determine when none of the boats are finished.</div>
-</li>
-</ul>
-<a id="testAllFinishedProgress()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testAllFinishedProgress</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testAllFinishedProgress()</pre>
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when every boat is finished.</div>
-</li>
-</ul>
-<a id="testOpponentsFinishedProgress()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testOpponentsFinishedProgress</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testOpponentsFinishedProgress()</pre>
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when all the opponents are finished.</div>
-</li>
-</ul>
-<a id="testPlayerFinishedProgress()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>testPlayerFinishedProgress</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testPlayerFinishedProgress()</pre>
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when the player is finished.</div>
-</li>
-</ul>
-<a id="testNoFinishedProgress()">
+<a id="testToJSONAndMakeProgressBar()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>testNoFinishedProgress</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;testNoFinishedProgress()</pre>
-<div class="block">Tests that the <i>getProgress</i> method can
- determine when none of the boats are finished.</div>
+<h4>testToJSONAndMakeProgressBar</h4>
+<pre class="methodSignature">@Test
+public&nbsp;void&nbsp;testToJSONAndMakeProgressBar()</pre>
+<div class="block">Tests that the <i>makeProgressBar</i> method
+ recreates the object from the data.</div>
 </li>
 </ul>
 </li>
