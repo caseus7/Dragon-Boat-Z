@@ -6,7 +6,7 @@
 *   <a href="docs/deliverables2/CI2.pdf">Continuous Integration</a>
 
 ### Updated Assessment 1 Deliverables
-*   <a>Requirements</a>
+*   <a href="docs/deliverables2/Updated Requirements.pdf">Requirements</a>
 *   <a href="docs/deliverables2/Arch1 new.pdf">Architecture</a>
 *   <a href="docs/deliverables2/Plan1 new.pdf">Method Selection and Planning</a>
 *   <a>Risk Assessment and Mitigation</a>
