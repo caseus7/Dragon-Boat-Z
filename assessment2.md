@@ -15,7 +15,7 @@
 *   <a>Dragon Boat Z Game</a>
 
 ### Javadocs
-*   <a>Javadocs HTML Export</a>
+*   <a href="docs/javadoc/index.html">Javadocs HTML Export</a>
 
 ### Project Gantt Chart
 <img src="docs/gantt chart/gantt chart 2.png">
