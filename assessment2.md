@@ -7,8 +7,8 @@
 
 ### Updated Assessment 1 Deliverables
 *   <a>Requirements</a>
-*   <a>Architecture</a>
-*   <a>Method Selection and Planning</a>
+*   <a href="docs/deliverables2/Arch2 new.pdf">Architecture</a>
+*   <a href="docs/deliverables2/Plan1 new.pdf">Method Selection and Planning</a>
 *   <a>Risk Assessment and Mitigation</a>
 
 ### Executables
