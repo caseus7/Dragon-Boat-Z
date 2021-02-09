@@ -59,19 +59,44 @@ If the player manages to achieve one of the 3 fastest times across the 3 legs, t
 Upon completing the final race, the player will be awarded a medal, bronze, silver, or gold respective to their finishing position.
 
 # Meeting Summaries 
-## 21st January 
-- Discussed changes to be made, and priority of changes
-- Organised Documentation plans
-- Began Risk Assessment
+## 19th January
 - Forked previous teams github page and code
-- Made a list of the new features to implement and the issues to fix
-- Assigned tasks to team members
+- Setup the new github project
+- Starting making some updates to the website to get it ready for assessment 2
+- Started outlining the changes that need to be made to the code
+## 21st January 
+- Discussed the priority of the changes and the order they should be done in
+- Came up with a formal approach to change management
+- Requirements, abstract architecture, method and plans and risk assessment parts of 
+  change report were assigned
 ## 26th January
 - Discussed reaching out to module leaders to alert them of absent team member
-- Recaped over the progress on the code
+- Discussed progress on change report sections
+- Updated the website
+- Ironed out some issues with the abstract architecture
 ## 28th January
-- Discussed risk monitoring
-- Analysed current code bugs
+- Looked over the finished sections of the change report
+- Began coding the changes and fixes
+- Came up with some initial ideas for the continuous integration
+- Updated the website
 ## 2nd February
-- Reassigned tasks based on priority
+- Discussed some issues with the code
+- Gathered some initial ideas for the testing methods
+- Began the testing
+- Recapped over the continuous integration documents
 ## 4th February
+- Discussed more issues with the code
+- Discussed the progress with the testing
+- Began the concrete architecture for the change report
+- Updated the website
+## 6th February
+- Checked over the finished version of the code
+- Continued with the concrete architecture
+- Checked over the tests to make sure they pass for everyone
+- Proof reading of some documents
+- Updated the website
+## 9th February
+- General recap of all the work
+- Updated the website with all the content required for assessment 2
+- Added changes to some of the previous assessment documents
+- Got everything ready for submission
