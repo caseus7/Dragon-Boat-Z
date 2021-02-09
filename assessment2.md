@@ -9,7 +9,7 @@
 *   <a href="docs/deliverables2/Updated Requirements.pdf">Requirements</a>
 *   <a href="docs/deliverables2/Arch1 new.pdf">Architecture</a>
 *   <a href="docs/deliverables2/Plan1 new.pdf">Method Selection and Planning</a>
-*   <a>Risk Assessment and Mitigation</a>
+*   <a href="docs/deliverables2/Risk Assessment.pdf">Risk Assessment and Mitigation</a>
 
 ### Executables
 *   <a href="desktop-1.0.jar">Dragon Boat Z Game</a>
