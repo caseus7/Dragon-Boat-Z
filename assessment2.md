@@ -9,7 +9,6 @@
 *   <a>Requirements</a>
 *   <a>Architecture</a>
 *   <a>Method Selection and Planning</a>
-*   <a>Implementation</a>
 *   <a>Risk Assessment and Mitigation</a>
 
 ### Executables
