@@ -234,31 +234,6 @@ public class DragonBoatGame implements Screen {
 	}
 
 	public void step() {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.O)){
-			System.out.println("DURA BEFORE: " + player.getDurability());
-			player.Boost("health");
-			System.out.println("DURA AFTER: " + player.getDurability());
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
-			System.out.println("ACC BEFORE: " + player.getAcceleration());
-			player.Boost("acceleration");
-			System.out.println("ACC AFTER: " + player.getAcceleration());
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.U)){
-			System.out.println("IM BEFORE: " + player.getImmune());
-			player.Boost("immune");
-			System.out.println("IM AFTER: " + player.getImmune());
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.Y)){
-			System.out.println("MAN BEFORE: " + player.getManeuverability());
-			player.Boost("maneuverability");
-			System.out.println("MAN AFTER: " + player.getManeuverability());
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.T)){
-			System.out.println("SPEED BEFORE: " + player.getCurrentSpeed());
-			player.Boost("speed");
-			System.out.println("SPEED AFTER: " + player.getCurrentSpeed());
-		}
 
 		if (player.isBoosted()) {
 			player.boostTimer += 1;
